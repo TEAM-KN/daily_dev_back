@@ -1,7 +1,7 @@
 package com.news.dev.api.user.controller;
 
-import com.news.dev.api.user.dao.UserJoinRequest;
-import com.news.dev.api.user.dao.UserLoginResponse;
+import com.news.dev.api.user.dto.UserJoinRequest;
+import com.news.dev.api.user.dto.UserLoginResponse;
 import com.news.dev.api.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

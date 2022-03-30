@@ -1,4 +1,4 @@
-package com.news.dev.api.user.dao;
+package com.news.dev.api.user.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
