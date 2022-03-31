@@ -9,6 +9,8 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class UserLoginResponse {
     private final String email;
-    private final String nickName;
+    private final String nickname;
+    private final String password;
+    private final String userNo;
     private final String token;
 }

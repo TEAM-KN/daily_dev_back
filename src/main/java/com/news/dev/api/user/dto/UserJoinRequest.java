@@ -10,6 +10,7 @@ import lombok.Setter;
 public class UserJoinRequest {
     private final String email;
     private final String password;
-    private final String nickNm; // 닉네임
-    private final String subscribeYn; //구독 여부 (기본 : N)
+    private final String nickname; // 닉네임
+    private final String userNo;
+    //private final String subscribeYn; //구독 여부 (기본 : N)
 }

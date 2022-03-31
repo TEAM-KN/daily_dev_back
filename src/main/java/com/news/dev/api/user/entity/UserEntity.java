@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userNo;
+    private Long userNo;
 
     @Column(length = 250, unique = true)
     private String email;
