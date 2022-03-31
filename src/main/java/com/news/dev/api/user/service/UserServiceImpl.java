@@ -10,7 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -18,10 +21,20 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
+
 
     @Override
     public UserLoginResponse join(UserJoinRequest joinRq) throws Exception {
-        return null;
+
+        UserEntity entity = new ModelMapper().map(joinRq,  UserEntity.class);
+        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+
+        userRepository.save(entity);
+
+        UserLoginResponse loginRs = new ModelMapper().map(entity, UserLoginResponse.class);
+
+        return loginRs;
     }
 
     @Override
@@ -43,7 +56,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserByUserEmail(String email) throws Exception {
-        UserEntity userEntity = userRepository.findByUserEmail(email);
+        UserEntity userEntity = userRepository.findByEmail(email);
 
         if(userEntity == null) {
             throw new UsernameNotFoundException("User Not Found");
