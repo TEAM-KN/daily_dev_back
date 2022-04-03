@@ -1,16 +1,14 @@
 package com.news.dev.api.user.dto;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Setter
 @Getter
-@RequiredArgsConstructor
+@Setter
+@NoArgsConstructor
 public class UserLoginResponse {
-    private final String email;
-    private final String nickname;
-    private final String password;
-    private final String userNo;
-    private final String token;
+    private String email;
+    private String nickname;
+    private String password;
+    private Long userNo;
+    private String token;
 }
