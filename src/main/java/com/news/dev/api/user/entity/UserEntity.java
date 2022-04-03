@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -12,14 +13,18 @@ import javax.persistence.*;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="USER_NO")
     private Long userNo;
 
-    @Column(length = 250, unique = true)
+    @Column(name="EMAIL", length = 250, unique = true)
     private String email;
 
-    @Column(length = 250, unique = true)
+    @Column(name="NICKNAME", length = 250, unique = true)
     private String nickname;
 
-    @Column(unique = true)
+    @Column(name="PASSWORD", unique = true)
     private String password;
+
+    @Column(name="JOIN_DTM")
+    private LocalDateTime joinDtm;
 }

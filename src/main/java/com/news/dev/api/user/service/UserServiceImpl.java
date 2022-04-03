@@ -30,9 +30,9 @@ public class UserServiceImpl implements UserService {
         UserEntity entity = new ModelMapper().map(joinRq,  UserEntity.class);
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
 
-        userRepository.save(entity);
+        UserEntity rsEntity = userRepository.save(entity);
 
-        UserLoginResponse loginRs = new ModelMapper().map(entity, UserLoginResponse.class);
+        UserLoginResponse loginRs = new ModelMapper().map(rsEntity, UserLoginResponse.class);
 
         return loginRs;
     }
