@@ -1,6 +1,6 @@
-package com.news.dev.api.user.repository;
+package com.news.dev.auth.user.repository;
 
-import com.news.dev.api.user.entity.UserEntity;
+import com.news.dev.auth.user.entity.UserEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

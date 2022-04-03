@@ -1,11 +1,11 @@
-package com.news.dev.api.user.dto;
+package com.news.dev.auth.user.dto;
 
 import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserLoginRequest {
+public class UserLoginResponse {
     private String email;
     private String nickname;
     private String password;

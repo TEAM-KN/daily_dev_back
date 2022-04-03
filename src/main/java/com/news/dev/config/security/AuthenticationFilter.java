@@ -1,13 +1,11 @@
 package com.news.dev.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.news.dev.api.user.dto.UserDto;
-import com.news.dev.api.user.dto.UserJoinRequest;
-import com.news.dev.api.user.service.UserService;
-import io.jsonwebtoken.Jwt;
+import com.news.dev.auth.user.dto.UserDto;
+import com.news.dev.auth.user.dto.UserJoinRequest;
+import com.news.dev.auth.user.service.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;

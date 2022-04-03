@@ -1,10 +1,11 @@
-package com.news.dev.api.user.service;
+package com.news.dev.auth.user.service;
 
-import com.news.dev.api.user.dto.UserDto;
-import com.news.dev.api.user.dto.UserJoinRequest;
-import com.news.dev.api.user.dto.UserLoginResponse;
-import com.news.dev.api.user.entity.UserEntity;
-import com.news.dev.api.user.repository.UserRepository;
+import com.news.dev.auth.user.dto.UserDto;
+import com.news.dev.auth.user.dto.UserJoinRequest;
+import com.news.dev.auth.user.dto.UserLoginRequest;
+import com.news.dev.auth.user.dto.UserLoginResponse;
+import com.news.dev.auth.user.entity.UserEntity;
+import com.news.dev.auth.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -12,8 +13,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 @Service
 @Slf4j
@@ -38,20 +37,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserLoginResponse login(UserLoginRequest loginRq) throws Exception {
         return null;
     }
 
     @Override
-    public UserDto getUserByUserNo(String userNo) throws Exception {
-        UserEntity userEntity = userRepository.findByUserNo(userNo);
-
-        if(userEntity == null) {
-            throw new UsernameNotFoundException("User Not Found");
-        }
-
-        UserDto resultUser = new ModelMapper().map(userEntity, UserDto.class);
-        return resultUser;
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return null;
     }
 
     @Override

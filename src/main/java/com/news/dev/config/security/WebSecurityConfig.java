@@ -1,6 +1,6 @@
 package com.news.dev.config.security;
 
-import com.news.dev.api.user.service.UserService;
+import com.news.dev.auth.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -29,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
-        http.authorizeRequests().antMatchers("/**").permitAll().and().addFilter(getAuthenticationFilter());
+        http.authorizeRequests().antMatchers("/auth/user**").permitAll().and().addFilter(getAuthenticationFilter());
 
 
         super.configure(http);
