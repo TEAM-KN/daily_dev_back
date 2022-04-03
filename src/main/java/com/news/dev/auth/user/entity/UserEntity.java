@@ -1,4 +1,4 @@
-package com.news.dev.api.user.entity;
+package com.news.dev.auth.user.entity;
 
 import lombok.Getter;
 import lombok.Setter;

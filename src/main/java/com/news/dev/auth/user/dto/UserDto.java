@@ -1,4 +1,4 @@
-package com.news.dev.api.user.dto;
+package com.news.dev.auth.user.dto;
 
 import lombok.Data;
 import lombok.Getter;
