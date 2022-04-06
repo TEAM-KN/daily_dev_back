@@ -4,14 +4,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.news.dev.auth.user.dto.UserDto;
 import com.news.dev.auth.user.dto.UserJoinRequest;
 import com.news.dev.auth.user.service.UserService;
+import com.news.dev.util.JwtTokenUtil;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -29,11 +32,17 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private UserService userService;
     private Environment env;
 
-    public AuthenticationFilter(AuthenticationManager authenticationManager, UserService userService, Environment env) {
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
+    public AuthenticationFilter(AuthenticationManager authenticationManager, UserService userService
+            , Environment env) {
         super(authenticationManager);
         this.userService = userService;
         this.env = env;
     }
+
+
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
@@ -59,20 +68,8 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     public void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult)
             throws IOException, ServletException {
 
-        try {
-            String userName = ((User)authResult.getPrincipal()).getUsername();
-            UserDto user = userService.getUserByUserEmail(userName);
+        SecurityContextHolder.getContext().setAuthentication(authResult);
 
-            String token = Jwts.builder()
-                    .setSubject(user.getEmail())
-                    .setExpiration(new Date(System.currentTimeMillis() + Long.parseLong(env.getProperty("token.expiration_time"))))
-                    .signWith(SignatureAlgorithm.HS512, env.getProperty("token.secret"))
-                    .compact();
-
-            response.addHeader("token", token);
-        } catch (Exception e) {
-            throw new NullPointerException();
-        }
-
+        chain.doFilter(request, response);
     }
 }
