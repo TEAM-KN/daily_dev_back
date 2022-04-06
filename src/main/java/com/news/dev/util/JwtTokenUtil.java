@@ -31,14 +31,11 @@ public class JwtTokenUtil {
     }
 
     // Jwt Create
-    public String createToken(String userNo, List<String> roles) {
-        Claims claims = Jwts.claims().setSubject(userNo);
-        claims.put("rolse", roles);
+    public String createToken(String email) {
         Date now = new Date();
 
         return Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(now)
+                .setSubject(email)
                 .setExpiration(new Date(now.getTime() + tokenExpiration))
                 .signWith(SignatureAlgorithm.ES256, secretKey)
                 .compact();

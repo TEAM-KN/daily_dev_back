@@ -1,6 +1,7 @@
 package com.news.dev.config.security;
 
 import com.news.dev.auth.user.service.UserService;
+import com.news.dev.util.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -19,6 +20,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserService userService;
     private final Environment env;
+    private final JwtTokenUtil jwtTokenUtil;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -29,8 +31,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
-        http.authorizeRequests().antMatchers("/auth/user**").permitAll().and().addFilter(getAuthenticationFilter());
-
+        http.authorizeRequests()
+                .antMatchers("/auth/user**").permitAll()
+                .and()
+                .addFilter(getAuthenticationFilter())
+                .addFilter(new JwtCreationFilter(userService, jwtTokenUtil));
 
         super.configure(http);
     }
