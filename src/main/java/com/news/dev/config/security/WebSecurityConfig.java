@@ -10,7 +10,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.GenericFilterBean;
 
 @Configuration
 @EnableWebSecurity
@@ -29,16 +32,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
+        http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
         http.authorizeRequests()
-                .antMatchers("/auth/user**").permitAll()
+                .antMatchers("/auth/**").permitAll()
+                .anyRequest().hasRole("API")
                 .and()
-                .addFilter(getAuthenticationFilter())
-                .addFilter(new JwtCreationFilter(userService, jwtTokenUtil));
+                .addFilter(getAuthenticationFilter());
 
-        super.configure(http);
+        http.headers().frameOptions().disable();
     }
+
 
     @Override
     public void configure(WebSecurity web) throws Exception {

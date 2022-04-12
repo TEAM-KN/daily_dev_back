@@ -3,6 +3,7 @@ package com.news.dev.config.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.news.dev.auth.user.dto.UserDto;
 import com.news.dev.auth.user.dto.UserJoinRequest;
+import com.news.dev.auth.user.dto.UserLoginRequest;
 import com.news.dev.auth.user.service.UserService;
 import com.news.dev.util.JwtTokenUtil;
 import io.jsonwebtoken.Jwts;
@@ -42,20 +43,18 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         this.env = env;
     }
 
-
-
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
 
         try {
-            UserJoinRequest joinRQ = new ObjectMapper().readValue(request.getInputStream(), UserJoinRequest.class);
+            UserLoginRequest LoginRQ = new ObjectMapper().readValue(request.getInputStream(), UserLoginRequest.class);
 
             return getAuthenticationManager()
                     .authenticate(
                         new UsernamePasswordAuthenticationToken(
-                            joinRQ.getEmail(),
-                            joinRQ.getPassword(),
+                            LoginRQ.getEmail(),
+                            LoginRQ.getPassword(),
                             new ArrayList<>()
                         )
                     );
@@ -70,6 +69,34 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
         SecurityContextHolder.getContext().setAuthentication(authResult);
 
-        chain.doFilter(request, response);
+
+        String username = ((User)authResult.getPrincipal()).getUsername();
+        UserDto user = null;
+        try {
+            user = userService.getUserByUserEmail(username);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(authResult != null && getJwtToRequest(request)) {
+            log.info("Jwt Token Creating !");
+
+            String token = jwtTokenUtil.createToken(user.getEmail());
+            setJwtToResponse(response, token);
+        }
+
+    }
+
+    // Header에 토큰이 있는지 확인
+    protected boolean getJwtToRequest(HttpServletRequest request) {
+        String existToken = request.getHeader("X-AUTH-TOKEN");
+        return existToken == null;
+    }
+
+    // Header에 토큰 저장
+    protected void setJwtToResponse(HttpServletResponse response, String token)
+            throws IOException {
+        response.setHeader("X-AUTH-TOKEN", token);
+        response.getWriter().flush();
     }
 }

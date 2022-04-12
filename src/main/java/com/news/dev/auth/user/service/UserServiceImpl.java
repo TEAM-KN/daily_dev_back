@@ -38,7 +38,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserLoginResponse login(UserLoginRequest loginRq) throws Exception {
-        return null;
+        UserEntity userEntity = userRepository.findByEmail(loginRq.getEmail());
+
+        if(userEntity == null) {
+            throw new UsernameNotFoundException("User Not Found");
+        }
+        UserLoginResponse loginRs = new ModelMapper().map(userEntity, UserLoginResponse.class);
+
+        return loginRs;
     }
 
     @Override

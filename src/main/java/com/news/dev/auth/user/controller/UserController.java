@@ -31,6 +31,8 @@ public class UserController {
     public ResponseEntity<UserLoginResponse> login(@RequestBody UserLoginRequest loginRq) throws Exception {
         UserLoginResponse loginRs = null;
 
+        loginRs = userService.login(loginRq);
+
         return ResponseEntity.status(HttpStatus.OK).body(loginRs);
     }
 
