@@ -26,11 +26,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtTokenUtil jwtTokenUtil;
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
-    }
-
-    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
@@ -38,7 +33,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/**").permitAll()
                 .anyRequest().hasRole("API")
                 .and()
-                .addFilter(getAuthenticationFilter());
+                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                .and()
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenUtil), UsernamePasswordAuthenticationFilter.class);
 
         http.headers().frameOptions().disable();
     }
@@ -48,13 +45,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/h2-console/**");
     }
-
-    private AuthenticationFilter getAuthenticationFilter() throws Exception {
-        AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManager(), userService, env);
-        authenticationFilter.setAuthenticationManager(authenticationManager());
-
-        return authenticationFilter;
-    }
-
 }
 

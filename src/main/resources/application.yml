@@ -13,5 +13,5 @@ spring:
 
 
 token:
-  expiration_time : 86400000 # 하루
+  expiration_time : 1000L * 60 * 30 # 하루
   secret: user_token

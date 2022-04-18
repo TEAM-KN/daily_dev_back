@@ -12,8 +12,6 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
-import java.util.List;
-
 
 @Component
 @RequiredArgsConstructor
@@ -36,8 +34,9 @@ public class JwtTokenUtil {
 
         return Jwts.builder()
                 .setSubject(email)
+                .setIssuedAt(now) // 지금 시간부터 30분 Set
                 .setExpiration(new Date(now.getTime() + tokenExpiration))
-                .signWith(SignatureAlgorithm.ES256, secretKey)
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 

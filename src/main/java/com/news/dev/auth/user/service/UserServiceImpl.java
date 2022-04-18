@@ -6,6 +6,7 @@ import com.news.dev.auth.user.dto.UserLoginRequest;
 import com.news.dev.auth.user.dto.UserLoginResponse;
 import com.news.dev.auth.user.entity.UserEntity;
 import com.news.dev.auth.user.repository.UserRepository;
+import com.news.dev.util.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -21,7 +22,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-
+    private final JwtTokenUtil jwtTokenUtil;
 
     @Override
     public UserLoginResponse join(UserJoinRequest joinRq) throws Exception {
@@ -44,13 +45,9 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException("User Not Found");
         }
         UserLoginResponse loginRs = new ModelMapper().map(userEntity, UserLoginResponse.class);
+        loginRs.setToken(jwtTokenUtil.createToken(loginRs.getEmail()));
 
         return loginRs;
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
     }
 
     @Override
