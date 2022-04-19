@@ -12,7 +12,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 public class UserDto {
-    private String email;
+    private String username;
     private String nickname;
     private String pwd;
     private LocalDateTime joinDtm;

@@ -10,10 +10,11 @@ import com.news.dev.util.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+
 
 @Service
 @Slf4j
@@ -39,20 +40,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserLoginResponse login(UserLoginRequest loginRq) throws Exception {
-        UserEntity userEntity = userRepository.findByEmail(loginRq.getEmail());
+        UserEntity userEntity = userRepository.findByUsername(loginRq.getUsername());
 
         if(userEntity == null) {
             throw new UsernameNotFoundException("User Not Found");
         }
         UserLoginResponse loginRs = new ModelMapper().map(userEntity, UserLoginResponse.class);
-        loginRs.setToken(jwtTokenUtil.createToken(loginRs.getEmail()));
+
+        loginRs.setToken(jwtTokenUtil.createToken(loginRs.getUsername()));
 
         return loginRs;
     }
 
     @Override
-    public UserDto getUserByUserEmail(String email) throws Exception {
-        UserEntity userEntity = userRepository.findByEmail(email);
+    public UserDto getUserByUsername(String email) throws Exception {
+        UserEntity userEntity = userRepository.findByUsername(email);
 
         if(userEntity == null) {
             throw new UsernameNotFoundException("User Not Found");

@@ -6,7 +6,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 public class UserLoginResponse {
-    private String email;
+    private String username;
     private String nickname;
     private String password;
     private Long userNo;

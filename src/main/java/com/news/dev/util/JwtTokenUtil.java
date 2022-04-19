@@ -1,7 +1,10 @@
 package com.news.dev.util;
 
+import com.news.dev.auth.user.service.UserService;
+import com.news.dev.config.security.CustomUserDetailService;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,13 +18,15 @@ import java.util.Date;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class JwtTokenUtil {
 
     private String secretKey = "DEV_NEWS";
     private final long tokenExpiration = 30 * 60 * 1000L; // 토큰 유효기간 (30분)
 
     // Bean
-    private final UserDetailsService userDetailsService;
+    private final CustomUserDetailService customUserDetailService;
+
 
     @PostConstruct
     protected void init() { // 객체 초기화, secretKey를 base64로 인코딩
@@ -30,10 +35,11 @@ public class JwtTokenUtil {
 
     // Jwt Create
     public String createToken(String email) {
+        Claims claims = Jwts.claims().setSubject(email);
         Date now = new Date();
 
         return Jwts.builder()
-                .setSubject(email)
+                .setClaims(claims)
                 .setIssuedAt(now) // 지금 시간부터 30분 Set
                 .setExpiration(new Date(now.getTime() + tokenExpiration))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
@@ -42,14 +48,17 @@ public class JwtTokenUtil {
 
     // Jwt 인증 정보 조회
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUser(token));
-
+        UserDetails userDetails = customUserDetailService.loadUserByUsername(this.getUser(token));
+        log.debug("user : {}", userDetails);
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     // Token으로 회원 정보 조회
     public String getUser(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+        String user = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+
+        log.debug("user: {}", user);
+        return user;
     }
 
     // Request의 Header에서 Token을 가져오기 - "X-AUTH-TOKEN" : "TOKEN"
