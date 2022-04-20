@@ -22,14 +22,26 @@ import org.springframework.web.filter.GenericFilterBean;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+<<<<<<< HEAD
     private final UserDetailsService userDetailsService;
     private final JwtTokenUtil jwtTokenUtil;
+=======
+    private final UserService userService;
+    private final Environment env;
+    private final JwtTokenUtil jwtTokenUtil;
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
+    }
+>>>>>>> main
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
         http.authorizeRequests()
+<<<<<<< HEAD
                 .antMatchers("/auth/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -38,6 +50,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenUtil), UsernamePasswordAuthenticationFilter.class);
 
         http.headers().frameOptions().disable();
+=======
+                .antMatchers("/auth/user**").permitAll()
+                .and()
+                .addFilter(getAuthenticationFilter())
+                .addFilter(new JwtCreationFilter(userService, jwtTokenUtil));
+
+        super.configure(http);
+>>>>>>> main
     }
 
 
