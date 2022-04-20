@@ -10,7 +10,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.filter.GenericFilterBean;
 
 @Configuration
 @EnableWebSecurity
@@ -18,6 +22,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+<<<<<<< HEAD
+    private final UserDetailsService userDetailsService;
+    private final JwtTokenUtil jwtTokenUtil;
+=======
     private final UserService userService;
     private final Environment env;
     private final JwtTokenUtil jwtTokenUtil;
@@ -26,31 +34,36 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
     }
+>>>>>>> main
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
+        http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
         http.authorizeRequests()
+<<<<<<< HEAD
+                .antMatchers("/auth/**").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                .and()
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenUtil), UsernamePasswordAuthenticationFilter.class);
+
+        http.headers().frameOptions().disable();
+=======
                 .antMatchers("/auth/user**").permitAll()
                 .and()
                 .addFilter(getAuthenticationFilter())
                 .addFilter(new JwtCreationFilter(userService, jwtTokenUtil));
 
         super.configure(http);
+>>>>>>> main
     }
+
 
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/h2-console/**");
     }
-
-    private AuthenticationFilter getAuthenticationFilter() throws Exception {
-        AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManager(), userService, env);
-        authenticationFilter.setAuthenticationManager(authenticationManager());
-
-        return authenticationFilter;
-    }
-
 }
 

@@ -6,14 +6,22 @@ import com.news.dev.auth.user.dto.UserLoginRequest;
 import com.news.dev.auth.user.dto.UserLoginResponse;
 import com.news.dev.auth.user.entity.UserEntity;
 import com.news.dev.auth.user.repository.UserRepository;
+<<<<<<< HEAD:src/main/java/com/news/dev/auth/user/service/UserServiceImpl.java
+import com.news.dev.util.JwtTokenUtil;
+=======
+>>>>>>> main:src/main/java/com/news/dev/api/user/service/UserServiceImpl.java
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+<<<<<<< HEAD:src/main/java/com/news/dev/auth/user/service/UserServiceImpl.java
+
+
+=======
+>>>>>>> main:src/main/java/com/news/dev/api/user/service/UserServiceImpl.java
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -21,7 +29,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-
+    private final JwtTokenUtil jwtTokenUtil;
 
     @Override
     public UserLoginResponse join(UserJoinRequest joinRq) throws Exception {
@@ -38,17 +46,30 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserLoginResponse login(UserLoginRequest loginRq) throws Exception {
+<<<<<<< HEAD:src/main/java/com/news/dev/auth/user/service/UserServiceImpl.java
+        UserEntity userEntity = userRepository.findByUsername(loginRq.getUsername());
+
+        if(userEntity == null) {
+            throw new UsernameNotFoundException("User Not Found");
+        }
+        UserLoginResponse loginRs = new ModelMapper().map(userEntity, UserLoginResponse.class);
+
+        loginRs.setToken(jwtTokenUtil.createToken(loginRs.getUsername()));
+
+        return loginRs;
+=======
         return null;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return null;
+>>>>>>> main:src/main/java/com/news/dev/api/user/service/UserServiceImpl.java
     }
 
     @Override
-    public UserDto getUserByUserEmail(String email) throws Exception {
-        UserEntity userEntity = userRepository.findByEmail(email);
+    public UserDto getUserByUsername(String email) throws Exception {
+        UserEntity userEntity = userRepository.findByUsername(email);
 
         if(userEntity == null) {
             throw new UsernameNotFoundException("User Not Found");

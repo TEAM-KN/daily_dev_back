@@ -6,7 +6,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 public class UserJoinRequest {
-    private String email;
+    private String username;
     private String password;
     private String nickname; // 닉네임
     private Long userNo;

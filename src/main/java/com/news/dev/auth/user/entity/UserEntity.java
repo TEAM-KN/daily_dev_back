@@ -16,8 +16,8 @@ public class UserEntity {
     @Column(name="USER_NO")
     private Long userNo;
 
-    @Column(name="EMAIL", length = 250, unique = true)
-    private String email;
+    @Column(name="USERNAME", length = 250, unique = true)
+    private String username;
 
     @Column(name="NICKNAME", length = 250, unique = true)
     private String nickname;
