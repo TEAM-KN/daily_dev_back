@@ -32,12 +32,12 @@ public class JwtCreationFilter extends GenericFilterBean {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         try {
             String username = ((User)authentication.getPrincipal()).getUsername();
-            UserDto user = userService.getUserByUserEmail(username);
+            UserDto user = userService.getUserByUsername(username);
 
             if(authentication != null && getJwtToRequest((HttpServletRequest) request)) {
                 log.info("Jwt Token Creating !");
 
-                String token = jwtTokenUtil.createToken(user.getEmail());
+                String token = jwtTokenUtil.createToken(user.getUsername());
                 setJwtToResponse((HttpServletResponse)response, token);
             }
 
