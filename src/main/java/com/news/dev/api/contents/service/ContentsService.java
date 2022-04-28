@@ -3,7 +3,9 @@ package com.news.dev.api.contents.service;
 import com.news.dev.api.contents.dto.ContentsRequest;
 import com.news.dev.api.contents.dto.ContentsResponse;
 
+import java.util.List;
+
 public interface ContentsService {
 
-    public ContentsResponse list(ContentsRequest contentsRequest);
+    public List<ContentsResponse> list(ContentsRequest contentsRequest);
 }

@@ -29,7 +29,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<UserLoginResponse> login(@RequestBody UserLoginRequest loginRq) throws Exception {
-        UserLoginResponse loginRs = null;
+        UserLoginResponse loginRs = userService.login(loginRq);
 
         return ResponseEntity.status(HttpStatus.OK).body(loginRs);
     }

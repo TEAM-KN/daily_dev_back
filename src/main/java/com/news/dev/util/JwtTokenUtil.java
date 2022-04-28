@@ -26,8 +26,6 @@ public class JwtTokenUtil {
     // Bean
     private final CustomUserDetailService customUserDetailService;
 
-    private final UserDetailsService userDetailsService;
-
     @PostConstruct
     protected void init() { // 객체 초기화, secretKey를 base64로 인코딩
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
@@ -40,7 +38,7 @@ public class JwtTokenUtil {
         return Jwts.builder()
             .setSubject(email)
             .setExpiration(new Date(now.getTime() + tokenExpiration))
-            .signWith(SignatureAlgorithm.ES256, secretKey)
+            .signWith(SignatureAlgorithm.HS256, secretKey)
             .compact();
     }
 
