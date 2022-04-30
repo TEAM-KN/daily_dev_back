@@ -62,7 +62,7 @@ public class WoowahanAdaptor {
                 contentsDto.setLink(link);
                 contentsDto.setTitle(title);
                 contentsDto.setDescription(description);
-                contentsDto.setRegDate(regDate);
+                contentsDto.setRegDtm(regDate);
                 contentsDto.setAuthor(author);
 
                 contentsList.add(contentsDto);

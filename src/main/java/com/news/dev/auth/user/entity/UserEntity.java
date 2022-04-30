@@ -2,6 +2,7 @@ package com.news.dev.auth.user.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -26,5 +27,6 @@ public class UserEntity {
     private String password;
 
     @Column(name="JOIN_DTM")
+    @CreationTimestamp
     private LocalDateTime joinDtm;
 }

@@ -2,8 +2,10 @@ package com.news.dev.api.contents.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -24,9 +26,13 @@ public class ContentsEntity {
     @Column(name="LINK")
     private String link;
 
-    @Column(name="REG_DATE")
-    private String regDate;
+    @Column(name="REG_DTM")
+    private String regDtm;
 
-    @Column
+    @Column(name="AUTHOR")
     private String author;
+
+    @Column(name="UPD_DTM")
+    @CreationTimestamp
+    private LocalDateTime updDtm;
 }

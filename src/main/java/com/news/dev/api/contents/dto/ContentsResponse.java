@@ -12,6 +12,6 @@ public class ContentsResponse {
     private String title; // 제목
     private String description; // 내용
     private String link; // 기술블로그 링크
-    private String regDate; // 등록일시
+    private String regDtm; // 등록일시
     private String author; // 작성자
 }
