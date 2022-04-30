@@ -11,7 +11,7 @@ public class ContentsDto {
     private String title;
     private String description;
     private String link;
-    private String regDate;
+    private String regDtm;
     private String author;
 
 }
