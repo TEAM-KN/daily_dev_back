@@ -8,4 +8,5 @@ import java.util.List;
 public interface ContentsService {
 
     public List<ContentsResponse> list(ContentsRequest contentsRequest);
+    public void update();
 }

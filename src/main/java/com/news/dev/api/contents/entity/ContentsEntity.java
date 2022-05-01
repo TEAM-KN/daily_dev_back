@@ -1,6 +1,7 @@
 package com.news.dev.api.contents.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Table(name="TB_CONTENTS")
+@NoArgsConstructor
 public class ContentsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

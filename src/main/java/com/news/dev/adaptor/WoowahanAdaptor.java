@@ -1,6 +1,8 @@
 package com.news.dev.adaptor;
 
 import com.news.dev.api.contents.dto.ContentsDto;
+import com.news.dev.api.contents.dto.DateType;
+import com.news.dev.api.contents.repository.ContentsRepository;
 import com.news.dev.exception.UrlConnectionException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,12 +16,13 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Component
 @Slf4j
 @RequiredArgsConstructor
 public class WoowahanAdaptor {
 
-//    private final ContentsRepository contentsRepository;
+    private final ContentsRepository contentsRepository;
 
     @Value("${woowahan.blog.url}")
     private String url;
@@ -59,6 +62,9 @@ public class WoowahanAdaptor {
             String author = authorElement.get(1).text();
 
             if(!"".equals(link) && link != null) {
+                String[] dates = regDate.split("[.]");
+                regDate = dates[2] + "-" + DateType.valueOf(dates[0]).getMonth() + "-" + dates[1];
+
                 contentsDto.setLink(link);
                 contentsDto.setTitle(title);
                 contentsDto.setDescription(description);
@@ -71,24 +77,26 @@ public class WoowahanAdaptor {
         
         return contentsList;
     }
-    
-    // Get Contents
-    public List<ContentsDto> getContents() {
+
+    // Init Contents
+    public List<ContentsDto> initContents() {
         Document doc = getDocument();
         Elements elements = getElement(doc);
         List<ContentsDto> contents = setContents(elements);
-        
+
         return contents;
     }
+
+    // New Contents Update (Batch)
+//    public List<ContentsDto> newContentsUpdate() {
+//
+//    }
+
     
     // New Contents Checking
-    public boolean isNewContents() {
+    public boolean isNewContents(List<ContentsDto> contents) {
+
         return true;
-    }
-
-    // Save Contents (contents update is true)
-    public void saveContents() {
-
     }
 }
 

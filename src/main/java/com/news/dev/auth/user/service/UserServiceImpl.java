@@ -10,6 +10,7 @@ import com.news.dev.util.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -52,8 +53,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUserByUsername(String email) throws Exception {
-        UserEntity userEntity = userRepository.findByUsername(email);
+    @Cacheable(value = "user", key = "#username")
+    public UserDto getUserByUsername(String username) throws Exception {
+        UserEntity userEntity = userRepository.findByUsername(username);
 
         if(userEntity == null) {
             throw new UsernameNotFoundException("User Not Found");
