@@ -1,5 +1,6 @@
 package com.news.dev.auth.user.controller;
 
+import com.news.dev.auth.user.dto.UserDto;
 import com.news.dev.auth.user.dto.UserJoinRequest;
 import com.news.dev.auth.user.dto.UserLoginRequest;
 import com.news.dev.auth.user.dto.UserLoginResponse;
@@ -32,6 +33,13 @@ public class UserController {
         UserLoginResponse loginRs = userService.login(loginRq);
 
         return ResponseEntity.status(HttpStatus.OK).body(loginRs);
+    }
+
+    @GetMapping("/info")
+    public ResponseEntity<UserDto> info(@RequestBody UserDto requestDto) throws Exception {
+        UserDto responseDto = userService.getUserByUsername(requestDto.getUsername());
+
+        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 
 }

@@ -21,8 +21,9 @@ public class ContentsController {
     private final ContentsService contentsService;
 
 
-    @GetMapping("/test")
+    @GetMapping("/cache/test")
     public String test() {
+
         return "API TEST";
     }
 
@@ -31,5 +32,10 @@ public class ContentsController {
         List<ContentsResponse> rs = contentsService.list(rq);
 
         return ResponseEntity.status(HttpStatus.OK).body(rs);
+    }
+
+    @GetMapping("/update")
+    public void update() {
+        contentsService.update();
     }
 }

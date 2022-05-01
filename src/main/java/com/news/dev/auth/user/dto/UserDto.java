@@ -18,8 +18,4 @@ public class UserDto {
     private LocalDateTime joinDtm;
     private LocalDateTime updateDtm;
     private Long userNo;
-
-    // 이메일, 패스워드 암호화
-    private String encryptEmail;
-    private String encryptPwd;
 }
