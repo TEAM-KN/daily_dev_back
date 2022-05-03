@@ -2,6 +2,7 @@ package com.news.dev.adaptor;
 
 import com.news.dev.api.contents.dto.ContentsDto;
 import com.news.dev.api.contents.dto.DateType;
+import com.news.dev.api.contents.entity.ContentsEntity;
 import com.news.dev.api.contents.repository.ContentsRepository;
 import com.news.dev.exception.UrlConnectionException;
 import lombok.RequiredArgsConstructor;
@@ -10,11 +11,16 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -88,15 +94,36 @@ public class WoowahanAdaptor {
     }
 
     // New Contents Update (Batch)
-//    public List<ContentsDto> newContentsUpdate() {
-//
-//    }
+    public List<ContentsEntity> newContentsUpdate() {
+        Document doc = getDocument();
+        Elements elements = getElement(doc);
+        List<ContentsDto> contents = setContents(elements);
+        List<ContentsEntity> newContents = getNewContents(contents);
+
+        List<ContentsEntity> rsEntity = contentsRepository.saveAll(newContents);
+        return rsEntity;
+    }
 
     
     // New Contents Checking
-    public boolean isNewContents(List<ContentsDto> contents) {
+    public List<ContentsEntity> getNewContents(List<ContentsDto> contents) {
 
-        return true;
+        List<ContentsDto> newContents = new ArrayList<>();
+        LocalDate nowDtm = LocalDate.now();
+
+        for(ContentsDto content : contents) {
+            String regDtm = content.getRegDtm();
+            LocalDate regDtmParsing = LocalDate.parse(regDtm, DateTimeFormatter.ISO_DATE);
+
+            // Batch는 0시에 수행
+            if(nowDtm.minusDays(1).isEqual(regDtmParsing)) {
+                newContents.add(content);
+            }
+        }
+
+        return contents.stream().map(content ->
+            new ModelMapper().map(content, ContentsEntity.class)
+        ).collect(Collectors.toList());
     }
 }
 
