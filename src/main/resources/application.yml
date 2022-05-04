@@ -13,6 +13,17 @@ spring:
   redis:
     host: 127.0.0.1
     port: 6379
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: schulnoh@gmail.com
+    password: vynvguqqhaaoxniq
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5000
+          starttls.enable: true
 
 
 token:
