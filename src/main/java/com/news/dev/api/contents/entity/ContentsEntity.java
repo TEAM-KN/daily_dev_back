@@ -1,8 +1,6 @@
 package com.news.dev.api.contents.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -11,8 +9,10 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+@Builder
 @Table(name="TB_CONTENTS")
 @NoArgsConstructor
+@AllArgsConstructor
 public class ContentsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

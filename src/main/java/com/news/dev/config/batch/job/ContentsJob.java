@@ -1,4 +1,4 @@
-package com.news.dev.config.batch;
+package com.news.dev.config.batch.job;
 
 import com.news.dev.adaptor.WoowahanAdaptor;
 import com.news.dev.api.contents.entity.ContentsEntity;
@@ -29,8 +29,6 @@ public class ContentsJob {
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
-
-    private final EntityManagerFactory entityManagerFactory;
     private final WoowahanAdaptor woowahanAdaptor;
 
 
