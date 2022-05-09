@@ -16,6 +16,17 @@ spring:
   batch:
     jdbc:
       initialize-schema: always
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: schulnoh@gmail.com
+    password: vynvguqqhaaoxniq
+    properties:
+      mail:
+        smtp:
+          auth: true
+          timeout: 5000
+          starttls.enable: true
 
 
 token:
