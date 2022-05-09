@@ -92,21 +92,13 @@ public class WoowahanAdaptor {
 
         return contents;
     }
+    
+    // New Contents Checking
+    public List<ContentsEntity> getNewContents() {
 
-    // New Contents Update (Batch)
-    public List<ContentsEntity> newContentsUpdate() {
         Document doc = getDocument();
         Elements elements = getElement(doc);
         List<ContentsDto> contents = setContents(elements);
-        List<ContentsEntity> newContents = getNewContents(contents);
-
-        List<ContentsEntity> rsEntity = contentsRepository.saveAll(newContents);
-        return rsEntity;
-    }
-
-    
-    // New Contents Checking
-    public List<ContentsEntity> getNewContents(List<ContentsDto> contents) {
 
         List<ContentsDto> newContents = new ArrayList<>();
         LocalDate nowDtm = LocalDate.now();
@@ -124,6 +116,14 @@ public class WoowahanAdaptor {
         return contents.stream().map(content ->
             new ModelMapper().map(content, ContentsEntity.class)
         ).collect(Collectors.toList());
+    }
+
+
+    // New Contents Update (Batch)
+    public List<ContentsEntity> newContentsUpdate() {
+        List<ContentsEntity> newContents = getNewContents();
+        List<ContentsEntity> rsEntity = contentsRepository.saveAll(newContents);
+        return rsEntity;
     }
 }
 
