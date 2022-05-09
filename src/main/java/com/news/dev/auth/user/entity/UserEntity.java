@@ -1,7 +1,6 @@
 package com.news.dev.auth.user.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -10,6 +9,9 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "TB_USERS")
 public class UserEntity {
     @Id
