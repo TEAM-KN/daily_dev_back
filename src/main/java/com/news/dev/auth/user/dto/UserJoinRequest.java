@@ -10,5 +10,5 @@ public class UserJoinRequest {
     private String password;
     private String nickname; // 닉네임
     private Long userNo;
-    //private final String subscribeYn; //구독 여부 (기본 : N)
+    private String subscribeYn; //구독 여부 (기본 : N)
 }

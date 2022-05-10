@@ -20,11 +20,13 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class JobScheduler {
 
-
     private final JobLauncher jobLauncher;
 
     @Qualifier("contentsJob")
     private final Job ContentsJob;
+
+    @Qualifier("mailJob")
+    private final Job MailJob;
 
 
     @Scheduled(cron = "0 0 * * * *") // 매일 오전 12시
@@ -48,11 +50,10 @@ public class JobScheduler {
                 .addDate("date", new Date()).toJobParameters();
 
         try {
-            jobLauncher.run(ContentsJob, jobParameters);
+            jobLauncher.run(MailJob, jobParameters);
         } catch (JobParametersInvalidException | JobExecutionAlreadyRunningException
                  | org.springframework.batch.core.repository.JobRestartException | JobInstanceAlreadyCompleteException e) {
             log.error("error msg : " + e);
         }
     }
-
 }

@@ -11,4 +11,5 @@ public class UserLoginResponse {
     private String password;
     private Long userNo;
     private String token;
+    private String subscribeYn;
 }
