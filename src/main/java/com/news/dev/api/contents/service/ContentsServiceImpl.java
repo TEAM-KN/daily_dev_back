@@ -43,6 +43,7 @@ public class ContentsServiceImpl implements ContentsService {
         // 1. Contents Update
         List<ContentsDto> contents = woowahanAdaptor.initContents();
 
+
         List<ContentsEntity> contentsEntityList = contents.stream().map(
                 content -> new ModelMapper().map(content, ContentsEntity.class)
             ).collect(Collectors.toList());

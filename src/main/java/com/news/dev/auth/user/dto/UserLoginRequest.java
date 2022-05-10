@@ -10,4 +10,6 @@ public class UserLoginRequest {
     private String nickname;
     private String password;
     private Long userNo;
+    private String subscribeYn;
+
 }

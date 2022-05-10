@@ -1,6 +1,7 @@
 package com.news.dev.auth.user.entity;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -31,4 +32,8 @@ public class UserEntity {
     @Column(name="JOIN_DTM")
     @CreationTimestamp
     private LocalDateTime joinDtm;
+
+    @Column(name="SUBSCRIBE_YN")
+    @ColumnDefault("N")
+    private String subscribeYn;
 }
