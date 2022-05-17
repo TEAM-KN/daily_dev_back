@@ -3,6 +3,7 @@ package com.news.dev.api.contents.controller;
 import com.news.dev.api.contents.dto.ContentsRequest;
 import com.news.dev.api.contents.dto.ContentsResponse;
 import com.news.dev.api.contents.service.ContentsService;
+import com.news.dev.api.mail.service.MailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import java.util.List;
 public class ContentsController {
 
     private final ContentsService contentsService;
+    private final MailService mailService;
 
 
     @GetMapping("/cache/test")
@@ -37,5 +39,10 @@ public class ContentsController {
     @GetMapping("/update")
     public void update() {
         contentsService.update();
+    }
+
+    @GetMapping("/mail/test")
+    public void sendMail() throws Exception {
+        mailService.sendMail();
     }
 }
