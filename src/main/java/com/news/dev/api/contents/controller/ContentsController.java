@@ -31,7 +31,7 @@ public class ContentsController {
 
     @GetMapping("/list")
     public ResponseEntity<List<ContentsResponse>> list(@RequestBody ContentsRequest rq) {
-        List<ContentsResponse> rs = contentsService.list(rq);
+        List<ContentsResponse> rs = contentsService.list();
 
         return ResponseEntity.status(HttpStatus.OK).body(rs);
     }

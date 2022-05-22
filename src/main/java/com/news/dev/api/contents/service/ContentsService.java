@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ContentsService {
 
-    public List<ContentsResponse> list(ContentsRequest contentsRequest);
+    public List<ContentsResponse> list();
     public void update();
 }
