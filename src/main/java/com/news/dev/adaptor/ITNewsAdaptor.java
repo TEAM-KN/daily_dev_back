@@ -1,0 +1,60 @@
+package com.news.dev.adaptor;
+
+
+import com.news.dev.api.contents.dto.ContentsDto;
+import com.news.dev.jpa.repository.ContentsRepository;
+import com.news.dev.exception.UrlConnectionException;
+import lombok.RequiredArgsConstructor;
+
+import lombok.extern.slf4j.Slf4j;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Component
+@Slf4j
+@RequiredArgsConstructor
+public class ITNewsAdaptor {
+
+    private final ContentsRepository contentsRepository;
+
+    @Value("${naver.it-news.url}")
+    private final String url;
+
+    // Get Html
+    public Document getDocument() {
+        try {
+            log.info("url : {}", url);
+            return Jsoup.connect(url).get();
+        } catch(Exception e) {
+            throw new UrlConnectionException("요청한 URL에 접근할 수 없습니다.");
+        }
+    }
+
+    // Get Element
+    public Elements getElements(Document doc) {
+        try {
+            return doc.select("div.newsflash > ul > li");
+        } catch (Exception e) {
+            throw new NullPointerException("Element is Null...");
+        }
+    }
+
+    // Set Contents
+    public List<ContentsDto> setContents(Elements elements) {
+        List<ContentsDto> contentsList = new ArrayList<>();
+
+        for(Element element : elements) {
+
+        }
+
+        return contentsList;
+    }
+
+}

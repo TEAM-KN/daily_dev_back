@@ -1,15 +1,21 @@
 package com.news.dev.api.contents.dto;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Getter
 public enum ContentsType {
-    WOOWAHAN("1"),
-    GET_ALL("A");
+    WOOWAHAN("B","WW","우아한형제들"),
+    IT_NEWS("N", "NV", "NAVER");
 
-    private String searchFlag;
+    private String contentType;
+    private String companyCd;
+    private String companyNm;
 
-    ContentsType(String searchFlag) {
-        this.searchFlag = searchFlag;
+    ContentsType(String contentType, String companyCd, String companyNm) {
+        this.contentType = contentType;
+        this.companyCd = companyCd;
+        this.companyNm = companyNm;
     }
 }

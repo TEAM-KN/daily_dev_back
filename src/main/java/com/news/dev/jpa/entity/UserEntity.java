@@ -1,4 +1,4 @@
-package com.news.dev.auth.user.entity;
+package com.news.dev.jpa.entity;
 
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;

@@ -2,12 +2,9 @@ package com.news.dev.api.contents.service;
 
 import com.news.dev.adaptor.WoowahanAdaptor;
 import com.news.dev.api.contents.dto.ContentsDto;
-import com.news.dev.api.contents.dto.ContentsRequest;
 import com.news.dev.api.contents.dto.ContentsResponse;
-import com.news.dev.api.contents.dto.DateType;
-import com.news.dev.api.contents.entity.ContentsEntity;
-import com.news.dev.api.contents.repository.ContentsRepository;
-import com.news.dev.auth.user.dto.UserDto;
+import com.news.dev.jpa.entity.ContentsEntity;
+import com.news.dev.jpa.repository.ContentsRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.Cacheable;

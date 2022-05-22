@@ -1,9 +1,10 @@
 package com.news.dev.adaptor;
 
 import com.news.dev.api.contents.dto.ContentsDto;
+import com.news.dev.api.contents.dto.ContentsType;
 import com.news.dev.api.contents.dto.DateType;
-import com.news.dev.api.contents.entity.ContentsEntity;
-import com.news.dev.api.contents.repository.ContentsRepository;
+import com.news.dev.jpa.entity.ContentsEntity;
+import com.news.dev.jpa.repository.ContentsRepository;
 import com.news.dev.exception.UrlConnectionException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,6 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,7 +52,7 @@ public class WoowahanAdaptor {
         }
     }
     
-    // Get Contents
+    // Set Contents
     public List<ContentsDto> setContents(Elements elements) {
         List<ContentsDto> contentsList = new ArrayList<>();
         
@@ -76,6 +76,10 @@ public class WoowahanAdaptor {
                 contentsDto.setDescription(description);
                 contentsDto.setRegDtm(regDate);
                 contentsDto.setAuthor(author);
+
+                contentsDto.setContentType(ContentsType.WOOWAHAN.getContentType());
+                contentsDto.setCompanyCd(ContentsType.WOOWAHAN.getCompanyCd());
+                contentsDto.setCompanyNm(ContentsType.WOOWAHAN.getCompanyNm());
 
                 contentsList.add(contentsDto);
             }

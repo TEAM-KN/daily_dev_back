@@ -1,7 +1,7 @@
 package com.news.dev.config.security;
 
-import com.news.dev.auth.user.entity.UserEntity;
-import com.news.dev.auth.user.repository.UserRepository;
+import com.news.dev.jpa.entity.UserEntity;
+import com.news.dev.jpa.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

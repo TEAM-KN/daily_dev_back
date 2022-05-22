@@ -1,4 +1,4 @@
-package com.news.dev.api.mail.entity;
+package com.news.dev.jpa.entity;
 
 import lombok.*;
 

@@ -1,7 +1,7 @@
 package com.news.dev.config.batch.job;
 
 import com.news.dev.adaptor.WoowahanAdaptor;
-import com.news.dev.api.contents.entity.ContentsEntity;
+import com.news.dev.jpa.entity.ContentsEntity;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
-import javax.persistence.EntityManagerFactory;
 import java.util.List;
 
 

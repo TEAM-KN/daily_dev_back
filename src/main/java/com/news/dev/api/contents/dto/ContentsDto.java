@@ -13,5 +13,7 @@ public class ContentsDto {
     private String link;
     private String regDtm;
     private String author;
-
+    private String contentType;
+    private String companyCd;
+    private String companyNm;
 }

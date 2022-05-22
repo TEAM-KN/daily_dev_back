@@ -2,6 +2,7 @@ package com.news.dev.auth.user.entity;
 
 
 
+import com.news.dev.jpa.entity.UserEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,8 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional

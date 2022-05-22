@@ -1,13 +1,10 @@
 package com.news.dev.config.batch.job;
 
 
-import com.news.dev.adaptor.WoowahanAdaptor;
-import com.news.dev.api.contents.entity.ContentsEntity;
-import com.news.dev.api.contents.repository.ContentsRepository;
-import com.news.dev.api.contents.repository.CustomContentsRepository;
+import com.news.dev.jpa.entity.ContentsEntity;
+import com.news.dev.jpa.repository.CustomContentsRepository;
 import com.news.dev.api.subscriber.dto.SubscriberDto;
-import com.news.dev.api.subscriber.repository.SubscriberRepository;
-import com.news.dev.auth.user.entity.UserEntity;
+import com.news.dev.jpa.repository.SubscriberRepository;
 import com.news.dev.util.MailUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +21,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Configuration
 @EnableBatchProcessing

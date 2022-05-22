@@ -1,13 +1,12 @@
-package com.news.dev.api.contents.repository;
+package com.news.dev.jpa.repository;
 
-import com.news.dev.api.contents.entity.ContentsEntity;
+import com.news.dev.jpa.entity.ContentsEntity;
 import com.news.dev.api.contents.entity.QContentsEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository

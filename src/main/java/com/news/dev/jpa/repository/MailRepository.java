@@ -1,4 +1,4 @@
-package com.news.dev.api.mail.repository;
+package com.news.dev.jpa.repository;
 
 import org.springframework.stereotype.Repository;
 

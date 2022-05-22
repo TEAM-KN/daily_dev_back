@@ -1,4 +1,4 @@
-package com.news.dev.api.contents.entity;
+package com.news.dev.jpa.entity;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -37,4 +37,13 @@ public class ContentsEntity {
     @Column(name="UPD_DTM")
     @CreationTimestamp
     private LocalDateTime updDtm;
+
+    @Column(name="CONTENT_TYPE")
+    private String contentType;
+
+    @Column(name="COMPANY_CD")
+    private String companyCd;
+
+    @Column(name="COMPANY_NM")
+    private String companyNm;
 }

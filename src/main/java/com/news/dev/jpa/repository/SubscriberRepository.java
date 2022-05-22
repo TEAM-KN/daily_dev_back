@@ -1,11 +1,10 @@
-package com.news.dev.api.subscriber.repository;
+package com.news.dev.jpa.repository;
 
 import com.news.dev.api.subscriber.dto.SubscriberDto;
 import com.news.dev.auth.user.entity.QUserEntity;
-import com.news.dev.auth.user.entity.UserEntity;
+import com.news.dev.jpa.entity.UserEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

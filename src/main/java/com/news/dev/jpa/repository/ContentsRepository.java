@@ -1,6 +1,6 @@
-package com.news.dev.api.contents.repository;
+package com.news.dev.jpa.repository;
 
-import com.news.dev.api.contents.entity.ContentsEntity;
+import com.news.dev.jpa.entity.ContentsEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
