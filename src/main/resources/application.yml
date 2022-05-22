@@ -23,10 +23,14 @@ spring:
     password: vynvguqqhaaoxniq
     properties:
       mail:
+        transport:
+          protocol: smtp
         smtp:
           auth: true
           timeout: 5000
           starttls.enable: true
+    default-encoding: UTF-8
+
 
 
 token:

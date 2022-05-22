@@ -25,7 +25,7 @@ public class ContentsServiceImpl implements ContentsService {
 
     @Override
     @Cacheable("contents")
-    public List<ContentsResponse> list(ContentsRequest contentsRequest) {
+    public List<ContentsResponse> list() {
 
         // 1. Get Contents
         List<ContentsEntity> contentsEntityList = contentsRepository.findAll();
