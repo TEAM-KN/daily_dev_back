@@ -5,6 +5,7 @@ import com.news.dev.auth.user.entity.QUserEntity;
 import com.news.dev.auth.user.entity.UserEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
