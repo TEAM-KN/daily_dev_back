@@ -25,11 +25,11 @@ public class JobScheduler {
     @Qualifier("contentsJob")
     private final Job ContentsJob;
 
-//    @Qualifier("mailJob")
-//    private final Job MailJob;
+    @Qualifier("mailJob")
+    private final Job MailJob;
 
 
-    @Scheduled(cron = "0 0 * * * *") // 매일 오전 12시
+    @Scheduled(cron = "0 0 6 * * *") // 매일 오전 6시
     public void contentsJobBatch() {
 
         JobParameters jobParameters = new JobParametersBuilder()
@@ -43,17 +43,17 @@ public class JobScheduler {
         }
     }
 
-//    @Scheduled(cron = "0 8 * * * *") // 매일 오전 8시
-//    public void mailJobBatch() {
-//
-//        JobParameters jobParameters = new JobParametersBuilder()
-//                .addDate("date", new Date()).toJobParameters();
-//
-//        try {
-//            jobLauncher.run(MailJob, jobParameters);
-//        } catch (JobParametersInvalidException | JobExecutionAlreadyRunningException
-//                 | org.springframework.batch.core.repository.JobRestartException | JobInstanceAlreadyCompleteException e) {
-//            log.error("error msg : " + e);
-//        }
-//    }
+    @Scheduled(cron = "0 8 * * * *") // 매일 오전 8시
+    public void mailJobBatch() {
+
+        JobParameters jobParameters = new JobParametersBuilder()
+                .addDate("date", new Date()).toJobParameters();
+
+        try {
+            jobLauncher.run(MailJob, jobParameters);
+        } catch (JobParametersInvalidException | JobExecutionAlreadyRunningException
+                 | org.springframework.batch.core.repository.JobRestartException | JobInstanceAlreadyCompleteException e) {
+            log.error("error msg : " + e);
+        }
+    }
 }
