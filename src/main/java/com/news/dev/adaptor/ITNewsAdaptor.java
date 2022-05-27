@@ -25,7 +25,7 @@ public class ITNewsAdaptor {
     private final ContentsRepository contentsRepository;
 
     @Value("${naver.it-news.url}")
-    private final String url;
+    private String url;
 
     // Get Html
     public Document getDocument() {
@@ -51,6 +51,14 @@ public class ITNewsAdaptor {
         List<ContentsDto> contentsList = new ArrayList<>();
 
         for(Element element : elements) {
+            ContentsDto contentsDto = new ContentsDto();
+
+            String imageLink = element.select("dl > dt").get(0).select("a").attr("href");
+            String link = element.select("dl > dt").get(1).select("a").attr("href");
+            String title = element.select("dl > dt").get(1).select("a").text();
+            String description = element.select("dl > dt").get(2).select("span .lede").text();
+            String author = element.select("dl > dt").get(2).select("span .writing").text();
+            String regTime = element.select("dl > dt").get(2).select("span .is_new").text();
 
         }
 

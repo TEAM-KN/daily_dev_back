@@ -7,7 +7,8 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public enum ContentsType {
     WOOWAHAN("B","WW","우아한형제들"),
-    IT_NEWS("N", "NV", "NAVER");
+    KAKAO("B", "KA", "카카오"),
+    IT_NEWS("N", "NV", "네이버");
 
     private String contentType;
     private String companyCd;

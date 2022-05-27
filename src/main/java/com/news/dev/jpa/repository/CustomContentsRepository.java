@@ -1,7 +1,7 @@
 package com.news.dev.jpa.repository;
 
 import com.news.dev.jpa.entity.ContentsEntity;
-import com.news.dev.api.contents.entity.QContentsEntity;
+import com.news.dev.jpa.entity.QContentsEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -24,6 +24,7 @@ public class CustomContentsRepository {
                 .select(qContents.contentsEntity)
                 .from(qContents.contentsEntity)
                 .where(qContents.contentsEntity.updDtm.gt(now.atStartOfDay()))
+                .orderBy(qContents.companyCd.asc())
                 .fetch();
         return newContents;
 

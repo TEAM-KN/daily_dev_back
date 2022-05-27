@@ -2,6 +2,7 @@ package com.news.dev.config.batch.job;
 
 
 import com.news.dev.jpa.entity.ContentsEntity;
+import com.news.dev.jpa.repository.ContentsRepository;
 import com.news.dev.jpa.repository.CustomContentsRepository;
 import com.news.dev.api.subscriber.dto.SubscriberDto;
 import com.news.dev.jpa.repository.SubscriberRepository;
@@ -30,7 +31,8 @@ public class MailJob {
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
-    private final CustomContentsRepository contentsRepository;
+    private final CustomContentsRepository customContentsRepository;
+    private final ContentsRepository contentsRepository;
     private final SubscriberRepository subscriberRepository;
     private final MailUtil mailUtil;
 
@@ -53,9 +55,9 @@ public class MailJob {
     public Step MailStep1() {
         return stepBuilderFactory.get("mailStep1")
                 .tasklet(((stepContribution, chunkContext) -> {
-                    List<ContentsEntity> newContents =  contentsRepository.findNewContents();
+                    List<ContentsEntity> newContents =  customContentsRepository.findNewContents();
 
-                    if(0 == newContents.size()) {
+                    if(newContents.isEmpty()) {
                         log.info("Contents is not Update");
                         stepContribution.setExitStatus(ExitStatus.FAILED);
                     }
@@ -79,7 +81,7 @@ public class MailJob {
 
                     // New 컨텐츠
                     Map newContents = new HashMap();
-                    newContents.put("contents", contentsRepository.findNewContents());
+                    newContents.put("contents", customContentsRepository.findNewContents());
 
                     // 메일 발송
                     mailUtil.sendEmail(address, newContents);

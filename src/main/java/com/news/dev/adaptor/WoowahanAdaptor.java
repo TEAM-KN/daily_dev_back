@@ -53,7 +53,9 @@ public class WoowahanAdaptor {
     }
     
     // Set Contents
-    public List<ContentsDto> setContents(Elements elements) {
+    public List<ContentsDto> getNewContents() {
+        Elements elements = this.getElement(this.getDocument());
+
         List<ContentsDto> contentsList = new ArrayList<>();
         
         for(Element element : elements) {
@@ -64,24 +66,26 @@ public class WoowahanAdaptor {
             String description = element.select("a > h1").next().text();
 
             Elements authorElement = element.children().select(".author > span");
-            String regDate = authorElement.get(0).text();
+            String regDtm = authorElement.get(0).text();
             String author = authorElement.get(1).text();
 
             if(!"".equals(link) && link != null) {
-                String[] dates = regDate.split("[.]");
-                regDate = dates[2] + "-" + DateType.valueOf(dates[0]).getMonth() + "-" + dates[1];
+                LocalDate regDtmParsing = LocalDate.parse(regDtm, DateTimeFormatter.ISO_DATE);
+                LocalDate nowDtm = LocalDate.now();
 
-                contentsDto.setLink(link);
-                contentsDto.setTitle(title);
-                contentsDto.setDescription(description);
-                contentsDto.setRegDtm(regDate);
-                contentsDto.setAuthor(author);
+                // Batch는 0시에 수행
+                if(nowDtm.minusDays(1).isEqual(regDtmParsing)) {
+                    contentsDto.setLink(link);
+                    contentsDto.setTitle(title);
+                    contentsDto.setDescription(description);
+                    contentsDto.setRegDtm(regDtm);
+                    contentsDto.setAuthor(author);
+                    contentsDto.setContentType(ContentsType.WOOWAHAN.getContentType());
+                    contentsDto.setCompanyCd(ContentsType.WOOWAHAN.getCompanyCd());
+                    contentsDto.setCompanyNm(ContentsType.WOOWAHAN.getCompanyNm());
 
-                contentsDto.setContentType(ContentsType.WOOWAHAN.getContentType());
-                contentsDto.setCompanyCd(ContentsType.WOOWAHAN.getCompanyCd());
-                contentsDto.setCompanyNm(ContentsType.WOOWAHAN.getCompanyNm());
-
-                contentsList.add(contentsDto);
+                    contentsList.add(contentsDto);
+                }
             }
         }
         
@@ -90,45 +94,48 @@ public class WoowahanAdaptor {
 
     // Init Contents
     public List<ContentsDto> initContents() {
-        Document doc = getDocument();
-        Elements elements = getElement(doc);
-        List<ContentsDto> contents = setContents(elements);
+        List<ContentsDto> contents = getNewContents();
 
         return contents;
     }
 
     // New Contents Checking
-    public List<ContentsEntity> getNewContents() {
-        Document doc = getDocument();
-        Elements elements = getElement(doc);
-        List<ContentsDto> contents = setContents(elements);
-
-        List<ContentsDto> newContents = new ArrayList<>();
-        LocalDate nowDtm = LocalDate.now();
-
-        for(ContentsDto content : contents) {
-            String regDtm = content.getRegDtm();
-            LocalDate regDtmParsing = LocalDate.parse(regDtm, DateTimeFormatter.ISO_DATE);
-
-            // Batch는 0시에 수행
-            if(nowDtm.minusDays(1).isEqual(regDtmParsing)) {
-                newContents.add(content);
-            }
-        }
-
-        return contents.stream().map(content ->
-            new ModelMapper().map(content, ContentsEntity.class)
-        ).collect(Collectors.toList());
-
-
-    }
+//    public List<ContentsEntity> getNewContents() {
+//        Document doc = getDocument();
+//        Elements elements = getElement(doc);
+//        List<ContentsDto> contents = setContents(elements);
+//
+//        List<ContentsDto> newContents = new ArrayList<>();
+//        LocalDate nowDtm = LocalDate.now();
+//
+//        for(ContentsDto content : contents) {
+//            String regDtm = content.getRegDtm();
+//            LocalDate regDtmParsing = LocalDate.parse(regDtm, DateTimeFormatter.ISO_DATE);
+//
+//            // Batch는 0시에 수행
+//            if(nowDtm.minusDays(1).isEqual(regDtmParsing)) {
+//                newContents.add(content);
+//            }
+//        }
+//
+//        return contents.stream().map(content ->
+//            new ModelMapper().map(content, ContentsEntity.class)
+//        ).collect(Collectors.toList());
+//
+//
+//    }
 
     // New Contents Update (Batch)
     public List<ContentsEntity> newContentsUpdate() {
-        List<ContentsEntity> newContents = getNewContents();
-        List<ContentsEntity> rsEntity = contentsRepository.saveAll(newContents);
-        return rsEntity;
+        List<ContentsDto> newContents = this.getNewContents();
 
+        List<ContentsEntity> rqEntity = newContents.stream().map(newContent ->
+                new ModelMapper().map(newContent, ContentsEntity.class)).collect(Collectors.toList());
+
+        if(!rqEntity.isEmpty()) {
+            return contentsRepository.saveAll(rqEntity);
+        }
+        return rqEntity;
     }
 }
 

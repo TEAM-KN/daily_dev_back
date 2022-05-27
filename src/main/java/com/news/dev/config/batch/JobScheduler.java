@@ -43,7 +43,7 @@ public class JobScheduler {
         }
     }
 
-    @Scheduled(cron = "0 8 * * * *") // 매일 오전 8시
+    @Scheduled(cron = "0 0 8 * * *") // 매일 오전 8시
     public void mailJobBatch() {
 
         JobParameters jobParameters = new JobParametersBuilder()

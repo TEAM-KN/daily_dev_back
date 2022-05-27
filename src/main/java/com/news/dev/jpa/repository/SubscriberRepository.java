@@ -1,7 +1,7 @@
 package com.news.dev.jpa.repository;
 
 import com.news.dev.api.subscriber.dto.SubscriberDto;
-import com.news.dev.auth.user.entity.QUserEntity;
+import com.news.dev.jpa.entity.QUserEntity;
 import com.news.dev.jpa.entity.UserEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;

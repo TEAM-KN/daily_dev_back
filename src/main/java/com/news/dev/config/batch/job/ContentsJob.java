@@ -1,6 +1,8 @@
 package com.news.dev.config.batch.job;
 
+import com.news.dev.adaptor.KakaoAdaptor;
 import com.news.dev.adaptor.WoowahanAdaptor;
+import com.news.dev.api.contents.dto.ContentsDto;
 import com.news.dev.jpa.entity.ContentsEntity;
 
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,7 @@ public class ContentsJob {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final WoowahanAdaptor woowahanAdaptor;
+    private final KakaoAdaptor kakaoAdaptor;
 
 
     @Bean
@@ -37,36 +40,17 @@ public class ContentsJob {
     public Job NewContentsJob() {
         Job job = jobBuilderFactory.get("newContentsJob")
                 .incrementer(new RunIdIncrementer())
-                .start(NewContentsStep1())
-                .on("FAILED")
-                .end()
-                .from(NewContentsStep1())
-                .on("*")
-                .to(NewContentsStep2())
-                .end()
+                .start(NewContentsStep())
                 .build();
         return job;
     }
 
-    public Step NewContentsStep1() {
-        return stepBuilderFactory.get("newContentsStep1")
-                .tasklet(((stepContribution, chunkContext) -> {
-                    List<ContentsEntity> newContents = woowahanAdaptor.getNewContents();
-
-                    if(0 == newContents.size()) {
-                        log.info("Contents is not Update");
-                        stepContribution.setExitStatus(ExitStatus.FAILED);
-                    }
-
-                    return RepeatStatus.FINISHED;
-                })).build();
-    }
-
     @Bean
-    public Step NewContentsStep2() {
-        return stepBuilderFactory.get("newContentsStep2")
+    public Step NewContentsStep() {
+        return stepBuilderFactory.get("newContentsStep")
                 .tasklet(((stepContribution, chunkContext) -> {
                     woowahanAdaptor.newContentsUpdate();
+                    kakaoAdaptor.newContentsUpdate();
 
                     return RepeatStatus.FINISHED;
                 })).build();

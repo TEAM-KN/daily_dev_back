@@ -6,6 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ContentsRequest {
-    // 조회할 기술블로그
-    private ContentsType contentsType;
+
+    private String companyCd; // 회사 코드
 }

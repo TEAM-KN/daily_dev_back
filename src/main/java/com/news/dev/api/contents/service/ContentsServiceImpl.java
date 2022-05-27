@@ -1,5 +1,6 @@
 package com.news.dev.api.contents.service;
 
+import com.news.dev.adaptor.KakaoAdaptor;
 import com.news.dev.adaptor.WoowahanAdaptor;
 import com.news.dev.api.contents.dto.ContentsDto;
 import com.news.dev.api.contents.dto.ContentsResponse;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 public class ContentsServiceImpl implements ContentsService {
 
     private final WoowahanAdaptor woowahanAdaptor;
+    private final KakaoAdaptor kakaoAdaptor;
     private final ContentsRepository contentsRepository;
 
     @Override

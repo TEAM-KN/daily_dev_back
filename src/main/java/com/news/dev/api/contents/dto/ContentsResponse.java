@@ -14,4 +14,6 @@ public class ContentsResponse {
     private String link; // 기술블로그 링크
     private String regDtm; // 등록일시
     private String author; // 작성자
+    private String contentsType; // 블로그 or 뉴스
+    private String companyCd; // 회사 코드
 }
