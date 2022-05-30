@@ -29,7 +29,7 @@ public class JobScheduler {
     private final Job MailJob;
 
 
-    @Scheduled(cron = "0 0 6 * * *") // 매일 오전 6시
+    @Scheduled(cron = "0 0 1 * * *") // 매일 오전 1시
     public void contentsJobBatch() {
 
         JobParameters jobParameters = new JobParametersBuilder()
