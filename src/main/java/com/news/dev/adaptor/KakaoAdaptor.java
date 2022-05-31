@@ -15,6 +15,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,16 +65,23 @@ public class KakaoAdaptor {
             String description = element.select(".elementor-post__excerpt").select("p").text();
 
             if(!"".equals(link) && link != null) {
-                contentsDto.setLink(link);
-                contentsDto.setTitle(title);
-                contentsDto.setAuthor(author);
-                contentsDto.setRegDtm(regDate.replace(".", "-"));
-                contentsDto.setDescription(description);
-                contentsDto.setContentType(ContentsType.KAKAO.getContentType());
-                contentsDto.setCompanyCd(ContentsType.KAKAO.getCompanyCd());
-                contentsDto.setCompanyNm(ContentsType.KAKAO.getCompanyNm());
+                LocalDate regDtmParsing = LocalDate.parse(regDate, DateTimeFormatter.ISO_DATE);
+                LocalDate nowDtm = LocalDate.now();
+
+                if(nowDtm.minusDays(1).isEqual(regDtmParsing)) {
+                    contentsDto.setLink(link);
+                    contentsDto.setTitle(title);
+                    contentsDto.setAuthor(author);
+                    contentsDto.setRegDtm(regDate.replace(".", "-"));
+                    contentsDto.setDescription(description);
+                    contentsDto.setContentType(ContentsType.KAKAO.getContentType());
+                    contentsDto.setCompanyCd(ContentsType.KAKAO.getCompanyCd());
+                    contentsDto.setCompanyNm(ContentsType.KAKAO.getCompanyNm());
+
+                    contentsList.add(contentsDto);
+                }
             }
-            contentsList.add(contentsDto);
+
         }
 
         return contentsList;

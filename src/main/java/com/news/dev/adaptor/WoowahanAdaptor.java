@@ -73,7 +73,7 @@ public class WoowahanAdaptor {
                 LocalDate regDtmParsing = LocalDate.parse(regDtm, DateTimeFormatter.ISO_DATE);
                 LocalDate nowDtm = LocalDate.now();
 
-                // Batch는 0시에 수행
+                // 하루 전 컨텐츠 추출
                 if(nowDtm.minusDays(1).isEqual(regDtmParsing)) {
                     contentsDto.setLink(link);
                     contentsDto.setTitle(title);
