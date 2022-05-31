@@ -70,6 +70,9 @@ public class WoowahanAdaptor {
             String author = authorElement.get(1).text();
 
             if(!"".equals(link) && link != null) {
+                String[] dates = regDtm.split("[.]");
+                regDtm = dates[2] + "-" + DateType.valueOf(dates[0]).getMonth() + "-" + dates[1];
+
                 LocalDate regDtmParsing = LocalDate.parse(regDtm, DateTimeFormatter.ISO_DATE);
                 LocalDate nowDtm = LocalDate.now();
 
