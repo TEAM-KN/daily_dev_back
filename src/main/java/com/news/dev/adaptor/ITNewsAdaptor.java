@@ -3,7 +3,7 @@ package com.news.dev.adaptor;
 
 import com.news.dev.api.contents.dto.ContentsDto;
 import com.news.dev.jpa.repository.ContentsRepository;
-import com.news.dev.exception.UrlConnectionException;
+import com.news.dev.response.exception.UrlConnectionException;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;

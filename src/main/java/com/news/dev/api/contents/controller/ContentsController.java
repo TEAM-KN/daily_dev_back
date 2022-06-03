@@ -4,6 +4,7 @@ import com.news.dev.api.contents.dto.ContentsRequest;
 import com.news.dev.api.contents.dto.ContentsResponse;
 import com.news.dev.api.contents.service.ContentsService;
 import com.news.dev.api.mail.service.MailService;
+import com.news.dev.response.ResponseEntityHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,23 +18,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/contents")
 @RequiredArgsConstructor
-public class ContentsController {
+public class ContentsController extends ResponseEntityHandler {
 
     private final ContentsService contentsService;
     private final MailService mailService;
 
-
-    @GetMapping("/cache/test")
-    public String test() {
-
-        return "API TEST";
-    }
-
     @GetMapping("/list")
-    public ResponseEntity<List<ContentsResponse>> list(@RequestBody ContentsRequest rq) {
+    public ResponseEntity<Object> list(@RequestBody ContentsRequest rq) {
         List<ContentsResponse> rs = contentsService.list();
 
-        return ResponseEntity.status(HttpStatus.OK).body(rs);
+        return success(rs);
     }
 
     @GetMapping("/update")

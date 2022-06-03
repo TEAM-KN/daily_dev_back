@@ -5,7 +5,7 @@ import com.news.dev.api.contents.dto.ContentsType;
 import com.news.dev.api.contents.dto.DateType;
 import com.news.dev.jpa.entity.ContentsEntity;
 import com.news.dev.jpa.repository.ContentsRepository;
-import com.news.dev.exception.UrlConnectionException;
+import com.news.dev.response.exception.UrlConnectionException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;

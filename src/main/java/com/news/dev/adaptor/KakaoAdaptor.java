@@ -2,7 +2,7 @@ package com.news.dev.adaptor;
 
 import com.news.dev.api.contents.dto.ContentsDto;
 import com.news.dev.api.contents.dto.ContentsType;
-import com.news.dev.exception.UrlConnectionException;
+import com.news.dev.response.exception.UrlConnectionException;
 import com.news.dev.jpa.entity.ContentsEntity;
 import com.news.dev.jpa.repository.ContentsRepository;
 import lombok.RequiredArgsConstructor;
