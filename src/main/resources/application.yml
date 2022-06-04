@@ -32,11 +32,17 @@ spring:
           starttls.enable: true
     default-encoding: UTF-8
 server:
+  tomcat:
+    accesslog:
+      enabled: true
+      directory: /logs
+      suffix: .log
+      prefix: dlog
+      file-date-format: yyyy-mm-dd
+      pattern: common
+    basedir: /app/data
   webfileDir: /app/data/file
   port: 8082
-logging:
-  file:
-    name: /app/data/log/dlog.log
 token:
   expiration_time : 1000L * 60 * 30 # 하루
   secret: user_token
@@ -51,4 +57,7 @@ kakao: # 카카오 기술블로그
   blog:
     url: https://tech.kakao.com/blog/
 
+logging:
+  file:
+    name: /app/data/log/dlog.log
 
