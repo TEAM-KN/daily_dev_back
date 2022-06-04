@@ -1,5 +1,7 @@
 server:
+  webfileDir: /app/data/dlog.log
   port: 8082
+
 spring:
   profiles:
     include:
@@ -34,13 +36,9 @@ spring:
           starttls.enable: true
     default-encoding: UTF-8
 
-
-
 token:
   expiration_time : 1000L * 60 * 30 # 하루
   secret: user_token
-
-
 
 woowahan: # 우아한 형제들 기술블로그
   blog:
@@ -51,3 +49,7 @@ naver: # 네이버 IT 뉴스
 kakao: # 카카오 기술블로그
   blog:
     url: https://tech.kakao.com/blog/
+
+logging:
+  file:
+    name: /app/data/dlog.log
