@@ -32,15 +32,6 @@ spring:
           starttls.enable: true
     default-encoding: UTF-8
 server:
-  tomcat:
-    accesslog:
-      enabled: true
-      directory: /logs
-      suffix: .log
-      prefix: dlog
-      file-date-format: yyyy-mm-dd
-      pattern: common
-    basedir: /app/data
   webfileDir: /app/data/file
   port: 8082
 token:
