@@ -1,9 +1,6 @@
 package com.news.dev.auth.user.service;
 
-import com.news.dev.auth.user.dto.UserDto;
-import com.news.dev.auth.user.dto.UserJoinRequest;
-import com.news.dev.auth.user.dto.UserLoginRequest;
-import com.news.dev.auth.user.dto.UserLoginResponse;
+import com.news.dev.auth.user.dto.*;
 
 public interface UserService {
 
@@ -11,4 +8,5 @@ public interface UserService {
     UserLoginResponse login(UserLoginRequest loginRq) throws Exception;
     UserDto getUserByUsername(String email) throws Exception;
 
+    UserDto refresh(UserDto user) throws Exception;
 }

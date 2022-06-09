@@ -61,7 +61,7 @@ public class KakaoAdaptor {
             String link = element.select(".elementor-post__text > h3").select("a").attr("href");
             String title = element.select(".elementor-post__text > h3").select("a").text();
             String author = element.select(".elementor-post__meta-data").select(".elementor-post-author").text();
-            String regDate = element.select(".elementor-post__meta-data").select(".elementor-post-date").text();
+            String regDate = element.select(".elementor-post__meta-data").select(".elementor-post-date").text().replace(".", "-");
             String description = element.select(".elementor-post__excerpt").select("p").text();
 
             if(!"".equals(link) && link != null) {

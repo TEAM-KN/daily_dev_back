@@ -1,9 +1,6 @@
 package com.news.dev.auth.user.service;
 
-import com.news.dev.auth.user.dto.UserDto;
-import com.news.dev.auth.user.dto.UserJoinRequest;
-import com.news.dev.auth.user.dto.UserLoginRequest;
-import com.news.dev.auth.user.dto.UserLoginResponse;
+import com.news.dev.auth.user.dto.*;
 import com.news.dev.jpa.entity.UserEntity;
 import com.news.dev.jpa.repository.UserRepository;
 import com.news.dev.util.JwtTokenUtil;
@@ -45,9 +42,15 @@ public class UserServiceImpl implements UserService {
         if(userEntity == null) {
             throw new UsernameNotFoundException("User Not Found");
         }
-        UserLoginResponse loginRs = new ModelMapper().map(userEntity, UserLoginResponse.class);
+        String accessToken = jwtTokenUtil.createToken(userEntity.getUsername());
+        String refreshToken = jwtTokenUtil.createRefreshToken();
 
-        loginRs.setToken(jwtTokenUtil.createToken(loginRs.getUsername()));
+        userEntity.setToken(refreshToken);
+        userRepository.save(userEntity);
+
+        UserLoginResponse loginRs = new ModelMapper().map(userEntity, UserLoginResponse.class);
+        loginRs.setAccessToken(accessToken);
+        loginRs.setRefreshToken(refreshToken);
 
         return loginRs;
     }
@@ -63,5 +66,28 @@ public class UserServiceImpl implements UserService {
 
         UserDto resultUser = new ModelMapper().map(userEntity, UserDto.class);
         return resultUser;
+    }
+
+    @Override
+    public UserDto refresh(UserDto user) throws Exception {
+        /* 구독자 조회 */
+        UserEntity refresh = userRepository.findByUserNoAndToken(user.getUserNo(), user.getRefreshToken());
+
+        if(refresh.getUserNo() == null && refresh.getToken() == null) {
+            throw new IllegalArgumentException();
+        }
+
+        String accessToken = jwtTokenUtil.createToken(refresh.getUsername());
+
+        UserDto refreshUser = new UserDto();
+        refreshUser.setUserNo(refresh.getUserNo());
+        refreshUser.setUsername(refresh.getUsername());
+        refreshUser.setNickname(refresh.getNickname());
+        refreshUser.setPwd(refresh.getPassword());
+        refreshUser.setSubscribeYn(refresh.getSubscribeYn());
+        refreshUser.setAccessToken(accessToken);
+        refreshUser.setRefreshToken(refresh.getToken());
+
+        return refreshUser;
     }
 }

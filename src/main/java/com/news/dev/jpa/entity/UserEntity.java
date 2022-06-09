@@ -36,4 +36,7 @@ public class UserEntity {
     @Column(name="SUBSCRIBE_YN")
     @ColumnDefault("N")
     private String subscribeYn;
+
+    @Column(name="TOKEN")
+    private String token;
 }

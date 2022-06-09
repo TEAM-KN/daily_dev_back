@@ -21,7 +21,8 @@ import java.util.Date;
 public class JwtTokenUtil {
 
     private String secretKey = "DEV_NEWS";
-    private final long tokenExpiration = 30 * 60 * 1000L; // 토큰 유효기간 (30분)
+    private final long accessTokenExpiration = 30 * 60 * 1000L; // 토큰 유효기간 (30분)
+    private final long refreshTokenExpiration = 1000L * 60 * 69 * 24 * 7;
 
     // Bean
     private final CustomUserDetailService customUserDetailService;
@@ -31,15 +32,26 @@ public class JwtTokenUtil {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    // Jwt Create
+    // Access Token Create
     public String createToken(String email) {
         Date now = new Date();
 
         return Jwts.builder()
             .setSubject(email)
-            .setExpiration(new Date(now.getTime() + tokenExpiration))
+            .setExpiration(new Date(now.getTime() + accessTokenExpiration))
             .signWith(SignatureAlgorithm.HS256, secretKey)
             .compact();
+    }
+
+    // Refresh Token Create
+    public String createRefreshToken() {
+        Date now = new Date();
+
+        return Jwts.builder()
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + refreshTokenExpiration))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
     }
 
     // Jwt 인증 정보 조회

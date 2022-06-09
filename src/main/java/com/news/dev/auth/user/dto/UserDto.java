@@ -19,5 +19,7 @@ public class UserDto {
     private LocalDateTime updateDtm;
     private Long userNo;
     private String subscribeYn;
+    private String accessToken;
+    private String refreshToken;
 
 }

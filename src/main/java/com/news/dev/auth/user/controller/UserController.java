@@ -1,9 +1,6 @@
 package com.news.dev.auth.user.controller;
 
-import com.news.dev.auth.user.dto.UserDto;
-import com.news.dev.auth.user.dto.UserJoinRequest;
-import com.news.dev.auth.user.dto.UserLoginRequest;
-import com.news.dev.auth.user.dto.UserLoginResponse;
+import com.news.dev.auth.user.dto.*;
 import com.news.dev.auth.user.service.UserService;
 import com.news.dev.response.ResponseEntityHandler;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +38,11 @@ public class UserController extends ResponseEntityHandler {
         UserDto responseDto = userService.getUserByUsername(requestDto.getUsername());
 
         return success(responseDto);
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<Object> refresh(@RequestBody UserDto user) {
+        return success(user);
     }
 
 }
