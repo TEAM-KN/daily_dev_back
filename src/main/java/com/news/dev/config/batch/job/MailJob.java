@@ -40,15 +40,29 @@ public class MailJob {
     @Bean
     public Job MailSendJob() {
         Job job = jobBuilderFactory.get("mailSendJob")
-                .incrementer(new RunIdIncrementer())
-                .start(MailStep1())
-                .on("FAILED")
-                .end()
-                .from(MailStep1())
+//            .incrementer(new RunIdIncrementer())
+//            .start(MailStep1())
+//                .on("FAILED")
+//                .to(FailMailStep())
+//                .on("*")
+//                .end()
+//            .from(MailStep1())
+//                .on("*")
+//                .to(MailStep2())
+//                .next(SuccessMailStep())
+//                .on("*")
+//                .end()
+//            .end()
+//            .build();
+            .incrementer(new RunIdIncrementer())
+            .start(MailStep1())
                 .on("*")
                 .to(MailStep2())
-                .end()
-                .build();
+                .on("*")
+               .end()
+            .end()
+            .build();
+
         return job;
     }
 
@@ -60,6 +74,9 @@ public class MailJob {
                     if(newContents.isEmpty()) {
                         log.info("Contents is not Update");
                         stepContribution.setExitStatus(ExitStatus.FAILED);
+                    } else {
+                        log.info("New Contents is Updated");
+                        stepContribution.setExitStatus(ExitStatus.COMPLETED);
                     }
 
                     return RepeatStatus.FINISHED;
@@ -86,7 +103,24 @@ public class MailJob {
                     // 메일 발송
                     mailUtil.sendEmail(address, newContents);
 
+                    return RepeatStatus.FINISHED;
+                })).build();
+    }
 
+    @Bean
+    public Step FailMailStep() {
+        return stepBuilderFactory.get("failMailStep")
+            .tasklet(((stepContribution, chunkContext) -> {
+                log.info("Fail Mail Step !");
+                return RepeatStatus.FINISHED;
+            })).build();
+    }
+
+    @Bean
+    public Step SuccessMailStep() {
+        return stepBuilderFactory.get("successMailStep")
+                .tasklet(((stepContribution, chunkContext) -> {
+                    log.info("Success Mail Step !");
                     return RepeatStatus.FINISHED;
                 })).build();
     }

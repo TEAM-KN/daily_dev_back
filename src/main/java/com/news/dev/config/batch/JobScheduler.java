@@ -1,5 +1,7 @@
 package com.news.dev.config.batch;
 
+import com.news.dev.config.batch.job.ContentsJob;
+import com.news.dev.config.batch.job.MailJob;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.launch.JobLauncher;
@@ -22,11 +24,9 @@ public class JobScheduler {
 
     private final JobLauncher jobLauncher;
 
-    @Qualifier("contentsJob")
-    private final Job ContentsJob;
+    private final ContentsJob contentsJob;
 
-    @Qualifier("mailJob")
-    private final Job MailJob;
+    private final MailJob mailJob;
 
 
     @Scheduled(cron = "0 0 1 * * *") // 매일 오전 1시
@@ -36,21 +36,21 @@ public class JobScheduler {
                                                 .addDate("date", new Date()).toJobParameters();
 
         try {
-            jobLauncher.run(ContentsJob, jobParameters);
+            jobLauncher.run(contentsJob.NewContentsJob(), jobParameters);
         } catch (JobParametersInvalidException | JobExecutionAlreadyRunningException
                 | org.springframework.batch.core.repository.JobRestartException | JobInstanceAlreadyCompleteException e) {
             log.error("error msg : " + e);
         }
     }
 
-    @Scheduled(cron = "0 0 8 * * *") // 매일 오전 8시
+    @Scheduled(cron = "0 0 9 * * *") // 매일 오전 9시
     public void mailJobBatch() {
 
         JobParameters jobParameters = new JobParametersBuilder()
                 .addDate("date", new Date()).toJobParameters();
 
         try {
-            jobLauncher.run(MailJob, jobParameters);
+            jobLauncher.run(mailJob.MailSendJob(), jobParameters);
         } catch (JobParametersInvalidException | JobExecutionAlreadyRunningException
                  | org.springframework.batch.core.repository.JobRestartException | JobInstanceAlreadyCompleteException e) {
             log.error("error msg : " + e);

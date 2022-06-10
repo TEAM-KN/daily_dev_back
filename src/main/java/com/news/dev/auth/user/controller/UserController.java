@@ -41,7 +41,8 @@ public class UserController extends ResponseEntityHandler {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<Object> refresh(@RequestBody UserDto user) {
+    public ResponseEntity<Object> refresh(@RequestBody UserDto user) throws Exception {
+        userService.refresh(user);
         return success(user);
     }
 
