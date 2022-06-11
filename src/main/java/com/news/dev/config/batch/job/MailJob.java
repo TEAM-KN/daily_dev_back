@@ -97,11 +97,16 @@ public class MailJob {
                     }
 
                     // New 컨텐츠
-                    Map newContents = new HashMap();
-                    newContents.put("contents", customContentsRepository.findNewContents());
+                    Map contents = new HashMap();
+                    List<ContentsEntity> newContents =  customContentsRepository.findNewContents();
+                    contents.put("contents", newContents);
 
-                    // 메일 발송
-                    mailUtil.sendEmail(address, newContents);
+                    if(newContents.isEmpty()) {
+                        log.info("NewContents is Empty !");
+                    } else {
+                        // 메일 발송
+                       mailUtil.sendEmail(address, contents);
+                    }
 
                     return RepeatStatus.FINISHED;
                 })).build();
