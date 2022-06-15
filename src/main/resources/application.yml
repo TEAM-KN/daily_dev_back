@@ -47,4 +47,8 @@ kakao: # 카카오 기술블로그
   blog:
     url: https://tech.kakao.com/blog/
 
-
+logging:
+  level:
+    '*': info
+  file:
+    name: /app/data/log/dlog.log
