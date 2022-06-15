@@ -21,7 +21,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: schulnoh@gmail.com
-    password: vynvguqqhaaoxniq
+    password: tlyqufogkcbnttxu
     properties:
       mail:
         transport:
@@ -46,9 +46,3 @@ naver: # 네이버 IT 뉴스
 kakao: # 카카오 기술블로그
   blog:
     url: https://tech.kakao.com/blog/
-
-logging:
-  level:
-    '*': info
-  file:
-    name: /app/data/log/dlog.log
