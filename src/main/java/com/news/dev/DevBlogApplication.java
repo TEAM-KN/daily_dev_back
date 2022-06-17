@@ -9,7 +9,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 @EnableScheduling
-@EnableBatchProcessing
 public class DevBlogApplication {
 
     public static void main(String[] args) {

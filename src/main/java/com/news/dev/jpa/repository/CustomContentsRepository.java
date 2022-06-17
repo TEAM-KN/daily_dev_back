@@ -5,6 +5,7 @@ import com.news.dev.jpa.entity.QContentsEntity;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,6 +16,7 @@ public class CustomContentsRepository {
 
     private final JPAQueryFactory query;
 
+    @Transactional(readOnly = true)
     public List<ContentsEntity> findNewContents() {
         QContentsEntity qContents = QContentsEntity.contentsEntity;
 
