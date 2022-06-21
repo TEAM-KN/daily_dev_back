@@ -2,11 +2,9 @@ package com.news.dev.config.batch;
 
 import com.news.dev.config.batch.job.ContentsJob;
 import com.news.dev.config.batch.job.MailJob;
-import com.news.dev.config.batch.job.TestJob;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.launch.JobLauncher;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 
 import org.springframework.batch.core.*;
@@ -24,11 +22,8 @@ import java.util.Date;
 public class JobScheduler {
 
     private final JobLauncher jobLauncher;
-
     private final ContentsJob contentsJob;
-
     private final MailJob mailJob;
-    private final TestJob testJob;
 
     @Scheduled(cron = "0 0 1 * * *") // 매일 오전 1시
     public void contentsJobBatch() {
