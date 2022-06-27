@@ -51,7 +51,7 @@ public class KakaoAdaptor {
     }
 
     // Set Contents
-    public List<ContentsDto> getNewContents() {
+    public List<ContentsEntity> getNewContents() {
         Elements elements = this.getElements(this.getDocument());
         List<ContentsDto> contentsList = new ArrayList<>();
 
@@ -81,19 +81,21 @@ public class KakaoAdaptor {
                     contentsList.add(contentsDto);
                 }
             }
-
         }
 
-        return contentsList;
-    }
-
-    public List<ContentsEntity> newContentsUpdate() {
-        List<ContentsDto> newContents = getNewContents();
-
-        List<ContentsEntity> rqEntity = newContents.stream().map(newContent ->
+        List<ContentsEntity> contents = contentsList.stream().map(newContent ->
                 new ModelMapper().map(newContent, ContentsEntity.class)).collect(Collectors.toList());
 
-        List<ContentsEntity> rsEntity = contentsRepository.saveAll(rqEntity);
-        return rsEntity;
+        return contents;
     }
+
+//    public List<ContentsEntity> newContentsUpdate() {
+//        List<ContentsDto> newContents = getNewContents();
+//
+//        List<ContentsEntity> rqEntity = newContents.stream().map(newContent ->
+//                new ModelMapper().map(newContent, ContentsEntity.class)).collect(Collectors.toList());
+//
+//        List<ContentsEntity> rsEntity = contentsRepository.saveAll(rqEntity);
+//        return rsEntity;
+//    }
 }

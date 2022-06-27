@@ -53,7 +53,7 @@ public class WoowahanAdaptor {
     }
     
     // Set Contents
-    public List<ContentsDto> getNewContents() {
+    public List<ContentsEntity> getNewContents() {
         Elements elements = this.getElement(this.getDocument());
 
         List<ContentsDto> contentsList = new ArrayList<>();
@@ -91,16 +91,20 @@ public class WoowahanAdaptor {
                 }
             }
         }
-        
-        return contentsList;
-    }
 
-    // Init Contents
-    public List<ContentsDto> initContents() {
-        List<ContentsDto> contents = getNewContents();
+        List<ContentsEntity> contents = contentsList.stream().map(content ->
+                new ModelMapper().map(content, ContentsEntity.class)
+        ).collect(Collectors.toList());
 
         return contents;
     }
+
+    // Init Contents
+//    public List<ContentsDto> initContents() {
+//        List<ContentsDto> contents = getNewContents();
+//
+//        return contents;
+//    }
 
     // New Contents Checking
 //    public List<ContentsEntity> getNewContents() {
@@ -129,17 +133,17 @@ public class WoowahanAdaptor {
 //    }
 
     // New Contents Update (Batch)
-    public List<ContentsEntity> newContentsUpdate() {
-        List<ContentsDto> newContents = this.getNewContents();
-
-        List<ContentsEntity> rqEntity = newContents.stream().map(newContent ->
-                new ModelMapper().map(newContent, ContentsEntity.class)).collect(Collectors.toList());
-
-        if(!rqEntity.isEmpty()) {
-            return contentsRepository.saveAll(rqEntity);
-        }
-        return rqEntity;
-    }
+//    public List<ContentsEntity> newContentsUpdate() {
+//        List<ContentsDto> newContents = this.getNewContents();
+//
+//        List<ContentsEntity> rqEntity = newContents.stream().map(newContent ->
+//                new ModelMapper().map(newContent, ContentsEntity.class)).collect(Collectors.toList());
+//
+//        if(!rqEntity.isEmpty()) {
+//            return contentsRepository.saveAll(rqEntity);
+//        }
+//        return rqEntity;
+//    }
 }
 
 
