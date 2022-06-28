@@ -1,19 +1,24 @@
 package com.news.dev.config.batch;
 
+import com.news.dev.api.subscriber.dto.SubscriberDto;
 import com.news.dev.jpa.entity.ContentsEntity;
+import com.news.dev.jpa.entity.UserEntity;
+import com.news.dev.jpa.repository.UserRepository;
 import com.news.dev.util.MailUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
 import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JpaCursorItemReader;
 import org.springframework.batch.item.database.builder.JpaCursorItemReaderBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -32,33 +37,40 @@ public class SendMailConfiguration {
     private final EntityManagerFactory entityManagerFactory;
     private final MailUtil mailUtil;
 
+    private StepShareContext<ContentsEntity> shareContents;
+
     @Bean
     public Job sendMailJob() throws Exception {
         return jobBuilderFactory.get("sendMailJbo")
                 .incrementer(new RunIdIncrementer())
-                .start(getContentsStep())
+                .start(getContentsStep(null))
+                .next(getSubscriberStep())
                 .build();
     }
 
     @Bean
-    public Step sendMailStep() {
-        return stepBuilderFactory.get("sendMailStep")
-                .<ContentsEntity, ContentsEntity>chunk(10)
-                .reader()
-                .writer()
-    }
-
-    @Bean
-    public Step getContentsStep() throws Exception {
+    @StepScope
+    public Step getContentsStep(@Value("#{jobParameters[reqeustDate]}") String requestDate) throws Exception {
         return stepBuilderFactory.get("getContentsStep")
                 .<ContentsEntity, ContentsEntity>chunk(10)
                 .reader(contentsItemReader())
                 .writer(contentsItemWriter())
+                .build();
+    }
+
+    @Bean
+    public Step getSubscriberStep() throws Exception {
+        return stepBuilderFactory.get("getSubscriberStep")
+                .<UserEntity, UserEntity>chunk(10)
+                .reader(subscriberItemReader())
+                .writer(subscriberItemWriter())
+                .build();
     }
 
     private ItemWriter<? super ContentsEntity> contentsItemWriter() {
         return items -> {
-            log.info("items size : {}", items.size());
+            log.info("new contents size : {}", items.size());
+            shareContents.putContentsData("sendContents", items);
         };
     }
 
@@ -76,6 +88,36 @@ public class SendMailConfiguration {
         contentsItemReader.afterPropertiesSet();
 
         return contentsItemReader;
+    }
+
+    private ItemWriter<? super UserEntity> subscriberItemWriter() {
+        return items -> {
+            log.info("subscriber size : {}", items.size());
+
+            String[] address = new String[items.size()];
+            Map<String,Object> contents = (Map<String, Object>) shareContents.getContentsData("sendContents");
+
+            // 메일 주소(구독자 ID) 추출
+            for(int i=0; i<items.size(); i++) {
+                address[i] = items.get(i).getUsername();
+            }
+
+            mailUtil.sendEmail(address, contents);
+        };
+
+    }
+
+    private ItemReader<? extends UserEntity> subscriberItemReader() throws Exception {
+
+        JpaCursorItemReader<UserEntity> itemReaderBuilder = new JpaCursorItemReaderBuilder<UserEntity>()
+                .name("getSubscriberReader")
+                .entityManagerFactory(entityManagerFactory)
+                .queryString("select u from UserEntity where p.subscribeYn = 'Y'")
+                .build();
+
+        itemReaderBuilder.afterPropertiesSet();
+
+        return itemReaderBuilder;
     }
 
 }
