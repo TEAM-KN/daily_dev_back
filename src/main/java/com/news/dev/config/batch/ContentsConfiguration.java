@@ -8,11 +8,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
+import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.batch.item.database.builder.JpaItemWriterBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -37,15 +39,16 @@ public class ContentsConfiguration {
     public Job contentsJob() throws Exception {
         return jobBuilderFactory.get("contentsJob")
                 .incrementer(new RunIdIncrementer())
-                .start(this.contentsStep())
+                .start(this.contentsStep(null))
                 .build();
     }
 
     @Bean
-    public Step contentsStep() throws Exception {
+    @JobScope
+    public Step contentsStep(@Value("#{jobParameters[requestDate]}") String requestDate) throws Exception {
         return stepBuilderFactory.get("contentsStep")
                 .<ContentsEntity, ContentsEntity>chunk(10)
-                .reader(new ContentsItemReader(getContents()))
+                .reader(new ContentsItemReader(getContents(requestDate)))
                 .writer(this.contentsWriter())
                 .build();
     }
@@ -61,10 +64,10 @@ public class ContentsConfiguration {
         return jpaItemWriter;
     }
 
-    private List<ContentsEntity> getContents() {
+    private List<ContentsEntity> getContents(String requestDate) {
 
-        List<ContentsEntity> woowahanContents = woowahanAdaptor.getNewContents();
-        List<ContentsEntity> kakaoContents = kakaoAdaptor.getNewContents();
+        List<ContentsEntity> woowahanContents = woowahanAdaptor.getNewContents(requestDate);
+        List<ContentsEntity> kakaoContents = kakaoAdaptor.getNewContents(requestDate);
 
         List<ContentsEntity>  items = Stream.of(woowahanContents, kakaoContents)
                 .flatMap(c -> c.stream())

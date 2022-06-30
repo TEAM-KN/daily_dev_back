@@ -42,13 +42,13 @@ public class ContentsServiceImpl implements ContentsService {
     @Override
     public void update() {
         // 1. Contents Update
-        List<ContentsDto> contents = woowahanAdaptor.initContents();
-
-
-        List<ContentsEntity> contentsEntityList = contents.stream().map(
-                content -> new ModelMapper().map(content, ContentsEntity.class)
-            ).collect(Collectors.toList());
-
-        contentsRepository.saveAll(contentsEntityList);
+//        List<ContentsDto> contents = woowahanAdaptor.initContents();
+//
+//
+//        List<ContentsEntity> contentsEntityList = contents.stream().map(
+//                content -> new ModelMapper().map(content, ContentsEntity.class)
+//            ).collect(Collectors.toList());
+//
+//        contentsRepository.saveAll(contentsEntityList);
     }
 }

@@ -14,36 +14,21 @@ import java.util.concurrent.ConcurrentHashMap;
 public class StepShareContext <T> {
 
     private Map<String, T> contentsData;
-    private Map<String, T> subscriberData;
 
     public StepShareContext() {
         this.contentsData = new ConcurrentHashMap<>();
-        this.subscriberData = new ConcurrentHashMap<>();
     }
 
     public void putContentsData(String key, List<? extends ContentsEntity> data) {
-        if(contentsData.isEmpty()) return;
+        if(contentsData == null) return;
 
         contentsData.put(key, (T) data);
     }
 
     public T getContentsData(String key) {
-        if(contentsData.isEmpty()) return null;
+        if(contentsData == null) return null;
 
         return contentsData.get(key);
     }
-
-    public void putSubscriberData(String key, List<? extends UserEntity> data) {
-        if(subscriberData.isEmpty()) return;
-
-        subscriberData.put(key, (T) data);
-    }
-
-    public T getSubscriberData(String key) {
-        if(subscriberData.isEmpty()) return null;
-
-        return subscriberData.get(key);
-    }
-
 
 }

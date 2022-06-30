@@ -51,7 +51,7 @@ public class KakaoAdaptor {
     }
 
     // Set Contents
-    public List<ContentsEntity> getNewContents() {
+    public List<ContentsEntity> getNewContents(String requestDate) {
         Elements elements = this.getElements(this.getDocument());
         List<ContentsDto> contentsList = new ArrayList<>();
 
@@ -66,7 +66,8 @@ public class KakaoAdaptor {
 
             if(!"".equals(link) && link != null) {
                 LocalDate regDtmParsing = LocalDate.parse(regDate, DateTimeFormatter.ISO_DATE);
-                LocalDate nowDtm = LocalDate.now();
+//                LocalDate nowDtm = LocalDate.now();
+                LocalDate nowDtm = LocalDate.parse(requestDate);
 
                 if(nowDtm.minusDays(1).isEqual(regDtmParsing)) {
                     contentsDto.setLink(link);
