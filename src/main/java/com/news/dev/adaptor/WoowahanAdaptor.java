@@ -53,7 +53,7 @@ public class WoowahanAdaptor {
     }
     
     // Set Contents
-    public List<ContentsEntity> getNewContents() {
+    public List<ContentsEntity> getNewContents(String requestDate) {
         Elements elements = this.getElement(this.getDocument());
 
         List<ContentsDto> contentsList = new ArrayList<>();
