@@ -63,8 +63,8 @@ public class KakaoAdaptor {
 
             if(!"".equals(link) && link != null) {
                 LocalDate regDtmParsing = LocalDate.parse(regDate, DateTimeFormatter.ISO_DATE);
-//                LocalDate nowDtm = LocalDate.now();
-                LocalDate nowDtm = LocalDate.parse(requestDate);
+                LocalDate nowDtm = LocalDate.now();
+//                LocalDate nowDtm = LocalDate.parse(requestDate);
 
                 if(nowDtm.minusDays(1).isEqual(regDtmParsing)) {
                     contentsDto.setLink(link);
