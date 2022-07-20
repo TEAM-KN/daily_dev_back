@@ -22,11 +22,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-@RequiredArgsConstructor
 @Slf4j
 public class KakaoAdaptor {
-
-    private final ContentsRepository contentsRepository;
 
     @Value("${kakao.blog.url}")
     private String url;

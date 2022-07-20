@@ -1,4 +1,4 @@
-package com.news.dev.config.batch;
+package com.news.dev.config.batch.contents;
 
 import com.news.dev.adaptor.KakaoAdaptor;
 import com.news.dev.adaptor.WoowahanAdaptor;
@@ -25,8 +25,6 @@ public class ContentsItemReader<T> implements ItemReader {
     @Override
     public Object read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
 
-        if(!items.isEmpty()) return items;
-
-        return null;
+        return !this.items.isEmpty() ? this.items.remove(0) : null;
     }
 }

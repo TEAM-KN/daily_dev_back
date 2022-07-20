@@ -1,8 +1,9 @@
-package com.news.dev.config.batch;
+package com.news.dev.config.batch.contents;
 
 import com.news.dev.adaptor.KakaoAdaptor;
 import com.news.dev.adaptor.WoowahanAdaptor;
 import com.news.dev.jpa.entity.ContentsEntity;
+import com.news.dev.jpa.repository.ContentsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -28,26 +29,36 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor
 public class ContentsConfiguration {
 
+    private final String JOB_NAME = "contentsJob";
+
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory entityManagerFactory;
     private final WoowahanAdaptor woowahanAdaptor;
     private final KakaoAdaptor kakaoAdaptor;
+    private final ContentsRepository contentsRepository;
 
+    /*
+    * 배치 명 : New 컨텐츠 데이터 수집 배치 프로그
+    * 배치 실행 시간 : 매일 오전 1시
+    * 배치 Param : {requestDate} - 요청 시간
+    *
+    * */
 
-    @Bean
+    @Bean(JOB_NAME)
     public Job contentsJob() throws Exception {
-        return jobBuilderFactory.get("contentsJob")
+        return jobBuilderFactory.get(JOB_NAME)
                 .incrementer(new RunIdIncrementer())
                 .start(this.contentsStep(null))
+                .listener(new ContentsJobListener(contentsRepository))
                 .build();
     }
 
-    @Bean
+    @Bean(JOB_NAME + "_contentsStep")
     @JobScope
     public Step contentsStep(@Value("#{jobParameters[requestDate]}") String requestDate) throws Exception {
-        return stepBuilderFactory.get("contentsStep")
-                .<ContentsEntity, ContentsEntity>chunk(10)
+        return stepBuilderFactory.get(JOB_NAME + "_contentsStep")
+                .<ContentsEntity, ContentsEntity>chunk(1)
                 .reader(new ContentsItemReader(getContents(requestDate)))
                 .writer(this.contentsWriter())
                 .build();

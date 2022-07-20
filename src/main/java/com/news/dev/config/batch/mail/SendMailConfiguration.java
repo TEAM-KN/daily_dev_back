@@ -1,6 +1,7 @@
-package com.news.dev.config.batch;
+package com.news.dev.config.batch.mail;
 
 import com.news.dev.api.subscriber.dto.SubscriberDto;
+import com.news.dev.config.batch.StepShareContext;
 import com.news.dev.jpa.entity.ContentsEntity;
 import com.news.dev.jpa.entity.UserEntity;
 import com.news.dev.jpa.repository.UserRepository;
@@ -26,6 +27,7 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.EntityManagerFactory;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +37,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SendMailConfiguration {
 
+    private final String JOB_NAME = "sendMailJob";
+
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory entityManagerFactory;
@@ -42,31 +46,32 @@ public class SendMailConfiguration {
 
     private final StepShareContext<ContentsEntity> shareContents;
 
-    @Bean
+    @Bean(JOB_NAME)
     public Job sendMailJob() throws Exception {
-        return jobBuilderFactory.get("sendMailJob")
+        return jobBuilderFactory.get(JOB_NAME)
                 .incrementer(new RunIdIncrementer())
                 .start(getContentsStep(null))
-                .next(getSubscriberStep())
+                .next(sendMailStep())
+                .listener(new SendMailJobListener())
                 .build();
     }
 
-    @Bean
+    @Bean(JOB_NAME + "_getContentsStep")
     @JobScope
     public Step getContentsStep(@Value("#{jobParameters[requestDate]}") String requestDate) throws Exception {
-        return stepBuilderFactory.get("getContentsStep")
+        return stepBuilderFactory.get(JOB_NAME + "_getContentsStep")
                 .<ContentsEntity, ContentsEntity>chunk(10)
                 .reader(contentsItemReader(requestDate))
                 .writer(contentsItemWriter())
                 .build();
     }
 
-    @Bean
-    public Step getSubscriberStep() throws Exception {
-        return stepBuilderFactory.get("getSubscriberStep")
+    @Bean(JOB_NAME + "_sendMailStep")
+    public Step sendMailStep() throws Exception {
+        return stepBuilderFactory.get(JOB_NAME + "_sendMailStep")
                 .<UserEntity, UserEntity>chunk(10)
-                .reader(subscriberItemReader())
-                .writer(subscriberItemWriter())
+                .reader(this.sendMailItemReader())
+                .writer(this.sendMailItemWriter())
                 .build();
     }
 
@@ -79,10 +84,12 @@ public class SendMailConfiguration {
 
     private ItemReader<? extends ContentsEntity> contentsItemReader(String requestDate) throws Exception {
         Map<String, Object> param = new HashMap<>();
-        param.put("now", requestDate);
+//        param.put("now", requestDate);
+        param.put("now", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+
 
         JpaCursorItemReader<ContentsEntity> contentsItemReader = new JpaCursorItemReaderBuilder<ContentsEntity>()
-                .name("contentsItemReader")
+                .name(JOB_NAME + "_contentsItemReader")
                 .entityManagerFactory(entityManagerFactory)
                 .queryString("select c from ContentsEntity c where date_format(c.updDtm, '%Y-%m-%d') >= :now")
                 .parameterValues(param)
@@ -93,7 +100,7 @@ public class SendMailConfiguration {
         return contentsItemReader;
     }
 
-    private ItemWriter<? super UserEntity> subscriberItemWriter() {
+    private ItemWriter<? super UserEntity> sendMailItemWriter() {
         return items -> {
             log.info("subscriber size : {}", items.size());
 
@@ -117,10 +124,10 @@ public class SendMailConfiguration {
 
     }
 
-    private ItemReader<? extends UserEntity> subscriberItemReader() throws Exception {
+    private ItemReader<? extends UserEntity> sendMailItemReader() throws Exception {
 
         JpaCursorItemReader<UserEntity> itemReaderBuilder = new JpaCursorItemReaderBuilder<UserEntity>()
-                .name("getSubscriberReader")
+                .name(JOB_NAME + "_sendMailItemReader")
                 .entityManagerFactory(entityManagerFactory)
                 .queryString("select u from UserEntity u where u.subscribeYn = 'Y'")
                 .build();

@@ -1,5 +1,7 @@
 package com.news.dev.config.batch;
 
+import com.news.dev.config.batch.contents.ContentsConfiguration;
+import com.news.dev.config.batch.mail.SendMailConfiguration;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.launch.JobLauncher;
