@@ -4,3 +4,10 @@ spring:
     url: jdbc:mysql://scnohdb.cscks1c1hr2u.us-west-1.rds.amazonaws.com/DEV_DB?characterEncoding=UTF-8&autoReconnect=true&useSSL=false
     username: scnoh
     password: scnoh0760!
+#    hikari:
+#      driver-class-name: org.h2.Driver
+#      username: sa
+#      password: 1234
+#    h2:
+#      console:
+#        enabled: true

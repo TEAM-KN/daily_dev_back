@@ -34,7 +34,7 @@ public class UserEntity {
     private LocalDateTime joinDtm;
 
     @Column(name="SUBSCRIBE_YN")
-    @ColumnDefault("N")
+//    @ColumnDefault("N")
     private String subscribeYn;
 
     @Column(name="TOKEN")

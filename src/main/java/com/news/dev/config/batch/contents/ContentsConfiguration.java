@@ -39,7 +39,7 @@ public class ContentsConfiguration {
     private final ContentsRepository contentsRepository;
 
     /*
-    * 배치 명 : New 컨텐츠 데이터 수집 배치 프로그
+    * 배치 명 : New 컨텐츠 데이터 수집 배치 프로그램
     * 배치 실행 시간 : 매일 오전 1시
     * 배치 Param : {requestDate} - 요청 시간
     *
