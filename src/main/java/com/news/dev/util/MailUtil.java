@@ -32,7 +32,8 @@ public class MailUtil {
 
         try {
             helper.setTo(address);
-            helper.setSubject("메일 테스트");
+            helper.setSubject("따끈따끈한 블로그 도착이요~");
+            helper.setFrom("dlog@gmail.com");
 
             // 템플릿에 전달할 데이터
             Context context = new Context();

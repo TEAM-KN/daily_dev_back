@@ -91,7 +91,7 @@ public class SendMailConfiguration {
         JpaCursorItemReader<ContentsEntity> contentsItemReader = new JpaCursorItemReaderBuilder<ContentsEntity>()
                 .name(JOB_NAME + "_contentsItemReader")
                 .entityManagerFactory(entityManagerFactory)
-                .queryString("select c from ContentsEntity c where date_format(c.updDtm, '%Y-%m-%d') >= :now")
+                .queryString("select c from ContentsEntity c where date_format(c.updDtm, '%Y-%m-%d') = :now")
                 .parameterValues(param)
                 .build();
 

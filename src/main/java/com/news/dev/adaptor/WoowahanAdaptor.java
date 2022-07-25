@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-//@Component
+@Component
 @Slf4j
 public class WoowahanAdaptor {
 
