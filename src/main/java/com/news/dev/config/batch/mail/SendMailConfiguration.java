@@ -84,14 +84,14 @@ public class SendMailConfiguration {
 
     private ItemReader<? extends ContentsEntity> contentsItemReader(String requestDate) throws Exception {
         Map<String, Object> param = new HashMap<>();
-//        param.put("now", requestDate);
-        param.put("now", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        param.put("now", requestDate);
+//        param.put("now", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 
 
         JpaCursorItemReader<ContentsEntity> contentsItemReader = new JpaCursorItemReaderBuilder<ContentsEntity>()
                 .name(JOB_NAME + "_contentsItemReader")
                 .entityManagerFactory(entityManagerFactory)
-                .queryString("select c from ContentsEntity c where date_format(c.updDtm, '%Y-%m-%d') = :now")
+                .queryString("select c from ContentsEntity c where date_format(c.updDtm, '%Y-%m-%d') >= :now")
                 .parameterValues(param)
                 .build();
 
@@ -108,18 +108,18 @@ public class SendMailConfiguration {
             Map<String,Object> contents = new HashMap<>();
 
             /* Bean으로 데이터 공유 */
-            List<ContentsEntity> lists = (List<ContentsEntity>) shareContents.getContentsData("sendContents");
+            List<ContentsEntity> list = (List<ContentsEntity>) shareContents.getContentsData("sendContents");
 
-            contents.put("contents", lists);
+            contents.put("contents", list);
 
             // 메일 주소(구독자 ID) 추출
             for(int i=0; i<items.size(); i++) {
                 address[i] = items.get(i).getUsername();
             }
 
-            if(items.size() < 1 && contents == null) return;
-
-            mailUtil.sendEmail(address, contents);
+            if(items.size() >= 1 && list != null) {
+                mailUtil.sendEmail(address, contents);
+            }
         };
 
     }
