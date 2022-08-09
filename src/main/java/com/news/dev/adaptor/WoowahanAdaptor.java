@@ -73,6 +73,8 @@ public class WoowahanAdaptor {
                 LocalDate regDtmParsing = LocalDate.parse(regDtm, DateTimeFormatter.ISO_DATE);
                 LocalDate nowDtm = LocalDate.now(); // spring batch 멱등성 문제를 발생시키는 원인 (JobParameter로 해결 가능)
 
+//                LocalDate requestDateParsing = LocalDate.parse(requestDate);
+
                 // 하루 전 컨텐츠 추출
                 if(nowDtm.minusDays(1).isEqual(regDtmParsing)) {
                     contentsDto.setLink(link);
