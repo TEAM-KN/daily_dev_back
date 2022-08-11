@@ -84,8 +84,8 @@ public class SendMailConfiguration {
 
     private ItemReader<? extends ContentsEntity> contentsItemReader(String requestDate) throws Exception {
         Map<String, Object> param = new HashMap<>();
-        param.put("now", requestDate);
-//        param.put("now", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+//        param.put("now", requestDate);
+        param.put("now", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
 
 
         JpaCursorItemReader<ContentsEntity> contentsItemReader = new JpaCursorItemReaderBuilder<ContentsEntity>()
