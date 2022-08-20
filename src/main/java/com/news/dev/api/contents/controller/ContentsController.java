@@ -23,6 +23,7 @@ public class ContentsController extends ResponseEntityHandler {
     private final ContentsService contentsService;
     private final MailService mailService;
 
+
     @GetMapping("/list")
     public ResponseEntity<Object> list(@RequestBody ContentsRequest rq) {
         List<ContentsResponse> rs = contentsService.list();
