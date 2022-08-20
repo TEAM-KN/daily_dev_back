@@ -79,3 +79,13 @@ naver: # 네이버 IT 뉴스
 kakao: # 카카오 기술블로그
   blog:
     url: https://tech.kakao.com/blog/
+
+
+logging:
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n'
+    file: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n'
+  file:
+    name: /app/data/log/dlog.log
+  level:
+    com.news.dev: debug
