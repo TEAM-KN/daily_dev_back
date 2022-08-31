@@ -14,7 +14,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -27,12 +29,16 @@ import java.util.stream.Collectors;
 @Slf4j
 public class WoowahanAdaptor {
 
-    @Value("${woowahan.blog.url}")
-    private String url;
+    private final Environment env;
+
+    WoowahanAdaptor(Environment env) {
+        this.env = env;
+    }
 
     // Get Html
     public Document getDocument() {
         try {
+            String url = env.getProperty("woowahan.blog.url");
             log.info("url : {}", url);
             return Jsoup.connect(url).get();
         } catch(Exception e) {

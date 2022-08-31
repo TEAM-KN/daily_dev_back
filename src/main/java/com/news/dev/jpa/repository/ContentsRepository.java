@@ -8,8 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.Collection;
 
-@Repository
-public interface ContentsRepository extends JpaRepository<ContentsEntity, Integer> {
+public interface ContentsRepository extends JpaRepository<ContentsEntity, Long> {
 
     Collection<ContentsEntity> findAllByUpdDtm(LocalDate now);
 

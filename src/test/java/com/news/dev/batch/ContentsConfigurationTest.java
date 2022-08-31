@@ -4,7 +4,7 @@ import com.news.dev.TestConfiguration;
 import com.news.dev.config.batch.contents.ContentsConfiguration;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameters;
@@ -18,12 +18,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @SpringBatchTest
-//@SpringBootTest
-//@ExtendWith(SpringExtension.class)
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = { ContentsConfiguration.class, TestConfiguration.class })
 @ActiveProfiles("test")
@@ -32,11 +29,12 @@ public class ContentsConfigurationTest {
     @Autowired
     private JobLauncherTestUtils jobLauncherTestUtils;
 
+    @DisplayName("컨텐츠 유무 확인하기")
     @Test
-    public void testContents() throws Exception {
+    public void test_contents() throws Exception {
         // given
         JobParameters jobParameters = new JobParametersBuilder()
-                .addString("requestDate", "2022-07-01")
+                .addString("requestDate", "2022-08-19")
                 .toJobParameters();
 
         // when

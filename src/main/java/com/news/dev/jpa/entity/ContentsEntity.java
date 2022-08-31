@@ -9,10 +9,9 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@Builder
 @Table(name="TB_CONTENTS")
-@NoArgsConstructor
-@AllArgsConstructor
+//@NoArgsConstructor
+//@AllArgsConstructor
 public class ContentsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

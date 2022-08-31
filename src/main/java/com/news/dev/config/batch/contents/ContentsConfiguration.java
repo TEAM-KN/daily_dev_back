@@ -15,6 +15,7 @@ import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.batch.item.database.builder.JpaItemWriterBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,17 +27,23 @@ import java.util.stream.Stream;
 
 @Configuration
 @Slf4j
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class ContentsConfiguration {
 
     private final String JOB_NAME = "contentsJob";
 
-    private final JobBuilderFactory jobBuilderFactory;
-    private final StepBuilderFactory stepBuilderFactory;
-    private final EntityManagerFactory entityManagerFactory;
-    private final WoowahanAdaptor woowahanAdaptor;
-    private final KakaoAdaptor kakaoAdaptor;
-    private final ContentsRepository contentsRepository;
+    @Autowired
+    private JobBuilderFactory jobBuilderFactory;
+    @Autowired
+    private StepBuilderFactory stepBuilderFactory;
+    @Autowired
+    private EntityManagerFactory entityManagerFactory;
+    @Autowired
+    private ContentsRepository contentsRepository;
+    @Autowired
+    private KakaoAdaptor kakaoAdaptor;
+    @Autowired
+    private WoowahanAdaptor woowahanAdaptor;
 
     /*
     * 배치 명 : New 컨텐츠 데이터 수집 배치 프로그램

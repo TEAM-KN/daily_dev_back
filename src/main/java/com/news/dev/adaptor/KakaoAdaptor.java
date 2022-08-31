@@ -4,8 +4,6 @@ import com.news.dev.api.contents.dto.ContentsDto;
 import com.news.dev.api.contents.dto.ContentsType;
 import com.news.dev.response.exception.UrlConnectionException;
 import com.news.dev.jpa.entity.ContentsEntity;
-import com.news.dev.jpa.repository.ContentsRepository;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -13,7 +11,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -25,12 +25,16 @@ import java.util.stream.Collectors;
 @Slf4j
 public class KakaoAdaptor {
 
-    @Value("${kakao.blog.url}")
-    private String url;
+    private final Environment env;
+
+    KakaoAdaptor(Environment env) {
+        this.env = env;
+    }
 
     // Get Html
     public Document getDocument() {
         try {
+            String url = env.getProperty("kakao.blog.url");
             log.info("url : {}", url);
             return Jsoup.connect(url).get();
         } catch(Exception e) {
