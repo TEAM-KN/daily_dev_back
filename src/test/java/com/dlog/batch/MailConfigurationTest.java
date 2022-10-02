@@ -1,7 +1,7 @@
 package com.dlog.batch;
 
 import com.dlog.TestConfiguration;
-import com.dlog.config.batch.contents.ContentsConfiguration;
+import com.dlog.global.batch.contents.ContentsConfiguration;
 import org.junit.runner.RunWith;
 import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.test.context.ActiveProfiles;

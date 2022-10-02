@@ -1,7 +1,7 @@
 package com.dlog.batch;
 
 import com.dlog.TestConfiguration;
-import com.dlog.config.batch.contents.ContentsConfiguration;
+import com.dlog.global.batch.contents.ContentsConfiguration;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
