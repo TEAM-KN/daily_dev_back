@@ -3,7 +3,6 @@ package com.dlog.presentation;
 import com.dlog.domain.contents.dto.ContentsRequest;
 import com.dlog.domain.contents.dto.ContentsResponse;
 import com.dlog.domain.contents.application.ContentsService;
-import com.dlog.api.mail.service.MailService;
 import com.dlog.global.exception.ResponseEntityHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,6 @@ import java.util.List;
 public class ContentsController extends ResponseEntityHandler {
 
     private final ContentsService contentsService;
-    private final MailService mailService;
 
 
     @GetMapping("/list")
@@ -37,6 +35,6 @@ public class ContentsController extends ResponseEntityHandler {
 
     @GetMapping("/mail/test")
     public void sendMail() throws Exception {
-        mailService.sendMail();
+//        mailService.sendMail();
     }
 }
