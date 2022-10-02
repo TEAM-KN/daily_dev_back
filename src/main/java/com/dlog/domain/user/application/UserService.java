@@ -4,7 +4,6 @@ import com.dlog.domain.user.dto.UserDto;
 import com.dlog.domain.user.dto.UserJoinRequest;
 import com.dlog.domain.user.dto.UserLoginRequest;
 import com.dlog.domain.user.dto.UserLoginResponse;
-import com.news.dev.auth.user.dto.*;
 
 public interface UserService {
 
