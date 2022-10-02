@@ -1,7 +1,7 @@
 package com.dlog.util;
 
 
-import com.dlog.config.security.CustomUserDetailService;
+import com.dlog.global.config.security.CustomUserDetailService;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

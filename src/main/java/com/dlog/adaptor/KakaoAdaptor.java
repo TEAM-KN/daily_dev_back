@@ -1,9 +1,9 @@
 package com.dlog.adaptor;
 
-import com.dlog.response.exception.UrlConnectionException;
-import com.dlog.api.contents.dto.ContentsDto;
-import com.dlog.api.contents.dto.ContentsType;
-import com.dlog.jpa.entity.ContentsEntity;
+import com.dlog.domain.contents.domain.Contents;
+import com.dlog.global.exception.UrlConnectionException;
+import com.dlog.domain.contents.dto.ContentsDto;
+import com.dlog.domain.contents.domain.ContentsType;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -50,7 +50,7 @@ public class KakaoAdaptor {
     }
 
     // Set Contents
-    public List<ContentsEntity> getNewContents(String requestDate) {
+    public List<Contents> getNewContents(String requestDate) {
         Elements elements = this.getElements(this.getDocument());
         List<ContentsDto> contentsList = new ArrayList<>();
 
@@ -83,8 +83,8 @@ public class KakaoAdaptor {
             }
         }
 
-        List<ContentsEntity> contents = contentsList.stream().map(newContent ->
-                new ModelMapper().map(newContent, ContentsEntity.class)).collect(Collectors.toList());
+        List<Contents> contents = contentsList.stream().map(newContent ->
+                new ModelMapper().map(newContent, Contents.class)).collect(Collectors.toList());
 
         return contents;
     }

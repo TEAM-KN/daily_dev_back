@@ -1,10 +1,10 @@
 package com.dlog.adaptor;
 
-import com.dlog.api.contents.dto.DateType;
-import com.dlog.api.contents.dto.ContentsDto;
-import com.dlog.api.contents.dto.ContentsType;
-import com.dlog.jpa.entity.ContentsEntity;
-import com.dlog.response.exception.UrlConnectionException;
+import com.dlog.domain.comn.DateType;
+import com.dlog.domain.contents.dto.ContentsDto;
+import com.dlog.domain.contents.domain.ContentsType;
+import com.dlog.domain.contents.domain.Contents;
+import com.dlog.global.exception.UrlConnectionException;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -52,7 +52,7 @@ public class WoowahanAdaptor {
     }
     
     // Set Contents
-    public List<ContentsEntity> getNewContents(String requestDate) {
+    public List<Contents> getNewContents(String requestDate) {
         Elements elements = this.getElement(this.getDocument());
 
         List<ContentsDto> contentsList = new ArrayList<>();
@@ -93,8 +93,8 @@ public class WoowahanAdaptor {
             }
         }
 
-        List<ContentsEntity> contents = contentsList.stream().map(content ->
-                new ModelMapper().map(content, ContentsEntity.class)
+        List<Contents> contents = contentsList.stream().map(content ->
+                new ModelMapper().map(content, Contents.class)
         ).collect(Collectors.toList());
 
         return contents;

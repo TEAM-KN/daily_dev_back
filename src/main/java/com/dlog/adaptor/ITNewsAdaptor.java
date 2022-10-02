@@ -1,9 +1,9 @@
 package com.dlog.adaptor;
 
 
-import com.dlog.response.exception.UrlConnectionException;
-import com.dlog.api.contents.dto.ContentsDto;
-import com.dlog.jpa.repository.ContentsRepository;
+import com.dlog.global.exception.UrlConnectionException;
+import com.dlog.domain.contents.dto.ContentsDto;
+import com.dlog.domain.contents.domain.ContentsRepository;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
