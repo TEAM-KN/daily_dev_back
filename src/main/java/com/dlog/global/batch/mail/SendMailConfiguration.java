@@ -109,7 +109,7 @@ public class SendMailConfiguration {
 
             // 메일 주소(구독자 ID) 추출
             for(int i=0; i<items.size(); i++) {
-                address[i] = items.get(i).getUsername();
+                address[i] = items.get(i).getEmail();
             }
 
             if(items.size() >= 1 && list != null) {

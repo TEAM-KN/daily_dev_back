@@ -27,9 +27,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserLoginResponse join(UserJoinRequest joinRq) throws Exception {
-
         User entity = new ModelMapper().map(joinRq,  User.class);
-        entity.setPassword(passwordEncoder.encode(entity.getPassword()));
 
         User rsEntity = userRepository.save(entity);
 
@@ -40,15 +38,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserLoginResponse login(UserLoginRequest loginRq) throws Exception {
-        User user = userRepository.findByUsername(loginRq.getUsername());
+        User user = userRepository.findByEmail(loginRq.getUsername());
 
         if(user == null) {
             throw new UsernameNotFoundException("User Not Found");
         }
-        String accessToken = jwtTokenUtil.createToken(user.getUsername());
+        String accessToken = jwtTokenUtil.createToken(user.getEmail());
         String refreshToken = jwtTokenUtil.createRefreshToken();
 
-        user.setToken(refreshToken);
+//        user.setToken(refreshToken);
         userRepository.save(user);
 
         UserLoginResponse loginRs = new ModelMapper().map(user, UserLoginResponse.class);
@@ -61,7 +59,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Cacheable(value = "user", key = "#username")
     public UserDto getUserByUsername(String username) throws Exception {
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByEmail(username);
 
         if(user == null) {
             throw new UsernameNotFoundException("User Not Found");
@@ -76,20 +74,18 @@ public class UserServiceImpl implements UserService {
         /* 구독자 조회 */
         User refresh = userRepository.findByUserNoAndToken(user.getUserNo(), user.getRefreshToken());
 
-        if(refresh.getUserNo() == null && refresh.getToken() == null) {
-            throw new IllegalArgumentException();
-        }
+//        if(refresh.getUserNo() == null && refresh.getToken() == null) {
+//            throw new IllegalArgumentException();
+//        }
 
-        String accessToken = jwtTokenUtil.createToken(refresh.getUsername());
+        String accessToken = jwtTokenUtil.createToken(refresh.getEmail());
 
         UserDto refreshUser = new UserDto();
-        refreshUser.setUserNo(refresh.getUserNo());
-        refreshUser.setUsername(refresh.getUsername());
+        refreshUser.setUserNo(refresh.getId());
+        refreshUser.setUsername(refresh.getEmail());
         refreshUser.setNickname(refresh.getNickname());
-        refreshUser.setPwd(refresh.getPassword());
         refreshUser.setSubscribeYn(refresh.getSubscribeYn());
         refreshUser.setAccessToken(accessToken);
-        refreshUser.setRefreshToken(refresh.getToken());
 
         return refreshUser;
     }
