@@ -1,5 +1,6 @@
 package com.dlog.domain.contents.domain;
 
+import com.dlog.global.domain.BaseEntity;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -9,40 +10,45 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+<<<<<<< HEAD:src/main/java/com/dlog/domain/contents/domain/Contents.java
+@Table(name="contents")
+public class Contents extends BaseEntity {
+=======
 @Table(name="TB_CONTENTS")
 //@NoArgsConstructor
 //@AllArgsConstructor
 public class Contents {
+>>>>>>> main:src/main/java/com/dlog/jpa/entity/ContentsEntity.java
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="CONTENT_NO")
-    private Long contentNo;
+    @Column(name="id")
+    private Long id;
 
-    @Column(name="TITLE")
+    @Column(name="title")
     private String title;
 
-    @Column(name="DESCRIPTION")
+    @Column(name="description")
     private String description;
 
-    @Column(name="LINK")
+    @Column(name="link")
     private String link;
 
-    @Column(name="REG_DTM")
+    @Column(name="reg_dtm")
     private String regDtm;
 
-    @Column(name="AUTHOR")
+    @Column(name="author")
     private String author;
 
-    @Column(name="UPD_DTM")
+    @Column(name="upd_dtm")
     @CreationTimestamp
     private LocalDateTime updDtm;
 
-    @Column(name="CONTENT_TYPE")
+    @Column(name="content_type")
     private String contentType;
 
-    @Column(name="COMPANY_CD")
+    @Column(name="company_cd")
     private String companyCd;
 
-    @Column(name="COMPANY_NM")
+    @Column(name="company_nm")
     private String companyNm;
 }

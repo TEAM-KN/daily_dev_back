@@ -3,7 +3,11 @@ package com.dlog.global.batch.mail;
 import com.dlog.domain.user.domain.User;
 import com.dlog.global.batch.StepShareContext;
 import com.dlog.domain.contents.domain.Contents;
+<<<<<<< HEAD:src/main/java/com/dlog/global/batch/mail/SendMailConfiguration.java
+import com.dlog.domain.comn.MailUtil;
+=======
 import com.dlog.util.MailUtil;
+>>>>>>> main:src/main/java/com/dlog/config/batch/mail/SendMailConfiguration.java
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -109,7 +113,7 @@ public class SendMailConfiguration {
 
             // 메일 주소(구독자 ID) 추출
             for(int i=0; i<items.size(); i++) {
-                address[i] = items.get(i).getUsername();
+                address[i] = items.get(i).getEmail();
             }
 
             if(items.size() >= 1 && list != null) {

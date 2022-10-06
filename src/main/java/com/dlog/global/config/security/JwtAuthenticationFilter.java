@@ -1,6 +1,6 @@
 package com.dlog.global.config.security;
 
-import com.dlog.util.JwtTokenUtil;
+import com.dlog.domain.comn.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

@@ -41,6 +41,68 @@
 #  blog:
 #    url: https://tech.kakao.com/blog/
 
+spring:
+  profiles:
+    include:
+      - database
+    active: local
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+  cache:
+    type: redis
+  redis:
+    host: 127.0.0.1
+    port: 6379
+  batch:
+    jdbc:
+      initialize-schema: never
+    job:
+      names: ${job.name:NONE}
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: schulnoh@gmail.com
+    password: sjtmppuixgireous
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        smtp:
+          auth: true
+          timeout: 5000
+          starttls.enable: true
+    default-encoding: UTF-8
+server:
+  port: 8083
+token:
+  expiration_time : 1000L * 60 * 30 # 하루
+  secret: user_token
+
+dlog:
+  woowahan: # 우아한 형제들 기술블로그
+    blog:
+      url: https://techblog.woowahan.com
+  naver: # 네이버 IT 뉴스
+    it-news:
+      url: https://news.naver.com/main/list.naver?mode=LS2D&mid=shm&sid1=105&sid2=230
+  kakao: # 카카오 기술블로그
+    blog:
+      url: https://tech.kakao.com/blog/
+
+
+logging:
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n'
+    file: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n'
+  file:
+    name: /app/data/log/dlog.log
+  level:
+    com.news.dev: debug
+
 ---
 
 spring:

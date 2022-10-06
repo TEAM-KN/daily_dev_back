@@ -88,14 +88,4 @@ public class KakaoAdaptor {
 
         return contents;
     }
-
-//    public List<ContentsEntity> newContentsUpdate() {
-//        List<ContentsDto> newContents = getNewContents();
-//
-//        List<ContentsEntity> rqEntity = newContents.stream().map(newContent ->
-//                new ModelMapper().map(newContent, ContentsEntity.class)).collect(Collectors.toList());
-//
-//        List<ContentsEntity> rsEntity = contentsRepository.saveAll(rqEntity);
-//        return rsEntity;
-//    }
 }
