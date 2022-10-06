@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth/user")
-public class UserController extends ResponseEntityHandler {
+public class AuthController extends ResponseEntityHandler {
 
     private final UserService userService;
 
-    @PostMapping("/join")
+    @PutMapping("/join")
     public ResponseEntity<Object> join(@RequestBody UserJoinRequest joinRq) throws Exception {
         UserLoginResponse loginRs = null;
 

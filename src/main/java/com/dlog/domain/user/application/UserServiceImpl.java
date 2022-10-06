@@ -6,13 +6,12 @@ import com.dlog.domain.user.dto.UserJoinRequest;
 import com.dlog.domain.user.dto.UserLoginRequest;
 import com.dlog.domain.user.dto.UserLoginResponse;
 import com.dlog.domain.user.domain.UserRepository;
-import com.dlog.util.JwtTokenUtil;
+import com.dlog.domain.comn.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -22,7 +21,6 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
     private final JwtTokenUtil jwtTokenUtil;
 
     @Override

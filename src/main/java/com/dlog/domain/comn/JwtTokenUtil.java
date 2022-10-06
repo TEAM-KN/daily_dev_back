@@ -1,4 +1,4 @@
-package com.dlog.util;
+package com.dlog.domain.comn;
 
 
 import com.dlog.global.config.security.CustomUserDetailService;

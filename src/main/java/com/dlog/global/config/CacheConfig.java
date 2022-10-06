@@ -1,6 +1,5 @@
 package com.dlog.global.config;
 
-import com.dlog.util.CacheKeyUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.EnableCaching;

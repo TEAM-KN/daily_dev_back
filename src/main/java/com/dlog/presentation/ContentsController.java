@@ -20,7 +20,6 @@ public class ContentsController extends ResponseEntityHandler {
 
     private final ContentsService contentsService;
 
-
     @GetMapping("/list")
     public ResponseEntity<Object> list(@RequestBody ContentsRequest rq) {
         List<ContentsResponse> rs = contentsService.list();
@@ -31,10 +30,5 @@ public class ContentsController extends ResponseEntityHandler {
     @GetMapping("/update")
     public void update() {
         contentsService.update();
-    }
-
-    @GetMapping("/mail/test")
-    public void sendMail() throws Exception {
-//        mailService.sendMail();
     }
 }

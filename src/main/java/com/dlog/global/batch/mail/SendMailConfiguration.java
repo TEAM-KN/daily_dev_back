@@ -3,7 +3,7 @@ package com.dlog.global.batch.mail;
 import com.dlog.domain.user.domain.User;
 import com.dlog.global.batch.StepShareContext;
 import com.dlog.domain.contents.domain.Contents;
-import com.dlog.util.MailUtil;
+import com.dlog.domain.comn.MailUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
