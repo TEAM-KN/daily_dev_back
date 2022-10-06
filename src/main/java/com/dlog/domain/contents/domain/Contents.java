@@ -10,8 +10,15 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+<<<<<<< HEAD:src/main/java/com/dlog/domain/contents/domain/Contents.java
 @Table(name="contents")
 public class Contents extends BaseEntity {
+=======
+@Table(name="TB_CONTENTS")
+//@NoArgsConstructor
+//@AllArgsConstructor
+public class Contents {
+>>>>>>> main:src/main/java/com/dlog/jpa/entity/ContentsEntity.java
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")

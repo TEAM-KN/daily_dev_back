@@ -1,57 +1,42 @@
 package com.dlog.domain.user.domain;
 
-import com.dlog.global.domain.BaseEntity;
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
+@Getter
+@Setter
 @Entity
-@Table(name = "users")
-public class User extends BaseEntity {
-
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "TB_USERS")
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
-    private Long id;
+    @Column(name="USER_NO")
+    private Long userNo;
 
-    @Column(name="email", nullable = false, unique = true)
-    private String email;
+    @Column(name="USERNAME", length = 250, unique = true)
+    private String username;
 
-    @Column(name="nickname", nullable = false, unique = true)
+    @Column(name="NICKNAME", length = 250, unique = true)
     private String nickname;
 
-    @Column(name="image_url", nullable = false)
-    private String imageUrl;
+    @Column(name="PASSWORD", unique = true)
+    private String password;
 
-    @Column(name="subscribe_yn")
+    @Column(name="JOIN_DTM")
+    @CreationTimestamp
+    private LocalDateTime joinDtm;
+
+    @Column(name="SUBSCRIBE_YN")
+//    @ColumnDefault("N")
     private String subscribeYn;
 
-    protected User() {
-
-    }
-
-    public User(final String email, final String nickname, final String imageUrl, final String subscribeYn) {
-        this.email = email;
-        this.nickname = nickname;
-        this.imageUrl = imageUrl;
-        this.subscribeYn = subscribeYn;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public String getSubscribeYn() {
-        return subscribeYn;
-    }
+    @Column(name="TOKEN")
+    private String token;
 }
