@@ -22,7 +22,7 @@ public class AuthController extends ResponseEntityHandler {
 
     @PutMapping("/join")
     public ResponseEntity<Object> join(@RequestBody UserJoinRequest joinRq) throws Exception {
-        UserLoginResponse loginRs = null;
+        UserLoginResponse loginRs;
 
         loginRs  = userService.join(joinRq);
 

@@ -32,7 +32,7 @@ public class KakaoAdaptor {
     // Get Html
     public Document getDocument() {
         try {
-            String url = env.getProperty("kakao.blog.url");
+            String url = env.getProperty("dlog.kakao.blog.url");
             log.info("url : {}", url);
             return Jsoup.connect(url).get();
         } catch(Exception e) {

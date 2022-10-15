@@ -24,7 +24,7 @@ public class ITNewsAdaptor {
 
     private final ContentsRepository contentsRepository;
 
-    @Value("${naver.it-news.url}")
+    @Value("${dlog.naver.it-news.url}")
     private String url;
 
     // Get Html

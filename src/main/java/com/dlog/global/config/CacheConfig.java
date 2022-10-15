@@ -25,8 +25,6 @@ public class CacheConfig {
     @Value("${spring.redis.port}")
     private int port;
 
-    private final CacheKeyUtil cacheKeyUtil;
-
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();

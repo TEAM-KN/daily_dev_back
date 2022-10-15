@@ -34,7 +34,7 @@ public class WoowahanAdaptor {
     // Get Html
     public Document getDocument() {
         try {
-            String url = env.getProperty("woowahan.blog.url");
+            String url = env.getProperty("dlog.woowahan.blog.url");
             log.info("url : {}", url);
             return Jsoup.connect(url).get();
         } catch(Exception e) {

@@ -1,42 +1,30 @@
 package com.dlog.domain.user.domain;
 
+import com.dlog.global.domain.BaseEntity;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Entity
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@Table(name = "TB_USERS")
-public class User {
+@Table(name = "users")
+public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="USER_NO")
-    private Long userNo;
+    @Column(name="id")
+    private Long id;
 
-    @Column(name="USERNAME", length = 250, unique = true)
-    private String username;
+    @Column(name="email")
+    private String email;
 
-    @Column(name="NICKNAME", length = 250, unique = true)
+    @Column(name="nickname")
     private String nickname;
 
-    @Column(name="PASSWORD", unique = true)
-    private String password;
+    @Column(name="image_url")
+    private String imageUrl;
 
-    @Column(name="JOIN_DTM")
-    @CreationTimestamp
-    private LocalDateTime joinDtm;
-
-    @Column(name="SUBSCRIBE_YN")
-//    @ColumnDefault("N")
+    @Column(name="subscribe_yn")
     private String subscribeYn;
 
-    @Column(name="TOKEN")
-    private String token;
 }
