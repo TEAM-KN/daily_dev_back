@@ -19,11 +19,10 @@ import java.util.Date;
 @Slf4j
 public class JwtTokenUtil {
 
-    private String secretKey = "DEV_NEWS";
-    private final long accessTokenExpiration = 30 * 60 * 1000L; // 토큰 유효기간 (30분)
-    private final long refreshTokenExpiration = 1000L * 60 * 69 * 24 * 7;
+    private String secretKey = "dlog-secret-key";
+    private final long accessTokenExpiration = 30L * 60L * 1000L; // 토큰 유효기간 (30분)
+    private final long refreshTokenExpiration = 1000L * 60L * 69L * 24L * 7L;
 
-    // Bean
     private final CustomUserDetailService customUserDetailService;
 
     @PostConstruct
@@ -73,7 +72,7 @@ public class JwtTokenUtil {
 
     // Request의 Header에서 Token을 가져오기 - "X-AUTH-TOKEN" : "TOKEN"
     public String resolveToken(HttpServletRequest request) {
-        return request.getHeader("X-AUTH-TOKEN");
+        return request.getHeader("Authorization");
     }
 
     // Token의 유효성 + 만료일자 확인

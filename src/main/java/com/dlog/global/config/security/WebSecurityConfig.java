@@ -1,5 +1,7 @@
 package com.dlog.global.config.security;
 
+import com.dlog.domain.auth.application.AuthService;
+import com.dlog.domain.auth.application.TokenService;
 import com.dlog.domain.comn.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -17,34 +19,26 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final JwtTokenUtil jwtTokenUtil;
-    private final CustomUserDetailService customUserDetailService;
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customUserDetailService).passwordEncoder(bCryptPasswordEncoder);
-    }
+    private final TokenService tokenService;
+    private final AuthService authService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
-        http.authorizeRequests()
+        http
+            .csrf().disable()
+            .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .authorizeRequests()
+                .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/auth/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-                .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenUtil), UsernamePasswordAuthenticationFilter.class);
-
-        http.headers().frameOptions().disable();
+            .anyRequest().authenticated()
+            .and()
+            .addFilterBefore(
+                    new JwtAuthenticationFilter(tokenService, authService),
+                    UsernamePasswordAuthenticationFilter.class);
     }
 
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-//        web.ignoring().antMatchers("/h2-console/**");
-    }
 }
 
