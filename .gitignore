@@ -37,3 +37,6 @@ build/
 generated
 
 README.md
+
+*.yml
+*.properties

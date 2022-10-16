@@ -115,7 +115,7 @@ dlog:
 
 security:
   jwt:
-    secret-key: dlog-secret-key
+    secret-key: 'ZGxvZy1zZWN1cml0eS1qd3QtdG9rZW4tc2VjcmV0LWtleQ=='
     access:
       token-expire: 1800000 # 30분
     refresh:

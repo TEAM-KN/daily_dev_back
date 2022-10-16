@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
 
 @Service
@@ -20,9 +23,7 @@ public class TokenService {
                         @Value("${security.jwt.access.token-expire}") final long accessTokenExpiration,
                         @Value("${security.jwt.refresh.token-expire}") final long refreshTokenExpiration) {
 
-        String repeat = secretKey.repeat(32);
-
-        this.key = Keys.hmacShaKeyFor(repeat.getBytes());
+        this.key = Keys.hmacShaKeyFor(secretKey.getBytes());
         this.accessTokenExpiration = accessTokenExpiration;
         this.refreshTokenExpiration = refreshTokenExpiration;
     }
