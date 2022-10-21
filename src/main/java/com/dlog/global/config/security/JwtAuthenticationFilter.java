@@ -1,8 +1,7 @@
 package com.dlog.global.config.security;
 
 import com.dlog.domain.auth.application.AuthService;
-import com.dlog.domain.auth.application.TokenService;
-import com.dlog.domain.comn.JwtTokenUtil;
+import com.dlog.domain.auth.application.JwtTokenService;
 import com.dlog.domain.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,16 +16,16 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends GenericFilterBean {
 
-    private final TokenService tokenService;
+    private final JwtTokenService jwtTokenService;
     private final AuthService authService;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         String token = ((HttpServletRequest) request).getHeader("Authorization");
 
-        if(token != null && tokenService.validationToken(token)) {
+        if(token != null && jwtTokenService.validationToken(token)) {
 
-            String payload = tokenService.getPayload(token);
+            String payload = jwtTokenService.getPayload(token);
 
             Authentication authentication = this.getAuthentication(payload);
             SecurityContextHolder.getContext().setAuthentication(authentication);

@@ -1,17 +1,13 @@
 package com.dlog.global.config.security;
 
 import com.dlog.domain.auth.application.AuthService;
-import com.dlog.domain.auth.application.TokenService;
-import com.dlog.domain.comn.JwtTokenUtil;
+import com.dlog.domain.auth.application.JwtTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -19,7 +15,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final TokenService tokenService;
+    private final JwtTokenService jwtTokenService;
     private final AuthService authService;
 
     @Override
@@ -35,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .anyRequest().authenticated()
             .and()
             .addFilterBefore(
-                    new JwtAuthenticationFilter(tokenService, authService),
+                    new JwtAuthenticationFilter(jwtTokenService, authService),
                     UsernamePasswordAuthenticationFilter.class);
     }
 

@@ -1,4 +1,4 @@
-package com.dlog.domain.comn;
+package com.dlog.domain.comn.dto;
 
 import lombok.Getter;
 

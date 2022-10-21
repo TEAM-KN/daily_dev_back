@@ -1,6 +1,6 @@
 package com.dlog.adaptor;
 
-import com.dlog.domain.comn.DateType;
+import com.dlog.domain.comn.dto.DateType;
 import com.dlog.domain.contents.dto.ContentsDto;
 import com.dlog.domain.contents.domain.ContentsType;
 import com.dlog.domain.contents.domain.Contents;

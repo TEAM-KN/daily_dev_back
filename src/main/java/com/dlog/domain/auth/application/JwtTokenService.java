@@ -7,21 +7,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.nio.charset.StandardCharsets;
-import java.security.Key;
-import java.util.Base64;
 import java.util.Date;
 
 @Service
-public class TokenService {
+public class JwtTokenService {
 
     private final SecretKey key;
     private final long accessTokenExpiration;
     private final long refreshTokenExpiration;
 
-    public TokenService(@Value("${security.jwt.secret-key}") final String secretKey,
-                        @Value("${security.jwt.access.token-expire}") final long accessTokenExpiration,
-                        @Value("${security.jwt.refresh.token-expire}") final long refreshTokenExpiration) {
+    public JwtTokenService(@Value("${security.jwt.secret-key}") final String secretKey,
+                           @Value("${security.jwt.access.token-expire}") final long accessTokenExpiration,
+                           @Value("${security.jwt.refresh.token-expire}") final long refreshTokenExpiration) {
 
         this.key = Keys.hmacShaKeyFor(secretKey.getBytes());
         this.accessTokenExpiration = accessTokenExpiration;
@@ -48,6 +45,14 @@ public class TokenService {
                 .getSubject();
     }
 
+    public Claims getClaims(final String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
     public boolean validationToken(final String token) {
         try {
             Jws<Claims> claims = Jwts.parserBuilder()
@@ -55,7 +60,7 @@ public class TokenService {
                     .build()
                     .parseClaimsJws(token);
 
-            return claims.getBody().getExpiration().before(new Date());
+            return claims.getBody().getExpiration().after(new Date());
 
         } catch (JwtException | IllegalArgumentException e) {
             throw new InvalidTokenException("권한이 없습니다.");
