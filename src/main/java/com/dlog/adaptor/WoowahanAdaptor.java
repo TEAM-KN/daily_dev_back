@@ -79,16 +79,16 @@ public class WoowahanAdaptor {
 
                 // 하루 전 컨텐츠 추출
                 if(nowDtm.minusDays(1).isEqual(regDtmParsing)) {
-                    contentsDto.setLink(link);
-                    contentsDto.setTitle(title);
-                    contentsDto.setDescription(description);
-                    contentsDto.setRegDtm(regDtm);
-                    contentsDto.setAuthor(author);
-                    contentsDto.setContentType(ContentsType.WOOWAHAN.getContentType());
-                    contentsDto.setCompanyCd(ContentsType.WOOWAHAN.getCompanyCd());
-                    contentsDto.setCompanyNm(ContentsType.WOOWAHAN.getCompanyNm());
-
-                    contentsList.add(contentsDto);
+                    contentsList.add(ContentsDto.builder()
+                            .link(link)
+                            .title(title)
+                            .author(author)
+                            .regDtm(regDtm)
+                            .description(description)
+                            .contentType(ContentsType.WOOWAHAN.getContentType())
+                            .companyCd(ContentsType.WOOWAHAN.getCompanyCd())
+                            .companyNm(ContentsType.WOOWAHAN.getCompanyNm())
+                            .build());
                 }
             }
         }

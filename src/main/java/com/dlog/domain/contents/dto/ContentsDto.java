@@ -1,11 +1,12 @@
 package com.dlog.domain.contents.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
-@Setter
 public class ContentsDto {
     private Long contentNo;
     private String title;

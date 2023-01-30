@@ -3,7 +3,6 @@ package com.dlog.global.batch.mail;
 import com.dlog.domain.user.domain.User;
 import com.dlog.global.batch.StepShareContext;
 import com.dlog.domain.contents.domain.Contents;
-import com.dlog.domain.comn.MailUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -37,7 +36,7 @@ public class SendMailConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory entityManagerFactory;
-    private final MailUtil mailUtil;
+//    private final MailUtil mailUtil;
 
     private final StepShareContext<Contents> shareContents;
 
@@ -112,9 +111,9 @@ public class SendMailConfiguration {
                 address[i] = items.get(i).getEmail();
             }
 
-            if(items.size() >= 1 && list != null) {
-                mailUtil.sendEmail(address, contents);
-            }
+//            if(items.size() >= 1 && list != null) {
+//                mailUtil.sendEmail(address, contents);
+//            }
         };
 
     }

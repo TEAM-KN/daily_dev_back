@@ -55,8 +55,6 @@ public class KakaoAdaptor {
         List<ContentsDto> contentsList = new ArrayList<>();
 
         for(Element element : elements) {
-            ContentsDto contentsDto = new ContentsDto();
-
             String link = element.select(".elementor-post__text > h3").select("a").attr("href");
             String title = element.select(".elementor-post__text > h3").select("a").text();
             String author = element.select(".elementor-post__meta-data").select(".elementor-post-author").text();
@@ -69,22 +67,23 @@ public class KakaoAdaptor {
 //                LocalDate nowDtm = LocalDate.parse(requestDate);
 
                 if(nowDtm.minusDays(1).isEqual(regDtmParsing)) {
-                    contentsDto.setLink(link);
-                    contentsDto.setTitle(title);
-                    contentsDto.setAuthor(author);
-                    contentsDto.setRegDtm(regDate.replace(".", "-"));
-                    contentsDto.setDescription(description);
-                    contentsDto.setContentType(ContentsType.KAKAO.getContentType());
-                    contentsDto.setCompanyCd(ContentsType.KAKAO.getCompanyCd());
-                    contentsDto.setCompanyNm(ContentsType.KAKAO.getCompanyNm());
-
-                    contentsList.add(contentsDto);
+                    contentsList.add(ContentsDto.builder()
+                            .link(link)
+                            .title(title)
+                            .author(author)
+                            .regDtm(regDate.replace(".", "-"))
+                            .description(description)
+                            .contentType(ContentsType.KAKAO.getContentType())
+                            .companyCd(ContentsType.KAKAO.getCompanyCd())
+                            .companyNm(ContentsType.KAKAO.getCompanyNm())
+                            .build());
                 }
             }
         }
 
-        List<Contents> contents = contentsList.stream().map(newContent ->
-                new ModelMapper().map(newContent, Contents.class)).collect(Collectors.toList());
+        List<Contents> contents = contentsList.stream()
+                            .map(newContent -> new ModelMapper().map(newContent, Contents.class))
+                            .collect(Collectors.toList());
 
         return contents;
     }

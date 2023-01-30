@@ -18,8 +18,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ContentsServiceImpl implements ContentsService {
 
-    private final WoowahanAdaptor woowahanAdaptor;
-    private final KakaoAdaptor kakaoAdaptor;
     private final ContentsRepository contentsRepository;
 
     @Override
@@ -31,23 +29,13 @@ public class ContentsServiceImpl implements ContentsService {
         List<Contents> contentsList = contentsRepository.findAll();
 
         // 2. Convert Response
-        List<ContentsResponse> contentsResponse = contentsList.stream().map(
-                content -> new ModelMapper().map(content, ContentsResponse.class)
-            ).collect(Collectors.toList());
+        List<ContentsResponse> contentsResponse = contentsList.stream()
+                .map(content -> new ModelMapper().map(content, ContentsResponse.class))
+                .collect(Collectors.toList());
 
         return contentsResponse;
     }
 
     @Override
-    public void update() {
-        // 1. Contents Update
-//        List<ContentsDto> contents = woowahanAdaptor.initContents();
-//
-//
-//        List<ContentsEntity> contentsEntityList = contents.stream().map(
-//                content -> new ModelMapper().map(content, ContentsEntity.class)
-//            ).collect(Collectors.toList());
-//
-//        contentsRepository.saveAll(contentsEntityList);
-    }
+    public void update() {}
 }
