@@ -4,6 +4,7 @@ import com.dlog.adaptor.KakaoAdaptor;
 import com.dlog.adaptor.WoowahanAdaptor;
 import com.dlog.domain.contents.domain.Contents;
 import com.dlog.domain.contents.domain.ContentsRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -26,23 +27,17 @@ import java.util.stream.Stream;
 
 @Configuration
 @Slf4j
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 public class ContentsConfiguration {
 
     private final String JOB_NAME = "contentsJob";
 
-    @Autowired
-    private JobBuilderFactory jobBuilderFactory;
-    @Autowired
-    private StepBuilderFactory stepBuilderFactory;
-    @Autowired
-    private EntityManagerFactory entityManagerFactory;
-    @Autowired
-    private ContentsRepository contentsRepository;
-    @Autowired
-    private KakaoAdaptor kakaoAdaptor;
-    @Autowired
-    private WoowahanAdaptor woowahanAdaptor;
+    private final JobBuilderFactory jobBuilderFactory;
+    private final StepBuilderFactory stepBuilderFactory;
+    private final EntityManagerFactory entityManagerFactory;
+    private final ContentsRepository contentsRepository;
+    private final KakaoAdaptor kakaoAdaptor;
+    private final WoowahanAdaptor woowahanAdaptor;
 
     /*
     * 배치 명 : New 컨텐츠 데이터 수집 배치 프로그램
@@ -70,7 +65,7 @@ public class ContentsConfiguration {
                 .build();
     }
 
-    private ItemWriter contentsWriter() throws Exception {
+    private JpaItemWriter<Contents> contentsWriter() throws Exception {
         JpaItemWriter<Contents> jpaItemWriter = new JpaItemWriterBuilder<Contents>()
                 .entityManagerFactory(entityManagerFactory)
                 .usePersist(true) // 중복 체킹 x
@@ -83,14 +78,12 @@ public class ContentsConfiguration {
 
     private List<Contents> getContents(String requestDate) {
 
-        List<Contents> woowahanContents = woowahanAdaptor.getNewContents(requestDate);
-        List<Contents> kakaoContents = kakaoAdaptor.getNewContents(requestDate);
+        List<Contents> woowahanContents = woowahanAdaptor.getNewContentsFromWoowahan(requestDate);
+        List<Contents> kakaoContents = kakaoAdaptor.getNewContentsFromKakao(requestDate);
 
-        List<Contents>  items = Stream.of(woowahanContents, kakaoContents)
-                .flatMap(c -> c.stream())
-                .collect(Collectors.toList());
-
-        return items;
+        List<Contents> contents =
+                Stream.concat(woowahanContents.stream(), kakaoContents.stream()).collect(Collectors.toList());
+        return contents;
     }
 
 }
