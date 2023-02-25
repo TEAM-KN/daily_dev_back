@@ -1,5 +1,6 @@
 package com.dlog.global.batch.mail;
 
+import com.dlog.domain.comn.MailUtil;
 import com.dlog.domain.user.domain.User;
 import com.dlog.global.batch.StepShareContext;
 import com.dlog.domain.contents.domain.Contents;
@@ -36,7 +37,7 @@ public class SendMailConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory entityManagerFactory;
-//    private final MailUtil mailUtil;
+    private final MailUtil mailUtil;
 
     private final StepShareContext<Contents> shareContents;
 
@@ -96,24 +97,20 @@ public class SendMailConfiguration {
 
     private ItemWriter<? super User> sendMailItemWriter() {
         return items -> {
-            log.info("subscriber size : {}", items.size());
-
-            String[] address = new String[items.size()];
+            String[] recipients = new String[items.size()];
             Map<String,Object> contents = new HashMap<>();
 
-            /* Bean으로 데이터 공유 */
             List<Contents> list = (List<Contents>) shareContents.getContentsData("sendContents");
 
             contents.put("contents", list);
 
-            // 메일 주소(구독자 ID) 추출
             for(int i=0; i<items.size(); i++) {
-                address[i] = items.get(i).getEmail();
+                recipients[i] = items.get(i).getEmail();
             }
 
-//            if(items.size() >= 1 && list != null) {
-//                mailUtil.sendEmail(address, contents);
-//            }
+            if(items.size() >= 1 && list != null) {
+                mailUtil.sendEmail(recipients, "새로운 기술 이가 도착했습니다.", "기술 이슈", contents);
+            }
         };
 
     }
