@@ -68,7 +68,7 @@ public class ContentsConfiguration {
     private JpaItemWriter<Contents> contentsWriter() throws Exception {
         JpaItemWriter<Contents> jpaItemWriter = new JpaItemWriterBuilder<Contents>()
                 .entityManagerFactory(entityManagerFactory)
-                .usePersist(true) // 중복 체킹 x
+                .usePersist(true)
                 .build();
 
         jpaItemWriter.afterPropertiesSet();
