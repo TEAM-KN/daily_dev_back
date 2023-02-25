@@ -8,7 +8,6 @@ import com.dlog.global.exception.UrlConnectionException;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.modelmapper.ModelMapper;
 import org.springframework.core.env.Environment;
@@ -16,10 +15,9 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
-
 
 @Component
 @Slf4j
@@ -31,18 +29,15 @@ public class WoowahanAdaptor {
         this.env = env;
     }
 
-    // Get Html
     public Document getDocument() {
         try {
             String url = env.getProperty("dlog.woowahan.blog.url");
-            log.info("url : {}", url);
-            return Jsoup.connect(url).get();
+            return Jsoup.connect(Objects.requireNonNull(url)).get();
         } catch(Exception e) {
             throw new UrlConnectionException("요청한 URL에 접근할 수 없습니다.");
         }
     }
 
-    // Get Elements
     public Elements getElement(Document doc) {
         try {
             return doc.select("div.posts > .item");
@@ -51,100 +46,54 @@ public class WoowahanAdaptor {
         }
     }
     
-    // Set Contents
-    public List<Contents> getNewContents(String requestDate) {
+    public List<Contents> getNewContentsFromWoowahan(String requestDate) {
         Elements elements = this.getElement(this.getDocument());
 
-        List<ContentsDto> contentsList = new ArrayList<>();
-        
-        for(Element element : elements) {
-            ContentsDto contentsDto = new ContentsDto();
+        List<Contents> contents = elements.stream()
+                .map(element -> {
+                    String link = element.select("a").attr("href");
+                    String title = element.select("a > h1").text();
+                    String description = element.select("a > h1").next().text();
 
-            String link = element.select("a").attr("href");
-            String title = element.select("a > h1").text();
-            String description = element.select("a > h1").next().text();
+                    Elements authorElement = element.children().select(".author > span");
+                    String regDtm = authorElement.get(0).text();
+                    String author = authorElement.get(1).text();
 
-            Elements authorElement = element.children().select(".author > span");
-            String regDtm = authorElement.get(0).text();
-            String author = authorElement.get(1).text();
+                    if (!"".equals(link)) {
+                        String[] dateComponents = regDtm.split("[.]");
 
-            if(!"".equals(link) && link != null) {
-                String[] dates = regDtm.split("[.]");
-                regDtm = dates[2] + "-" + DateType.valueOf(dates[0]).getMonth() + "-" + dates[1];
+                        if (dateComponents != null) {
+                            regDtm = dateComponents[2] + "-" + DateType.valueOf(dateComponents[0]).getMonth() + "-" + dateComponents[1];
+                            LocalDate regDtmParsing = LocalDate.parse(regDtm, DateTimeFormatter.ISO_DATE);
+                            LocalDate nowDtm = LocalDate.now();
 
-                LocalDate regDtmParsing = LocalDate.parse(regDtm, DateTimeFormatter.ISO_DATE);
-                LocalDate nowDtm = LocalDate.now(); // spring batch 멱등성 문제를 발생시키는 원인 (JobParameter로 해결 가능)
+                            if (nowDtm.minusDays(1).isEqual(regDtmParsing)) {
+                                ContentsDto content = ContentsDto.builder()
+                                        .link(link)
+                                        .title(title)
+                                        .author(author)
+                                        .regDtm(regDtm)
+                                        .description(description)
+                                        .contentType(ContentsType.WOOWAHAN.getContentType())
+                                        .companyCd(ContentsType.WOOWAHAN.getCompanyCd())
+                                        .companyNm(ContentsType.WOOWAHAN.getCompanyNm())
+                                        .build();
 
-//                LocalDate requestDateParsing = LocalDate.parse(requestDate);
-
-                // 하루 전 컨텐츠 추출
-                if(nowDtm.minusDays(1).isEqual(regDtmParsing)) {
-                    contentsList.add(ContentsDto.builder()
-                            .link(link)
-                            .title(title)
-                            .author(author)
-                            .regDtm(regDtm)
-                            .description(description)
-                            .contentType(ContentsType.WOOWAHAN.getContentType())
-                            .companyCd(ContentsType.WOOWAHAN.getCompanyCd())
-                            .companyNm(ContentsType.WOOWAHAN.getCompanyNm())
-                            .build());
-                }
-            }
-        }
-
-        List<Contents> contents = contentsList.stream().map(content ->
-                new ModelMapper().map(content, Contents.class)
-        ).collect(Collectors.toList());
+                                return this.convertToContents(content);
+                            }
+                        }
+                    }
+                    return null;
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
 
         return contents;
     }
 
-    // Init Contents
-//    public List<ContentsDto> initContents() {
-//        List<ContentsDto> contents = getNewContents();
-//
-//        return contents;
-//    }
-
-    // New Contents Checking
-//    public List<ContentsEntity> getNewContents() {
-//        Document doc = getDocument();
-//        Elements elements = getElement(doc);
-//        List<ContentsDto> contents = setContents(elements);
-//
-//        List<ContentsDto> newContents = new ArrayList<>();
-//        LocalDate nowDtm = LocalDate.now();
-//
-//        for(ContentsDto content : contents) {
-//            String regDtm = content.getRegDtm();
-//            LocalDate regDtmParsing = LocalDate.parse(regDtm, DateTimeFormatter.ISO_DATE);
-//
-//            // Batch는 0시에 수행
-//            if(nowDtm.minusDays(1).isEqual(regDtmParsing)) {
-//                newContents.add(content);
-//            }
-//        }
-//
-//        return contents.stream().map(content ->
-//            new ModelMapper().map(content, ContentsEntity.class)
-//        ).collect(Collectors.toList());
-//
-//
-//    }
-
-    // New Contents Update (Batch)
-//    public List<ContentsEntity> newContentsUpdate() {
-//        List<ContentsDto> newContents = this.getNewContents();
-//
-//        List<ContentsEntity> rqEntity = newContents.stream().map(newContent ->
-//                new ModelMapper().map(newContent, ContentsEntity.class)).collect(Collectors.toList());
-//
-//        if(!rqEntity.isEmpty()) {
-//            return contentsRepository.saveAll(rqEntity);
-//        }
-//        return rqEntity;
-//    }
+    public Contents convertToContents(ContentsDto content) {
+        return new ModelMapper().map(content, Contents.class);
+    }
 }
 
 
