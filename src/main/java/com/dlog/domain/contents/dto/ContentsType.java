@@ -1,4 +1,4 @@
-package com.dlog.domain.contents.domain;
+package com.dlog.domain.contents.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

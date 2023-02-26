@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -19,6 +21,16 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController extends ResponseEntityHandler {
 
     private final UserService userService;
+
+    @PostConstruct
+    public void test() throws Exception {
+        userService.join(UserJoinRequest.builder()
+                .email("schulnoh@gmail.com")
+                .nickname("노짱")
+                .subscribeYn("Y")
+                .imageUrl("")
+                .build());
+    }
 
     @PutMapping("/join")
     public ResponseEntity<Object> join(@RequestBody UserJoinRequest joinRq) throws Exception {

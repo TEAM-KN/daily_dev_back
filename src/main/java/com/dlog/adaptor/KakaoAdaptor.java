@@ -3,7 +3,7 @@ package com.dlog.adaptor;
 import com.dlog.domain.contents.domain.Contents;
 import com.dlog.global.exception.UrlConnectionException;
 import com.dlog.domain.contents.dto.ContentsDto;
-import com.dlog.domain.contents.domain.ContentsType;
+import com.dlog.domain.contents.dto.ContentsType;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -58,7 +58,7 @@ public class KakaoAdaptor {
 
                     if(!"".equals(link)) {
                         LocalDate regDtmParsing = LocalDate.parse(regDate, DateTimeFormatter.ISO_DATE);
-                        LocalDate nowDtm = LocalDate.now();
+                        LocalDate nowDtm = LocalDate.parse(requestDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
                         if(nowDtm.minusDays(1).isEqual(regDtmParsing)) {
                             ContentsDto content = ContentsDto.builder()

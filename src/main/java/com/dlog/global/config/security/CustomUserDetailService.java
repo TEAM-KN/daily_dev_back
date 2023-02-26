@@ -1,7 +1,7 @@
 package com.dlog.global.config.security;
 
 import com.dlog.domain.user.domain.User;
-import com.dlog.domain.user.domain.UserRepository;
+import com.dlog.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

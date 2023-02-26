@@ -1,8 +1,8 @@
 package com.dlog.adaptor;
 
-import com.dlog.domain.comn.DateType;
+import com.dlog.domain.comn.dto.DateType;
 import com.dlog.domain.contents.dto.ContentsDto;
-import com.dlog.domain.contents.domain.ContentsType;
+import com.dlog.domain.contents.dto.ContentsType;
 import com.dlog.domain.contents.domain.Contents;
 import com.dlog.global.exception.UrlConnectionException;
 import lombok.extern.slf4j.Slf4j;
@@ -65,7 +65,7 @@ public class WoowahanAdaptor {
                         if (dateComponents != null) {
                             regDtm = dateComponents[2] + "-" + DateType.valueOf(dateComponents[0]).getMonth() + "-" + dateComponents[1];
                             LocalDate regDtmParsing = LocalDate.parse(regDtm, DateTimeFormatter.ISO_DATE);
-                            LocalDate nowDtm = LocalDate.now();
+                            LocalDate nowDtm = LocalDate.parse(requestDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
                             if (nowDtm.minusDays(1).isEqual(regDtmParsing)) {
                                 ContentsDto content = ContentsDto.builder()

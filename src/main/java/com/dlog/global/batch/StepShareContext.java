@@ -30,4 +30,8 @@ public class StepShareContext <T> {
         return contentsData.get(key);
     }
 
+    public void removeContentsData() {
+        contentsData.clear();
+    }
+
 }
