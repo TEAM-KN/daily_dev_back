@@ -1,5 +1,6 @@
-package com.dlog.domain.user.domain;
+package com.dlog.domain.user.repository;
 
+import com.dlog.domain.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

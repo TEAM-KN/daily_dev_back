@@ -3,7 +3,7 @@ package com.dlog.adaptor;
 
 import com.dlog.global.exception.UrlConnectionException;
 import com.dlog.domain.contents.dto.ContentsDto;
-import com.dlog.domain.contents.domain.ContentsRepository;
+import com.dlog.domain.contents.repository.ContentsRepository;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;

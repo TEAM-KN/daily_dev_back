@@ -1,6 +1,6 @@
 package com.dlog.global.batch.mail;
 
-import com.dlog.domain.comn.MailUtil;
+import com.dlog.domain.comn.util.MailUtil;
 import com.dlog.domain.user.domain.User;
 import com.dlog.global.batch.StepShareContext;
 import com.dlog.domain.contents.domain.Contents;
@@ -22,6 +22,7 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.EntityManagerFactory;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +39,6 @@ public class SendMailConfiguration {
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory entityManagerFactory;
     private final MailUtil mailUtil;
-
     private final StepShareContext<Contents> shareContents;
 
     @Bean(JOB_NAME)
@@ -79,14 +79,12 @@ public class SendMailConfiguration {
 
     private ItemReader<? extends Contents> contentsItemReader(String requestDate) throws Exception {
         Map<String, Object> param = new HashMap<>();
-//        param.put("now", requestDate);
-        param.put("now", LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-
+        param.put("now", LocalDateTime.parse(requestDate + "T00:00:00"));
 
         JpaCursorItemReader<Contents> contentsItemReader = new JpaCursorItemReaderBuilder<Contents>()
                 .name(JOB_NAME + "_contentsItemReader")
                 .entityManagerFactory(entityManagerFactory)
-                .queryString("select c from ContentsEntity c where date_format(c.updDtm, '%Y-%m-%d') >= :now")
+                .queryString("select c from Contents c where c.createDate >= :now")
                 .parameterValues(param)
                 .build();
 
@@ -95,37 +93,40 @@ public class SendMailConfiguration {
         return contentsItemReader;
     }
 
-    private ItemWriter<? super User> sendMailItemWriter() {
-        return items -> {
-            String[] recipients = new String[items.size()];
-            Map<String,Object> contents = new HashMap<>();
-
-            List<Contents> list = (List<Contents>) shareContents.getContentsData("sendContents");
-
-            contents.put("contents", list);
-
-            for(int i=0; i<items.size(); i++) {
-                recipients[i] = items.get(i).getEmail();
-            }
-
-            if(items.size() >= 1 && list != null) {
-                mailUtil.sendEmail(recipients, "새로운 기술 이가 도착했습니다.", "기술 이슈", contents);
-            }
-        };
-
-    }
-
     private ItemReader<? extends User> sendMailItemReader() throws Exception {
-
         JpaCursorItemReader<User> itemReaderBuilder = new JpaCursorItemReaderBuilder<User>()
                 .name(JOB_NAME + "_sendMailItemReader")
                 .entityManagerFactory(entityManagerFactory)
-                .queryString("select u from UserEntity u where u.subscribeYn = 'Y'")
+                .queryString("select u from User u where u.subscribeYn = 'Y'")
                 .build();
 
         itemReaderBuilder.afterPropertiesSet();
 
         return itemReaderBuilder;
+    }
+
+    private ItemWriter<? super User> sendMailItemWriter() {
+        return items -> {
+            String[] recipients = items.stream().map(User::getEmail).toArray(String[]::new);
+            Map<String,Object> contents = this.prepareEmailContents();
+
+            if(items.size() >= 1 && contents != null) {
+                mailUtil.sendEmail(recipients, "새로운 기술 이슈가 도착했습니다.", "mail", contents);
+            } else {
+                log.warn("No recipients or contents found, skipping email sending.");
+            }
+
+            shareContents.removeContentsData();
+        };
+
+    }
+
+    public Map<String, Object> prepareEmailContents() {
+        List<Contents> list = (List<Contents>) shareContents.getContentsData("sendContents");
+        Map<String, Object> contents = new HashMap<>();
+
+        contents.put("contents", list);
+        return contents;
     }
 
 }

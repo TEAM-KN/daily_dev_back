@@ -2,8 +2,10 @@ package com.dlog.domain.user.dto;
 
 import lombok.*;
 
+@Builder
 @Getter
-@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserJoinRequest {
     private Long id;
     private String email;

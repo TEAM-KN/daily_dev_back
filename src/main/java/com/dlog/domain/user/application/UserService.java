@@ -7,9 +7,9 @@ import com.dlog.domain.user.dto.UserLoginResponse;
 
 public interface UserService {
 
-    UserLoginResponse join(UserJoinRequest joinRq) throws Exception;
-    UserLoginResponse login(UserLoginRequest loginRq) throws Exception;
-    UserDto getUserByUsername(String email) throws Exception;
+    UserLoginResponse join(UserJoinRequest joinRq);
+    UserLoginResponse login(UserLoginRequest loginRq);
+    UserDto getUserByUsername(String email);
 
-    UserDto refresh(UserDto user) throws Exception;
+    UserDto refresh(UserDto user);
 }

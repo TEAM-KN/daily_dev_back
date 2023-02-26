@@ -1,18 +1,16 @@
 package com.dlog.domain.user.application;
 
-import com.dlog.domain.comn.JwtTokenUtil;
 import com.dlog.domain.user.domain.User;
 import com.dlog.domain.user.dto.UserDto;
 import com.dlog.domain.user.dto.UserJoinRequest;
 import com.dlog.domain.user.dto.UserLoginRequest;
 import com.dlog.domain.user.dto.UserLoginResponse;
-import com.dlog.domain.user.domain.UserRepository;
+import com.dlog.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -24,19 +22,21 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public UserLoginResponse join(UserJoinRequest joinRq) throws Exception {
+    public UserLoginResponse join(UserJoinRequest joinRq) {
+        User user = userRepository.save(User.builder()
+                .email(joinRq.getEmail())
+                .nickname(joinRq.getNickname())
+                .subscribeYn(joinRq.getSubscribeYn())
+                .imageUrl(joinRq.getImageUrl())
+                .build());
 
-        User entity = new ModelMapper().map(joinRq,  User.class);
-
-        User rsEntity = userRepository.save(entity);
-
-        UserLoginResponse loginRs = new ModelMapper().map(rsEntity, UserLoginResponse.class);
+        UserLoginResponse loginRs = new ModelMapper().map(user, UserLoginResponse.class);
 
         return loginRs;
     }
 
     @Override
-    public UserLoginResponse login(UserLoginRequest loginRq) throws Exception {
+    public UserLoginResponse login(UserLoginRequest loginRq) {
         User user = userRepository.findByEmail(loginRq.getUsername());
 
         if(user == null) {
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Cacheable(value = "user", key = "#username")
-    public UserDto getUserByUsername(String username) throws Exception {
+    public UserDto getUserByUsername(String username) {
         User user = userRepository.findByEmail(username);
 
         if(user == null) {
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto refresh(UserDto user) throws Exception {
+    public UserDto refresh(UserDto user) {
 
         UserDto refreshUser = new UserDto();
 

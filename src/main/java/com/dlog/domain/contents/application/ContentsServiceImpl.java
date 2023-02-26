@@ -1,8 +1,6 @@
 package com.dlog.domain.contents.application;
 
-import com.dlog.adaptor.KakaoAdaptor;
-import com.dlog.adaptor.WoowahanAdaptor;
-import com.dlog.domain.contents.domain.ContentsRepository;
+import com.dlog.domain.contents.repository.ContentsRepository;
 import com.dlog.domain.contents.dto.ContentsResponse;
 import com.dlog.domain.contents.domain.Contents;
 import lombok.RequiredArgsConstructor;

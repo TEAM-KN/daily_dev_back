@@ -2,49 +2,79 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Daily Dev Log</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #f7f7f7;
+            color: #333;
+            font-family: 'Noto Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 30px;
+        }
+        .header {
+            background-color: #2c3e50;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 30px;
+            font-weight: bold;
+            line-height: 1.2;
+            padding: 20px;
+            text-align: center;
+        }
+        .content {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-top: 30px;
+            padding: 20px;
+        }
+        .company {
+            color: #2980b9;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .author {
+            color: #555;
+            font-size: 14px;
+        }
+        .title {
+            color: #333;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+            text-decoration: none;
+        }
+        .description {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.4;
+            margin: 10px 0;
+        }
+        .date {
+            color: #888;
+            font-size: 14px;
+        }
+    </style>
 </head>
 
-<body>
-    <div style="background-color: cadetblue; padding: 20px">
-        <div style="margin: 0px auto; border-radius: 18px; max-width: 600px;">
-            <table align="center" cellpadding="0" cellspacing="0" width="600">
-                <tr>
-                    <td align="center" style="padding: 40px 0 30px 0;">
-                        <div style="font-family: Noto SansSerif Korean; font-size: 38px; font-weight: bold; line-height: 40px; color: white">
-                            D.LOG
-                        </div>
-                    </td>
-                </tr>
-<!--                <tr>-->
-<!--                    <td align="left" style="font-size: 0px; padding: 10px 10px 10px 10px; word-break: break-word" >-->
-<!--                        <div style="font-family: Noto SansSerif Korean; font-size: 32px; font-weight: bold; line-height: 21px; color: white">-->
-
-<!--                        </div>-->
-<!--                    </td>-->
-<!--                </tr>-->
-            </table>
-        </div>
-        <div th:each="content : ${contents}" style="margin: 0px auto; background-color: darkcyan; border-radius: 18px; max-width: 600px;">
-            <table style="margin:10px; padding:10px;" align="center" cellpadding="0" cellspacing="0" width="100%">
-                <tr>
-                    <td align="left" style="font-size:0px; padding:10px 0px 10px 0px; word-break:break-word">
-                        <div style="text-align: center; padding:5px; font-family:Noto Sans Korean; font-size:15px; font-weight:400; line-height:21px; text-align:left; color:white">
-                            <span th:text="${content.companyNm}"></span> - <span th:text="${content.author}"></span>
-                        </div>
-                        <div style="padding:5px; font-family:Noto Sans Korean; font-size:20px; font-weight:400; line-height:21px; text-align:left; color:white">
-                            <a style="color: white" th:href="${content.link}" th:text="${content.title}">
-                            </a>
-                        </div>
-                        <div style="padding:5px; font-family:Noto Sans Korean; font-size:20px; font-weight:400; line-height:21px; text-align:left; color:white">
-                            <span th:text="${content.description}"></span>
-                        </div>
-                        <div style="padding:5px; font-family:Noto Sans Korean; font-size:15px; font-weight:400; line-height:21px; text-align:left; color:white">
-                            <span th:text="${content.regDtm}"></span>
-                        </div>
-                    </td>
-                </tr>
-            </table>
-        </div>
+<body style="border: 5px solid #2c3e50;">
+<div class="container">
+    <div class="header">Daily Dev Log</div>
+    <div th:each="content : ${contents}" class="content">
+        <div class="company" th:text="${content.companyNm}"></div>
+        <div class="author" th:text="${content.author}"></div>
+        <a th:href="${content.link}" class="title" th:text="${content.title}"></a>
+        <div class="description" th:text="${content.description}"></div>
+        <div class="date" th:text="${content.regDtm}"></div>
     </div>
+</div>
 </body>
 </html>
