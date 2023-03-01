@@ -1,3 +1,17 @@
+
+dlog:
+  woowahan: # 우아한 형제들 기술블로그
+    blog:
+      url: https://techblog.woowahan.com
+  naver: # 네이버 IT 뉴스
+    it-news:
+      url: https://news.naver.com/main/list.naver?mode=LS2D&mid=shm&sid1=105&sid2=230
+  kakao: # 카카오 기술블로그
+    blog:
+      url: https://tech.kakao.com/blog/
+
+---
+
 spring:
   config:
     activate:
@@ -101,15 +115,3 @@ logging:
   level:
     com.news.dev: debug
 
----
-
-dlog:
-  woowahan: # 우아한 형제들 기술블로그
-    blog:
-      url: https://techblog.woowahan.com
-  naver: # 네이버 IT 뉴스
-    it-news:
-      url: https://news.naver.com/main/list.naver?mode=LS2D&mid=shm&sid1=105&sid2=230
-  kakao: # 카카오 기술블로그
-    blog:
-      url: https://tech.kakao.com/blog/
