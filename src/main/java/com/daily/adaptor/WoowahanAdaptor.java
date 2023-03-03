@@ -25,7 +25,7 @@ public class WoowahanAdaptor {
 
     private final Environment env;
 
-    WoowahanAdaptor(Environment env) {
+    public WoowahanAdaptor(Environment env) {
         this.env = env;
     }
 

@@ -24,7 +24,7 @@ public class KakaoAdaptor {
 
     private final Environment env;
 
-    KakaoAdaptor(Environment env) {
+    public KakaoAdaptor(Environment env) {
         this.env = env;
     }
 
