@@ -1,8 +1,8 @@
 package com.dlog.adaptor;
 
+import com.daily.adaptor.WoowahanAdaptor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

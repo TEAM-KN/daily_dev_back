@@ -1,13 +1,12 @@
 package com.dlog.adaptor;
 
-import com.dlog.global.exception.UrlConnectionException;
+import com.daily.adaptor.KakaoAdaptor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 
