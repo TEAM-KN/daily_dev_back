@@ -11,5 +11,6 @@ public class UserJoinRequest {
     private String email;
     private String nickname;
     private String imageUrl;
+    private String password;
     private String subscribeYn;
 }

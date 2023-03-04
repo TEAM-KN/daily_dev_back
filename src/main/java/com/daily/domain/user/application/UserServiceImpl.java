@@ -28,11 +28,16 @@ public class UserServiceImpl implements UserService {
                 .nickname(joinRq.getNickname())
                 .subscribeYn(joinRq.getSubscribeYn())
                 .imageUrl(joinRq.getImageUrl())
+                .password(joinRq.getPassword())
                 .build());
 
-        UserLoginResponse loginRs = new ModelMapper().map(user, UserLoginResponse.class);
-
-        return loginRs;
+        return UserLoginResponse.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .nickname(user.getNickname())
+                .subscribeYn(user.getSubscribeYn())
+                .imageUrl(user.getImageUrl())
+                .build();
     }
 
     @Override
@@ -43,17 +48,18 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException("User Not Found");
         }
 
-        userRepository.save(user);
-
-        UserLoginResponse loginRs = new ModelMapper().map(user, UserLoginResponse.class);
-
-        return loginRs;
+        return UserLoginResponse.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .nickname(user.getNickname())
+                .subscribeYn(user.getSubscribeYn())
+                .imageUrl(user.getImageUrl())
+                .build();
     }
 
     @Override
-    @Cacheable(value = "user", key = "#username")
-    public UserDto getUserByUsername(String username) {
-        User user = userRepository.findByEmail(username);
+    public UserDto getUserByUsername(String email) {
+        User user = userRepository.findByEmail(email);
 
         if(user == null) {
             throw new UsernameNotFoundException("User Not Found");
