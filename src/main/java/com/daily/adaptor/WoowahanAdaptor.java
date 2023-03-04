@@ -31,7 +31,7 @@ public class WoowahanAdaptor {
 
     public Document getDocument() {
         try {
-            String url = env.getProperty("dlog.woowahan.blog.url");
+            String url = env.getProperty("daily.naver.it-news.url");
             return Jsoup.connect(Objects.requireNonNull(url)).get();
         } catch(Exception e) {
             throw new UrlConnectionException("요청한 URL에 접근할 수 없습니다.");

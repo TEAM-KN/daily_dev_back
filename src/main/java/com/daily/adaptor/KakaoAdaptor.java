@@ -30,7 +30,7 @@ public class KakaoAdaptor {
 
     public Document getDocument() {
         try {
-            String url = env.getProperty("dlog.kakao.blog.url");
+            String url = env.getProperty("daily.kakao.blog.url");
             return Jsoup.connect(url).get();
         } catch(Exception e) {
             throw new UrlConnectionException("요청한 URL에 접근할 수 없습니다.");
