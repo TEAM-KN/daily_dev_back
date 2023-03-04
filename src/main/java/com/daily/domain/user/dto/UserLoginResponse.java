@@ -7,11 +7,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserLoginResponse {
-    private String username;
+    private Long id;
+    private String email;
     private String nickname;
-    private String password;
-    private Long userNo;
     private String subscribeYn;
+    private String imageUrl;
     private String accessToken;
     private String refreshToken;
 }

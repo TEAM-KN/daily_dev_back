@@ -29,10 +29,11 @@ public class AuthController extends ResponseEntityHandler {
                 .nickname("노짱")
                 .subscribeYn("Y")
                 .imageUrl("")
+                .password("1234")
                 .build());
     }
 
-    @PutMapping("/join")
+    @PostMapping("/join")
     public ResponseEntity<Object> join(@RequestBody UserJoinRequest joinRq) throws Exception {
         UserLoginResponse loginRs;
 
