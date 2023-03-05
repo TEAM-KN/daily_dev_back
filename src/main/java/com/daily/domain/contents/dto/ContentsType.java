@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum ContentsType {
     WOOWAHAN("B","WW","우아한형제들"),
     KAKAO("B", "KA", "카카오"),
-    IT_NEWS("N", "NV", "네이버");
+    NAVER_NEWS("N", "NA", "네이버 IT 뉴스");
 
     private String contentType;
     private String companyCd;

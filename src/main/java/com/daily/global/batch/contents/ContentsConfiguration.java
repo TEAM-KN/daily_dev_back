@@ -1,6 +1,7 @@
 package com.daily.global.batch.contents;
 
 import com.daily.adaptor.KakaoAdaptor;
+import com.daily.adaptor.NaverNewsAdaptor;
 import com.daily.adaptor.WoowahanAdaptor;
 import com.daily.domain.contents.domain.Contents;
 import com.daily.domain.contents.repository.ContentsRepository;
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.EntityManagerFactory;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -36,6 +38,7 @@ public class ContentsConfiguration {
     private final ContentsRepository contentsRepository;
     private final KakaoAdaptor kakaoAdaptor;
     private final WoowahanAdaptor woowahanAdaptor;
+    private final NaverNewsAdaptor naverNewsAdaptor;
 
     /*
     * 배치 명 : New 컨텐츠 데이터 수집 배치 프로그램
@@ -75,12 +78,12 @@ public class ContentsConfiguration {
     }
 
     private List<Contents> getContents(String requestDate) {
+        List<Contents> contents = new ArrayList<>();
 
-        List<Contents> woowahanContents = woowahanAdaptor.getNewContentsFromWoowahan(requestDate);
-        List<Contents> kakaoContents = kakaoAdaptor.getNewContentsFromKakao(requestDate);
+        contents.addAll(woowahanAdaptor.getNewContentsFromWoowahan(requestDate));
+        contents.addAll(kakaoAdaptor.getNewContentsFromKakao(requestDate));
+        contents.addAll(naverNewsAdaptor.getNewContentsFromNaverNews(requestDate));
 
-        List<Contents> contents =
-                Stream.concat(woowahanContents.stream(), kakaoContents.stream()).collect(Collectors.toList());
         return contents;
     }
 
