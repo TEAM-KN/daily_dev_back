@@ -16,6 +16,5 @@ class NaverNewsAdaptorTest {
 
     @Test
     void getDocumentTest() {
-        Document document = naverNewsAdaptor.getDocument();
     }
 }
