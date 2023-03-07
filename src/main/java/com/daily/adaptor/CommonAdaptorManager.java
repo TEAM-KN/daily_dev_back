@@ -9,7 +9,7 @@ import java.util.List;
 
 @Component
 @Slf4j
-public class CommonAdaptorManger {
+public class CommonAdaptorManager {
 
     public List<Contents> of(String requestDate, CommonAdaptor... adaptors) {
         List<Contents> contents = new ArrayList<>();

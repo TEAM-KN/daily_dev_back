@@ -1,6 +1,6 @@
 package com.daily.global.batch.contents;
 
-import com.daily.adaptor.CommonAdaptorManger;
+import com.daily.adaptor.CommonAdaptorManager;
 import com.daily.adaptor.KakaoAdaptor;
 import com.daily.adaptor.NaverNewsAdaptor;
 import com.daily.adaptor.WoowahanAdaptor;
@@ -37,7 +37,7 @@ public class ContentsConfiguration {
     private final KakaoAdaptor kakaoAdaptor;
     private final WoowahanAdaptor woowahanAdaptor;
     private final NaverNewsAdaptor naverNewsAdaptor;
-    private final CommonAdaptorManger adaptorManger;
+    private final CommonAdaptorManager adaptorManger;
 
     /*
     * 배치 명 : New 컨텐츠 데이터 수집 배치 프로그램
