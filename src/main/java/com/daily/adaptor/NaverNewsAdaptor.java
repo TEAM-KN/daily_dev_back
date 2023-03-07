@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 
 @Component
 @Slf4j
-public class NaverNewsAdaptor {
+public class NaverNewsAdaptor implements CommonAdaptor {
 
     private Environment env;
 
@@ -56,7 +56,8 @@ public class NaverNewsAdaptor {
         }
     }
 
-    public List<Contents> getNewContentsFromNaverNews(String requestDate) {
+    @Override
+    public List<Contents> getNewContentsFromAdaptor(String requestDate) {
         LocalDate date = LocalDate.parse(requestDate, DateTimeFormatter.ofPattern("yyyy-MM-dd")).minusDays(1);
         Elements elements = this.getElements(this.getDocument(date));
 

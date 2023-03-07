@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 @Component
 @Slf4j
-public class WoowahanAdaptor {
+public class WoowahanAdaptor implements CommonAdaptor {
 
     private final Environment env;
 
@@ -45,8 +45,9 @@ public class WoowahanAdaptor {
             throw new NullPointerException("Element is Null...");
         }
     }
-    
-    public List<Contents> getNewContentsFromWoowahan(String requestDate) {
+
+    @Override
+    public List<Contents> getNewContentsFromAdaptor(String requestDate) {
         Elements elements = this.getElement(this.getDocument());
 
         List<Contents> contents = elements.stream()

@@ -1,5 +1,6 @@
 package com.daily.global.batch.contents;
 
+import com.daily.adaptor.CommonAdaptorManger;
 import com.daily.adaptor.KakaoAdaptor;
 import com.daily.adaptor.NaverNewsAdaptor;
 import com.daily.adaptor.WoowahanAdaptor;
@@ -20,10 +21,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.EntityManagerFactory;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Configuration
 @Slf4j
@@ -39,6 +37,7 @@ public class ContentsConfiguration {
     private final KakaoAdaptor kakaoAdaptor;
     private final WoowahanAdaptor woowahanAdaptor;
     private final NaverNewsAdaptor naverNewsAdaptor;
+    private final CommonAdaptorManger adaptorManger;
 
     /*
     * 배치 명 : New 컨텐츠 데이터 수집 배치 프로그램
@@ -78,13 +77,7 @@ public class ContentsConfiguration {
     }
 
     private List<Contents> getContents(String requestDate) {
-        List<Contents> contents = new ArrayList<>();
-
-        contents.addAll(woowahanAdaptor.getNewContentsFromWoowahan(requestDate));
-        contents.addAll(kakaoAdaptor.getNewContentsFromKakao(requestDate));
-        contents.addAll(naverNewsAdaptor.getNewContentsFromNaverNews(requestDate));
-
-        return contents;
+        return adaptorManger.of(requestDate, woowahanAdaptor, kakaoAdaptor, naverNewsAdaptor);
     }
 
 }

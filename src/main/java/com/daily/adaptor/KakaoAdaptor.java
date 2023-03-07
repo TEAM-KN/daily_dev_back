@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Component
 @Slf4j
-public class KakaoAdaptor {
+public class KakaoAdaptor implements CommonAdaptor {
 
     private final Environment env;
 
@@ -45,7 +45,8 @@ public class KakaoAdaptor {
         }
     }
 
-    public List<Contents> getNewContentsFromKakao(String requestDate) {
+    @Override
+    public List<Contents> getNewContentsFromAdaptor(String requestDate) {
         Elements elements = this.getElements(this.getDocument());
 
         List<Contents> contents = elements.stream()
