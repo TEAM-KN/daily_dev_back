@@ -1,7 +1,7 @@
 package com.daily.global.config.security;
 
-import com.daily.domain.user.domain.User;
-import com.daily.domain.user.repository.UserRepository;
+import com.daily.user.domain.User;
+import com.daily.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

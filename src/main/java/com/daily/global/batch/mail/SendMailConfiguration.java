@@ -1,9 +1,9 @@
 package com.daily.global.batch.mail;
 
-import com.daily.domain.comn.util.MailUtil;
-import com.daily.domain.user.domain.User;
+import com.daily.mail.application.MailService;
+import com.daily.user.domain.User;
 import com.daily.global.batch.StepShareContext;
-import com.daily.domain.contents.domain.Contents;
+import com.daily.contents.domain.Contents;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -36,7 +36,7 @@ public class SendMailConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory entityManagerFactory;
-    private final MailUtil mailUtil;
+    private final MailService mailService;
     private final StepShareContext<Contents> shareContents;
 
     @Bean(JOB_NAME)
@@ -109,7 +109,7 @@ public class SendMailConfiguration {
             Map<String,Object> contents = this.prepareEmailContents();
 
             if(items.size() >= 1 && contents != null) {
-                mailUtil.sendEmail(recipients, "새로운 기술 이슈가 도착했습니다.", "mail", contents);
+                mailService.sendEmail(recipients, "새로운 기술 이슈가 도착했습니다.", "mail", contents);
             } else {
                 log.warn("No recipients or contents found, skipping email sending.");
             }

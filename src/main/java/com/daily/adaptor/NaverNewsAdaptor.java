@@ -1,26 +1,21 @@
 package com.daily.adaptor;
 
 
-import com.daily.domain.contents.domain.Contents;
-import com.daily.domain.contents.dto.ContentsType;
-import com.daily.domain.contents.repository.ContentsRepository;
-import com.daily.global.exception.UrlConnectionException;
-import com.daily.domain.contents.dto.ContentsDto;
-import lombok.RequiredArgsConstructor;
+import com.daily.contents.domain.Contents;
+import com.daily.contents.dto.ContentsType;
+import com.daily.comn.exception.UrlConnectionException;
+import com.daily.contents.dto.ContentsDto;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
