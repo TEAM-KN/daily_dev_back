@@ -1,4 +1,4 @@
-package com.dlog.adaptor;
+package com.daily.adaptor;
 
 import com.daily.adaptor.KakaoAdaptor;
 import org.jsoup.Jsoup;

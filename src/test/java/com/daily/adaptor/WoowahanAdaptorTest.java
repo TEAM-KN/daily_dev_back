@@ -1,4 +1,4 @@
-package com.dlog.adaptor;
+package com.daily.adaptor;
 
 import com.daily.adaptor.WoowahanAdaptor;
 import org.jsoup.Jsoup;

@@ -1,5 +1,6 @@
 package com.daily.adaptor;
 
+import com.daily.adaptor.NaverNewsAdaptor;
 import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
