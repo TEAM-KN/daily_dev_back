@@ -1,6 +1,6 @@
 package com.daily.global.batch.contents;
 
-import com.daily.domain.contents.repository.ContentsRepository;
+import com.daily.contents.repository.ContentsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
