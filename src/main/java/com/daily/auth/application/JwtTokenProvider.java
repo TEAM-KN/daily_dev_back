@@ -1,75 +1,67 @@
 package com.daily.auth.application;
 
 
-import com.daily.global.config.security.CustomUserDetailService;
+import com.daily.auth.exception.ExpiredTokenException;
+import com.daily.auth.exception.InvalidTokenException;
 import io.jsonwebtoken.*;
-import lombok.RequiredArgsConstructor;
+import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import javax.annotation.PostConstruct;
+
 import javax.servlet.http.HttpServletRequest;
-import java.util.Base64;
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.Date;
 
 @Component
-@RequiredArgsConstructor
 @Slf4j
 public class JwtTokenProvider {
 
-    private String secretKey = "DAILY_DEV";
-    private final long accessTokenExpiration = 30 * 60 * 1000L; // 토큰 유효기간 (30분)
-    private final long refreshTokenExpiration = 1000L * 60 * 69 * 24 * 7;
+    private final Key tokenSecretKey;
+    private final long accessTokenExpiration;
 
-    private final CustomUserDetailService customUserDetailService;
 
-    @PostConstruct
-    protected void init() { // 객체 초기화, secretKey를 base64로 인코딩
-        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+    public JwtTokenProvider(@Value("${security.jwt.token.secret-key}")  final String secretKey,
+                            @Value("${security.jwt.token.access.expire-length}") final long accessTokenExpiration) {
+        this.tokenSecretKey = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
+        this.accessTokenExpiration = accessTokenExpiration;
     }
 
-    public String createToken(String email) {
+
+    public String createAccessToken(String payload) {
+        Claims claims = Jwts.claims().setSubject(payload);
         Date now = new Date();
+        Date validity = new Date(now.getTime() + accessTokenExpiration);
 
         return Jwts.builder()
-            .setSubject(email)
-            .setExpiration(new Date(now.getTime() + accessTokenExpiration))
-            .signWith(SignatureAlgorithm.HS256, secretKey)
-            .compact();
-    }
-
-    public String createRefreshToken() {
-        Date now = new Date();
-
-        return Jwts.builder()
+                .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + refreshTokenExpiration))
-                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .setExpiration(validity)
+                .signWith(SignatureAlgorithm.HS256, tokenSecretKey)
                 .compact();
+
     }
 
-    public Authentication getAuthentication(String token) {
-        UserDetails userDetails = customUserDetailService.loadUserByUsername(this.getUser(token));
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+    public void validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(tokenSecretKey).parseClaimsJws(token);
+        } catch (ExpiredJwtException e) {
+            throw new ExpiredTokenException();
+        } catch (JwtException e) {
+            throw new InvalidTokenException();
+        }
     }
 
-    public String getUser(String token) {
-        String user = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
-        return user;
+    public String getPayload(String token) {
+        return Jwts.parser().setSigningKey(tokenSecretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
-    public String resolveToken(HttpServletRequest request) {
+    public String getToken(HttpServletRequest request) {
         return request.getHeader("X-AUTH-TOKEN");
     }
 
-    public boolean validationToken(String token) {
-        try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-            return !claims.getBody().getExpiration().before(new Date());
-        } catch (Exception e) {
-            return false;
-        }
-    }
 }

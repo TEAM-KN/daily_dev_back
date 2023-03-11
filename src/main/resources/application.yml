@@ -52,7 +52,7 @@ spring:
 security:
   jwt:
     token:
-      secret-key:
+      secret-key: U0NOT0hfREFJTFlfREVWX0xPR19QUk9KRUNU
       access:
         expire-length: 3600000 #1시간
         refresh:
