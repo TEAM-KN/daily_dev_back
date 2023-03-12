@@ -7,21 +7,18 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
-import java.security.Key;
 import java.util.Date;
 
 @Component
 @Slf4j
 public class JwtTokenProvider {
 
-    private final Key tokenSecretKey;
+    private final SecretKey tokenSecretKey;
     private final long accessTokenExpiration;
 
 
@@ -33,15 +30,14 @@ public class JwtTokenProvider {
 
 
     public String createAccessToken(String payload) {
-        Claims claims = Jwts.claims().setSubject(payload);
         Date now = new Date();
         Date validity = new Date(now.getTime() + accessTokenExpiration);
 
         return Jwts.builder()
-                .setClaims(claims)
+                .setSubject(payload)
                 .setIssuedAt(now)
                 .setExpiration(validity)
-                .signWith(SignatureAlgorithm.HS256, tokenSecretKey)
+                .signWith(tokenSecretKey, SignatureAlgorithm.HS256)
                 .compact();
 
     }

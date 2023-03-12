@@ -22,12 +22,6 @@ spring:
     show-sql: true
     database-platform: org.hibernate.dialect.H2Dialect
 
-  cache:
-    type: redis
-#  redis:
-#    host: 127.0.0.1
-#    port: 6379
-
   batch:
     jdbc:
       initialize-schema: always
@@ -64,32 +58,31 @@ spring:
   config:
     activate:
       on-profile: prod
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://scnohdb.cscks1c1hr2u.us-west-1.rds.amazonaws.com/DEV_DB?characterEncoding=UTF-8&autoReconnect=true&useSSL=false
-    username: scnoh
-    password: scnoh0760!
+    url: jdbc:mysql://scnohdb.cjpd283ml1ot.us-east-1.rds.amazonaws.com/dev?characterEncoding=UTF-8&autoReconnect=true&useSSL=false
+    username: root
+    password: "tmdcjf0760"
+
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-    show-sql: true
-  cache:
-    type: redis
-  redis:
-    host: 127.0.0.1
-    port: 6379
+    show-sql: false
+
   batch:
     jdbc:
       initialize-schema: never
     job:
       names: ${job.name:NONE}
+
   mail:
     host: smtp.gmail.com
     port: 587
     username: schulnoh@gmail.com
-    password: sjtmppuixgireous
+    password: ucgfiptbadbbuwbv
     properties:
       mail:
         transport:
@@ -99,18 +92,24 @@ spring:
           timeout: 5000
           starttls.enable: true
     default-encoding: UTF-8
-token:
-  expiration_time : 1000L * 60 * 30 # 하루
-  secret: user_token
+
+security:
+  jwt:
+    token:
+      secret-key: U0NOT0hfREFJTFlfREVWX0xPR19QUk9KRUNU
+      access:
+        expire-length: 3600000 #1시간
+        refresh:
+          expire-length: 1210000000 #14일
 
 logging:
   pattern:
     console: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n'
     file: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n'
   file:
-    name: /app/data/log/dlog.log
+    name: ~/patch/log/daily.log
   level:
-    com.news.dev: debug
+    com.news.dev: info
 
 ---
 

@@ -1,5 +1,6 @@
 package com.daily.user.dto;
 
+import com.daily.user.domain.User;
 import lombok.*;
 
 @Builder
@@ -13,4 +14,15 @@ public class UserJoinRequest {
     private String imageUrl;
     private String password;
     private String subscribeYn;
+
+    public User toUser() {
+        return User.builder()
+                .email(getEmail())
+                .nickname(getNickname())
+                .imageUrl(getImageUrl())
+                .password(getPassword())
+                .subscribeYn(getSubscribeYn())
+                .build();
+    }
+
 }

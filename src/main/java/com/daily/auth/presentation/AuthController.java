@@ -1,5 +1,6 @@
 package com.daily.auth.presentation;
 
+import com.daily.auth.application.AuthService;
 import com.daily.user.application.UserService;
 import com.daily.user.dto.UserDto;
 import com.daily.user.dto.UserJoinRequest;
@@ -20,11 +21,11 @@ import javax.annotation.PostConstruct;
 @RequestMapping("/auth/user")
 public class AuthController extends ResponseEntityHandler {
 
-    private final UserService userService;
+    private final AuthService authService;
 
     @PostConstruct
     public void test() throws Exception {
-        userService.join(UserJoinRequest.builder()
+        authService.join(UserJoinRequest.builder()
                 .email("schulnoh@gmail.com")
                 .nickname("노짱")
                 .subscribeYn("Y")
@@ -37,29 +38,16 @@ public class AuthController extends ResponseEntityHandler {
     public ResponseEntity<Object> join(@RequestBody UserJoinRequest joinRq) throws Exception {
         UserLoginResponse loginRs;
 
-        loginRs  = userService.join(joinRq);
+        loginRs  = authService.join(joinRq);
 
         return success(loginRs, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody UserLoginRequest loginRq) throws Exception {
-        UserLoginResponse loginRs = userService.login(loginRq);
+        UserLoginResponse loginRs = authService.login(loginRq);
 
         return success(loginRs);
-    }
-
-    @GetMapping("/info")
-    public ResponseEntity<Object> info(@RequestBody UserDto requestDto) throws Exception {
-        UserDto responseDto = userService.getUserByUsername(requestDto.getUsername());
-
-        return success(responseDto);
-    }
-
-    @PostMapping("/refresh")
-    public ResponseEntity<Object> refresh(@RequestBody UserDto user) throws Exception {
-        userService.refresh(user);
-        return success(user);
     }
 
 }

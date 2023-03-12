@@ -8,27 +8,24 @@ import com.daily.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AuthService {
 
     private final UserRepository userRepository;
 
-    public UserLoginResponse join(UserJoinRequest joinRq) {
-        User user = userRepository.save(User.builder()
-                .email(joinRq.getEmail())
-                .nickname(joinRq.getNickname())
-                .subscribeYn(joinRq.getSubscribeYn())
-                .imageUrl(joinRq.getImageUrl())
-                .password(joinRq.getPassword())
-                .build());
+    public UserLoginResponse join(UserJoinRequest joinRequest) {
+        User user = userRepository.save(joinRequest.toUser());
 
         return new UserLoginResponse(user);
     }
 
-    public UserLoginResponse login(UserLoginRequest loginRq) {
-        User user = userRepository.findByEmail(loginRq.getUsername());
+    @Transactional(readOnly = true)
+    public UserLoginResponse login(UserLoginRequest loginRequest) {
+        User user = userRepository.findByEmail(loginRequest.getUsername());
 
         if(user == null) {
             throw new UsernameNotFoundException("User Not Found");
