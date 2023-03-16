@@ -16,9 +16,12 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 @Slf4j
@@ -57,16 +60,27 @@ public class NaverNewsAdaptor implements CommonAdaptor {
         Elements elements = this.getElements(this.getDocument(date));
 
         return elements.stream().map(element -> {
-            String imageLink = element.select("dl > dt.photo").get(0).select("a").select("img").attr("src");
-            String link = element.select("dl > dt").get(1).select("a").attr("href");
-            String title = element.select("dl > dt").get(1).select("a").text();
+
+            Map<String, String> header = new HashMap<>();
+            element.select("dl > dt").forEach(dt -> {
+                if ("photo".equals(dt.className())) {
+                    header.put("imageLink", dt.select("a").select("img").attr("src"));
+                } else {
+                    header.put("link", dt.select("a").attr("href"));
+                    header.put("title", dt.select("a").text());
+                }
+            });
+
+//            String imageLink = element.select("dl > dt.photo").get(0).select("a").select("img").attr("src");
+//            String link = element.select("dl > dt").get(1).select("a").attr("href");
+//            String title = element.select("dl > dt").get(1).select("a").text();
             String description = element.select("dl > dd").get(0).select("span.lede").text();
             String author = element.select("dl > dd").get(0).select("span.writing").text();
 
-            if(!"".equals(link)) {
+            if(!"".equals(header.get("link"))) {
                 ContentsDto content = ContentsDto.builder()
-                        .link(link)
-                        .title(title)
+                        .link(header.get("link"))
+                        .title(header.get("title"))
                         .author(author)
                         .regDtm(requestDate)
                         .description(description)
