@@ -1,6 +1,10 @@
 # Daily Dev
 
-![image](https://user-images.githubusercontent.com/51324045/225675633-f10adb35-46c6-4a28-8856-8d6f5f745037.png)
+<div style="display: flex">
+<img src="https://user-images.githubusercontent.com/51324045/227776120-a20614dc-a7ee-42ee-af2a-ffae34c6784b.gif" width="300" height="500"/>
+
+<img src="https://user-images.githubusercontent.com/51324045/227776270-bcefe171-7077-49b3-8801-83a8cbd4d2c4.gif" width="300" height="500"/>
+</div>
 
 
 ### 요구사항
