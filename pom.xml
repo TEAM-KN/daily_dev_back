@@ -12,6 +12,9 @@
     <artifactId>Daily</artifactId>
     <version>1.0.0</version>
     <name>daily</name>
+    <configuration>
+        <outputDirectory>/Users/s_chuli/patch</outputDirectory>
+    </configuration>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>11</java.version>
