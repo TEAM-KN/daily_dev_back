@@ -63,7 +63,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://scnohdb.cjpd283ml1ot.us-east-1.rds.amazonaws.com/dev?characterEncoding=UTF-8&autoReconnect=true&useSSL=false
     username: root
-    password: "tmdcjf0760"
+    password: "!scnoh1234"
 
   jpa:
     hibernate:
@@ -74,7 +74,7 @@ spring:
 
   batch:
     jdbc:
-      initialize-schema: never
+      initialize-schema: always
     job:
       names: ${job.name:NONE}
 
