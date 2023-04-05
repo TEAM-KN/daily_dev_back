@@ -11,14 +11,15 @@ import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 
-@RequestMapping("/launcher")
-@RestController
+@Component
 @RequiredArgsConstructor
 public class JobLauncherController {
 
@@ -26,7 +27,7 @@ public class JobLauncherController {
     private final ContentsConfiguration contentsConfiguration;
     private final SendMailConfiguration sendMailConfiguration;
 
-    @PostMapping("/content")
+    @Scheduled(cron = "0 0 1 * * ?")
     public void launchJobToContent() throws Exception {
         JobParameters jobParameters = new JobParametersBuilder()
                 .addString("requestDate", LocalDate.now().toString())
@@ -34,7 +35,7 @@ public class JobLauncherController {
         jobLauncher.run(contentsConfiguration.contentsJob(), jobParameters);
     }
 
-    @PostMapping("/mail")
+    @Scheduled(cron = "0 0 9 * * ?")
     public void launchJobToMail() throws Exception {
         JobParameters jobParameters = new JobParametersBuilder()
                 .addString("requestDate", LocalDate.now().toString())
