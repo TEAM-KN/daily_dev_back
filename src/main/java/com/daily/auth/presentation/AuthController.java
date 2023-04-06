@@ -23,17 +23,6 @@ public class AuthController extends ResponseEntityHandler {
 
     private final AuthService authService;
 
-    @PostConstruct
-    public void test() throws Exception {
-        authService.join(UserJoinRequest.builder()
-                .email("schulnoh@gmail.com")
-                .nickname("노짱")
-                .subscribeYn("Y")
-                .imageUrl("")
-                .password("1234")
-                .build());
-    }
-
     @PostMapping("/join")
     public ResponseEntity<Object> join(@RequestBody UserJoinRequest joinRq) throws Exception {
         UserLoginResponse loginRs;

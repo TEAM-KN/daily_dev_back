@@ -65,15 +65,21 @@
     </style>
 </head>
 
-<body style="border: 5px solid #2c3e50;">
-<div class="container">
-    <div class="header">Daily Dev Log</div>
-    <div th:each="content : ${contents}" class="content">
-        <div class="company" th:text="${content.companyNm}"></div>
-        <div class="author" th:text="${content.author}"></div>
-        <a th:href="${content.link}" class="title" th:text="${content.title}"></a>
-        <div class="description" th:text="${content.description}"></div>
-        <div class="date" th:text="${content.regDtm}"></div>
+<body style="border: 5px solid #2c3e50; background-color: #f7f7f7; color: #333; font-family: 'Noto Sans', sans-serif;
+     margin: 0; padding: 0;">
+<div class="container" style="margin: 0 auto; max-width: 800px; padding: 30px;">
+    <div class="header" style="background-color: #2c3e50; border-radius: 10px; color: #fff; font-size: 30px;
+                font-weight: bold; line-height: 1.2; padding: 20px; text-align: center;">
+        Daily Dev Log
+    </div>
+    <div th:each="content : ${contents}" class="content" style="background-color: #fff;  border-radius: 10px;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-top: 30px; padding: 20px;">
+        <div class="company" style="color: #2980b9; font-size: 18px; font-weight: bold;" th:text="${content.companyNm}"></div>
+        <div class="author" style="color: #555; font-size: 14px;" th:text="${content.author}"></div>
+        <a th:href="${content.link}" class="title" style="color: #333; font-size: 24px; font-weight: bold;
+                    margin: 10px 0; text-decoration: none;" th:text="${content.title}"></a>
+        <div class="description" style="color: #555; font-size: 16px; line-height: 1.4; margin: 10px 0;" th:text="${content.description}"></div>
+        <div class="date" style="color: #888; font-size: 14px;" th:text="${content.regDtm}"></div>
     </div>
 </div>
 </body>
