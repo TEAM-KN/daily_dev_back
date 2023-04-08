@@ -107,7 +107,7 @@ logging:
     console: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n'
     file: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n'
   file:
-    name: ~/patch/log/daily.log
+    name: /home/ubuntu/patch/log
   level:
     com.news.dev: info
 
