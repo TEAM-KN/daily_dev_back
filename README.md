@@ -27,6 +27,8 @@
   
   * Spring의 원리, Spring Batch, Mail, CI/CD 이해하기.
   
+  * Jenkins와 Spring Batch를 활용해서 스케줄링 적용하기.
+  
   * Git을 활용하여 이슈별로 Branch 관리, Commit, Pull Request를 통해 협업 시물레이션.
   
   * Batch 테스트 코드를 작성하여 유지보수 효울성 높이기.
