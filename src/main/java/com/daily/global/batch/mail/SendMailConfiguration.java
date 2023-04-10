@@ -53,7 +53,7 @@ public class SendMailConfiguration {
     @JobScope
     public Step getContentsStep(@Value("#{jobParameters[requestDate]}") String requestDate) throws Exception {
         return stepBuilderFactory.get(JOB_NAME + "_getContentsStep")
-                .<Contents, Contents>chunk(10)
+                .<Contents, Contents>chunk(1)
                 .reader(contentsItemReader(requestDate))
                 .writer(contentsItemWriter())
                 .build();
@@ -62,7 +62,7 @@ public class SendMailConfiguration {
     @Bean(JOB_NAME + "_sendMailStep")
     public Step sendMailStep() throws Exception {
         return stepBuilderFactory.get(JOB_NAME + "_sendMailStep")
-                .<User, User>chunk(10)
+                .<User, User>chunk(1)
                 .reader(this.sendMailItemReader())
                 .writer(this.sendMailItemWriter())
                 .build();
