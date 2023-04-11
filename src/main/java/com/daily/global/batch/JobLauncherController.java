@@ -27,7 +27,7 @@ public class JobLauncherController {
     private final ContentsConfiguration contentsConfiguration;
     private final SendMailConfiguration sendMailConfiguration;
 
-    @Scheduled(cron = "0 0 1 * * ?")
+    @Scheduled(cron = "0 30 0 * * ?")
     public void launchJobToContent() throws Exception {
         JobParameters jobParameters = new JobParametersBuilder()
                 .addString("requestDate", LocalDate.now().toString())
@@ -35,7 +35,7 @@ public class JobLauncherController {
         jobLauncher.run(contentsConfiguration.contentsJob(), jobParameters);
     }
 
-    @Scheduled(cron = "0 0 9 * * ?")
+    @Scheduled(cron = "0 0 1 * * ?")
     public void launchJobToMail() throws Exception {
         JobParameters jobParameters = new JobParametersBuilder()
                 .addString("requestDate", LocalDate.now().toString())
