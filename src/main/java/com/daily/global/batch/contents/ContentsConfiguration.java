@@ -28,7 +28,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ContentsConfiguration {
 
-    private final String JOB_NAME = "contentsJob";
+    private final static String JOB_NAME = "contentsJob";
+    private final static Integer CHUNK_SIZE = 100;
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
@@ -59,7 +60,7 @@ public class ContentsConfiguration {
     @JobScope
     public Step contentsStep(@Value("#{jobParameters[requestDate]}") String requestDate) throws Exception {
         return stepBuilderFactory.get(JOB_NAME + "_contentsStep")
-                .<Contents, Contents>chunk(1)
+                .<Contents, Contents>chunk(CHUNK_SIZE)
                 .reader(new ContentsItemReader(getContents(requestDate)))
                 .writer(this.contentsWriter())
                 .build();

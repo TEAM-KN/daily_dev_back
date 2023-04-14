@@ -1,0 +1,2 @@
+INSERT INTO users(id, create_date, updated_at, email, imageUrl, nickname, password, subscribeYn) VALUES(1, '2023-04-03 21:43:23.373009', '2023-04-03 21:43:23.373009', 'schulnoh@gmail.com', '', '노짱', '1234', 'Y');
+INSERT INTO users(id, create_date, updated_at, email, imageUrl, nickname, password, subscribeYn) VALUES(2, '2023-04-05 12:28:00.191691', '2023-04-05 12:28:00.191691', 'pak4184@naver.com', '', '박짱', '1234', 'Y');

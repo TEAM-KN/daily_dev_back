@@ -31,7 +31,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SendMailConfiguration {
 
-    private final String JOB_NAME = "sendMailJob";
+    private final static String JOB_NAME = "sendMailJob";
+    private final static Integer CHUNK_SIZE = 100;
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
@@ -53,7 +54,7 @@ public class SendMailConfiguration {
     @JobScope
     public Step getContentsStep(@Value("#{jobParameters[requestDate]}") String requestDate) throws Exception {
         return stepBuilderFactory.get(JOB_NAME + "_getContentsStep")
-                .<Contents, Contents>chunk(1)
+                .<Contents, Contents>chunk(CHUNK_SIZE)
                 .reader(contentsItemReader(requestDate))
                 .writer(contentsItemWriter())
                 .build();
@@ -62,7 +63,7 @@ public class SendMailConfiguration {
     @Bean(JOB_NAME + "_sendMailStep")
     public Step sendMailStep() throws Exception {
         return stepBuilderFactory.get(JOB_NAME + "_sendMailStep")
-                .<User, User>chunk(1)
+                .<User, User>chunk(CHUNK_SIZE)
                 .reader(this.sendMailItemReader())
                 .writer(this.sendMailItemWriter())
                 .build();
