@@ -30,23 +30,8 @@ spring:
   batch:
     jdbc:
       initialize-schema: always
-#    job:
-#      names: ${job.name:NONE}
-
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: schulnoh@gmail.com
-    password: ucgfiptbadbbuwbv
-    properties:
-      mail:
-        transport:
-          protocol: smtp
-        smtp:
-          auth: true
-          timeout: 5000
-          starttls.enable: true
-    default-encoding: UTF-8
+    job:
+      names: ${job.name:NONE}
 
 security:
   jwt:
@@ -83,21 +68,6 @@ spring:
     job:
       names: ${job.name:NONE}
 
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: schulnoh@gmail.com
-    password: ucgfiptbadbbuwbv
-    properties:
-      mail:
-        transport:
-          protocol: smtp
-        smtp:
-          auth: true
-          timeout: 5000
-          starttls.enable: true
-    default-encoding: UTF-8
-
 security:
   jwt:
     token:
@@ -112,7 +82,7 @@ logging:
     console: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n'
     file: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n'
   file:
-    name: /home/ubuntu/patch/log
+    name: ~/patch/log
   level:
     com.news.dev: info
 
