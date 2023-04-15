@@ -40,3 +40,4 @@ README.md
 
 ### mail properties ###
 /src/main/resources/application-mail.yml
+/src/main/resources/application-database.yml
