@@ -1,0 +1,2 @@
+./src/main/resource/application-database.yml filter=git-crypt diff=git-crypt
+./src/main/resource/application-mail.yml filter=git-crypt diff=git-crypt

@@ -1,0 +1,23 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  datasource:
+    url: jdbc:h2:mem:devdb
+    driver-class-name: org.h2.Driver
+    username: dlog
+    password: 1234
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://scnohdb.cjpd283ml1ot.us-east-1.rds.amazonaws.com/dev?characterEncoding=UTF-8&autoReconnect=true&useSSL=false
+    username: root
+    password: "!scnoh1234"
