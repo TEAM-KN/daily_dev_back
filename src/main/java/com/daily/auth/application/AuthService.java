@@ -25,12 +25,7 @@ public class AuthService {
 
     @Transactional(readOnly = true)
     public UserLoginResponse login(UserLoginRequest loginRequest) {
-        User user = userRepository.findByEmail(loginRequest.getUsername());
-
-        if(user == null) {
-            throw new UsernameNotFoundException("User Not Found");
-        }
-
+        User user = userRepository.findById(loginRequest.getUsername()).orElseThrow(() -> new IllegalArgumentException("Not found User"));
         return new UserLoginResponse(user);
     }
 

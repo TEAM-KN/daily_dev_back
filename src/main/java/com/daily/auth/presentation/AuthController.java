@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import javax.validation.Valid;
 
 @Slf4j
 @RestController
@@ -24,7 +25,7 @@ public class AuthController extends ResponseEntityHandler {
     private final AuthService authService;
 
     @PostMapping("/join")
-    public ResponseEntity<Object> join(@RequestBody UserJoinRequest joinRq) throws Exception {
+    public ResponseEntity<Object> join(@Valid @RequestBody UserJoinRequest joinRq) throws Exception {
         UserLoginResponse loginRs;
 
         loginRs  = authService.join(joinRq);
