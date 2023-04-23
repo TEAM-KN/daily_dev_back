@@ -18,6 +18,11 @@ public class AuthService {
     private final UserRepository userRepository;
 
     public UserLoginResponse join(UserJoinRequest joinRequest) {
+        User isUser = userRepository.findById(joinRequest.getEmail()).orElse(null);
+
+        if (isUser != null)
+            throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
+
         User user = userRepository.save(joinRequest.toUser());
 
         return new UserLoginResponse(user);
