@@ -6,7 +6,7 @@ import java.util.Enumeration;
 public class AuthExtractor {
     private AuthExtractor() {}
 
-    public static final String AUTH_TYPE = "Bearer";
+    public static final String AUTH_TYPE = "Bearer ";
     public static final String AUTH_HEADER_KEY = "Authorization";
 
     public static String extractAccessToken(HttpServletRequest request) {
