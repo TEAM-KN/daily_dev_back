@@ -1,5 +1,6 @@
 package com.daily.user.dto;
 
+import com.daily.user.domain.User;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,14 +13,20 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 public class UserDto {
-    private String username;
+    private String email;
     private String nickname;
-    private String pwd;
-    private LocalDateTime joinDtm;
-    private LocalDateTime updateDtm;
-    private Long userNo;
+    private String password;
+    private String imageUrl;
     private String subscribeYn;
-    private String accessToken;
-    private String refreshToken;
+
+    public User toUser() {
+        return User.builder()
+                .email(getEmail())
+                .nickname(getNickname())
+                .password(getPassword())
+                .imageUrl(getImageUrl())
+                .subscribeYn(getSubscribeYn())
+                .build();
+    }
 
 }

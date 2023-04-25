@@ -18,7 +18,6 @@ public class UserService {
         if (user == null)
             throw new NoSearchUserException();
 
-
         return user;
     }
 
