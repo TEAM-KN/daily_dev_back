@@ -1,4 +1,4 @@
-package com.daily.global.config.security;
+package com.daily.global.security;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

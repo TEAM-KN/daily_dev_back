@@ -3,7 +3,6 @@ package com.daily.contents.dto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 @Getter
 public enum ContentsType {
     WOOWAHAN("B","WW","우아한형제들"),

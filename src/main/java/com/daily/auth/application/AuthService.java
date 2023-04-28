@@ -6,6 +6,10 @@ import com.daily.user.dto.UserLoginRequest;
 import com.daily.user.dto.UserLoginResponse;
 import com.daily.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,25 +17,23 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class AuthService {
+public class AuthService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    public UserLoginResponse join(UserJoinRequest joinRequest) {
+    public UserLoginResponse join(final UserJoinRequest joinRequest) {
         User isUser = userRepository.findById(joinRequest.getEmail()).orElse(null);
 
         if (isUser != null)
-            throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
+            throw new DuplicateKeyException("이미 사용 중인 이메일입니다.");
 
         User user = userRepository.save(joinRequest.toUser());
 
         return new UserLoginResponse(user);
     }
 
-    @Transactional(readOnly = true)
-    public UserLoginResponse login(UserLoginRequest loginRequest) {
-        User user = userRepository.findById(loginRequest.getUsername()).orElseThrow(() -> new IllegalArgumentException("Not found User"));
-        return new UserLoginResponse(user);
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return null;
     }
-
 }

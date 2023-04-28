@@ -1,4 +1,4 @@
-package com.daily.global.config.security;
+package com.daily.global.security;
 
 import com.daily.user.domain.User;
 import com.daily.user.repository.UserRepository;
