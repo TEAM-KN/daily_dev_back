@@ -38,7 +38,7 @@ public class ContentsServiceImpl implements ContentsService {
     }
 
     @Override
-    public ContentsResponse fetchContentsId(Long id) {
+    public ContentsResponse fetchContentsId(final Long id) {
         Optional<Contents> contentsOptional = contentsRepository.findById(id);
 
         if (contentsOptional.isPresent()) {

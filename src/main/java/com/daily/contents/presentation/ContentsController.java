@@ -20,15 +20,13 @@ public class ContentsController extends ResponseEntityHandler {
     private final NaverNewsAdaptor naverNewsAdaptor;
 
     @GetMapping("/contents")
-    public ResponseEntity<Object> fetchContents(@RequestBody ContentsRequest rq) {
-        List<ContentsResponse> rs = contentsService.fetchContents();
-        return success(rs);
+    public List<ContentsResponse> fetchContents(@RequestBody ContentsRequest rq) {
+        return contentsService.fetchContents();
     }
 
     @GetMapping("/content/{id}")
-    public ResponseEntity<Object> fetchContentId(@PathVariable final Long id) {
-        ContentsResponse contentsResponse = contentsService.fetchContentsId(id);
-        return success(contentsResponse);
+    public ContentsResponse fetchContentId(@PathVariable Long id) {
+        return contentsService.fetchContentsId(id);
     }
 
     @GetMapping("/content/update")
