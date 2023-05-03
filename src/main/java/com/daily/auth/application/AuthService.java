@@ -7,6 +7,7 @@ import com.daily.user.dto.UserLoginResponse;
 import com.daily.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
+import lombok.SneakyThrows;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -33,7 +34,9 @@ public class AuthService implements UserDetailsService {
     }
 
     @Override
+    @SneakyThrows
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
+        UserDetails user = userRepository.findById(username).orElseThrow(() -> new UsernameNotFoundException("User is not found"));
+        return user;
     }
 }
