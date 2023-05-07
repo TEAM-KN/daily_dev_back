@@ -27,6 +27,14 @@ spring:
     job:
       names: ${job.name:NONE}
 
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: 78a76271b80584ab4494
+            client-secret: a8551c28f4da52320acbdb1de659b3d7c1b0a89e
+
 security:
   jwt:
     token:
