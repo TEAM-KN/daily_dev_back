@@ -12,7 +12,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public User fetchUser(String id) {
+    public User fetchUser(final String id) {
         User user = userRepository.findById(id).orElse(null);
 
         if (user == null)
