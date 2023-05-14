@@ -1,8 +1,8 @@
 package com.daily.auth.presentation;
 
 import com.daily.auth.application.AuthService;
-import com.daily.user.dto.UserJoinRequest;
-import com.daily.user.dto.UserLoginResponse;
+import com.daily.domain.user.dto.UserJoinRequest;
+import com.daily.domain.user.dto.UserLoginResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

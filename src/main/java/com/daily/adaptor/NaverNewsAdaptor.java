@@ -1,10 +1,10 @@
 package com.daily.adaptor;
 
 
-import com.daily.contents.domain.Contents;
-import com.daily.contents.dto.ContentsType;
+import com.daily.domain.contents.domain.Contents;
+import com.daily.domain.contents.dto.ContentsType;
 import com.daily.comn.exception.UrlConnectionException;
-import com.daily.contents.dto.ContentsDto;
+import com.daily.domain.contents.dto.ContentsDto;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Component
 @Slf4j

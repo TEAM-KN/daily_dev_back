@@ -1,9 +1,9 @@
 package com.daily.global.batch.mail;
 
-import com.daily.mail.application.MailService;
-import com.daily.user.domain.User;
+import com.daily.domain.mail.application.MailService;
+import com.daily.domain.user.domain.User;
 import com.daily.global.batch.StepShareContext;
-import com.daily.contents.domain.Contents;
+import com.daily.domain.contents.domain.Contents;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;

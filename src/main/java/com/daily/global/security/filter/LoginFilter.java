@@ -2,8 +2,8 @@ package com.daily.global.security.filter;
 
 import com.daily.auth.application.JwtTokenProvider;
 import com.daily.global.security.AuthenticationToken;
-import com.daily.user.domain.User;
-import com.daily.user.dto.UserLoginRequest;
+import com.daily.domain.user.domain.User;
+import com.daily.domain.user.dto.UserLoginRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;

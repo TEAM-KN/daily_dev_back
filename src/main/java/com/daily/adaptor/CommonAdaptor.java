@@ -1,6 +1,6 @@
 package com.daily.adaptor;
 
-import com.daily.contents.domain.Contents;
+import com.daily.domain.contents.domain.Contents;
 
 import java.util.List;
 

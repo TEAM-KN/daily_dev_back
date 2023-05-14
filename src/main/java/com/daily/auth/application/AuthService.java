@@ -1,10 +1,9 @@
 package com.daily.auth.application;
 
-import com.daily.user.domain.User;
-import com.daily.user.dto.UserJoinRequest;
-import com.daily.user.dto.UserLoginRequest;
-import com.daily.user.dto.UserLoginResponse;
-import com.daily.user.repository.UserRepository;
+import com.daily.domain.user.domain.User;
+import com.daily.domain.user.dto.UserJoinRequest;
+import com.daily.domain.user.dto.UserLoginResponse;
+import com.daily.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 import lombok.SneakyThrows;

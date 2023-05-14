@@ -4,7 +4,7 @@ import com.daily.TestConfiguration;
 import com.daily.adaptor.KakaoAdaptor;
 import com.daily.adaptor.NaverNewsAdaptor;
 import com.daily.adaptor.WoowahanAdaptor;
-import com.daily.contents.repository.ContentsRepository;
+import com.daily.domain.contents.repository.ContentsRepository;
 import com.daily.global.batch.contents.ContentsConfiguration;
 import com.daily.global.batch.contents.ContentsJobListener;
 import org.junit.jupiter.api.Assertions;
