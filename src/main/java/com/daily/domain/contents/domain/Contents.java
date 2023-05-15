@@ -1,6 +1,7 @@
 package com.daily.domain.contents.domain;
 
 import com.daily.comn.domain.BaseEntity;
+import com.daily.domain.site.domain.Site;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,6 +18,9 @@ public class Contents extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="contents_id")
     private Long contentsId;
+
+    @Column(name="site_code")
+    private String siteCode;
 
     @Column(name="link")
     private String link;
@@ -41,4 +45,7 @@ public class Contents extends BaseEntity {
 
     @Column(name="company_nm")
     private String companyNm;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Site site;
 }

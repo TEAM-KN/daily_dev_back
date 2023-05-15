@@ -18,14 +18,16 @@ import java.util.List;
 public class Site extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long siteId;
-
-    private String siteName;
-
+    @Column(name = "site_code")
     private String siteCode;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "contents")
+    @Column(name = "site_name")
+    private String siteName;
+
+    @Column(name= "site_desc")
+    private String siteDesc;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "siteCode")
     List<Contents> contents;
 
 }
