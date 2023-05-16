@@ -2,10 +2,7 @@ package com.daily.domain.site.domain;
 
 import com.daily.comn.domain.BaseEntity;
 import com.daily.domain.contents.domain.Contents;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,6 +12,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Site extends BaseEntity {
 
     @Id
