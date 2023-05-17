@@ -3,7 +3,6 @@ package com.daily.domain.site.presentation;
 import com.daily.comn.exception.dto.ErrorCode;
 import com.daily.comn.response.CommonResponse;
 import com.daily.domain.site.application.SiteService;
-import com.daily.domain.site.domain.Site;
 import com.daily.domain.site.dto.SiteDto;
 import com.daily.domain.site.dto.SiteParam;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotBlank;
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
