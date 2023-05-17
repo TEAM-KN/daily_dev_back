@@ -44,6 +44,11 @@ security:
         refresh:
           expire-length: 1210000000 #14일
 
+logging:
+  level:
+    com.daily: info
+
+
 ---
 
 spring:
@@ -80,9 +85,13 @@ logging:
   file:
     name: ~/patch/log
   level:
-    com.news.dev: info
+    com.news: debug
 
 ---
+
+server:
+  servlet:
+    context-path: /dab
 
 daily:
   woowahan: # 우아한 형제들 기술블로그
@@ -94,3 +103,4 @@ daily:
   kakao: # 카카오 기술블로그
     blog:
       url: https://tech.kakao.com/blog/
+
