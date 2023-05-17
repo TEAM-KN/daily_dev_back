@@ -51,7 +51,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
                                             FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
         User user = (User) authResult.getPrincipal();
-        String accessToken = "Bearer" + jwtTokenProvider.createAccessToken(user.getEmail());
+        String accessToken = "Bearer " + jwtTokenProvider.createAccessToken(user.getEmail());
         response.addHeader("access-token", accessToken);
 
         Map<String, Object> body = new HashMap<>();

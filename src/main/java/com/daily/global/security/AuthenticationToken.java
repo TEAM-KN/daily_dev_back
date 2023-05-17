@@ -18,10 +18,10 @@ public class AuthenticationToken extends AbstractAuthenticationToken {
     }
 
     public Object getCredentials() {
-        return null;
+        return this.credentials;
     }
 
     public Object getPrincipal() {
-        return null;
+        return this.principal;
     }
 }
