@@ -11,6 +11,8 @@ spring:
     console:
       enabled: true
       path: /h2-console
+      settings:
+        web-allow-others: true
 
   jpa:
     hibernate:
@@ -18,7 +20,6 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
-    database-platform: org.hibernate.dialect.H2Dialect
     defer-datasource-initialization: true
 
   batch:
@@ -89,9 +90,13 @@ logging:
 
 ---
 
+spring:
+  profiles:
+    include: database, mail
+
 server:
   servlet:
-    context-path: /dab
+    context-path: /dailyb
 
 daily:
   woowahan: # 우아한 형제들 기술블로그
