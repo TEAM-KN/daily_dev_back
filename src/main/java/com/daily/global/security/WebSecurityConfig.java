@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 
@@ -32,11 +31,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         LoginFilter loginFilter = new LoginFilter(authenticationManager(), objectMapper, jwtTokenProvider);
 
         httpSecurity
-                .csrf().disable()
+                .csrf()
+                .ignoringAntMatchers("/h2-console/**")
+                .disable()
+                .headers()
+                .frameOptions().sameOrigin()
+                .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                .authorizeRequests(a -> a.antMatchers("/", "/h2-console/**").permitAll())
                 .addFilter(loginFilter)
-                .authorizeRequests(a -> a.antMatchers("/", "/error", "/wbjars/**").permitAll())
                 .exceptionHandling(e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .oauth2Login();
     }
