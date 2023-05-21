@@ -1,4 +1,4 @@
-package com.daily.global.security.filter;
+package com.daily.global.filter;
 
 import com.daily.auth.application.JwtTokenProvider;
 import com.daily.global.security.AuthenticationToken;

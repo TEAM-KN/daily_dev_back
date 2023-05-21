@@ -47,7 +47,7 @@ security:
 
 logging:
   level:
-    com.daily: info
+    com.daily: debug
 
 
 ---

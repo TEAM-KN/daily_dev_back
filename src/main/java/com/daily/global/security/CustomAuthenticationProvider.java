@@ -24,7 +24,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         String password = (String) authentication.getCredentials();
 
         UserDetails user = userDetailsService.loadUserByUsername(name);
-        if (this.passwordEncoder.matches(password, user.getPassword()))
+        if (this.passwordEncoder.matches(this.passwordEncoder.encode(password), user.getPassword()))
             throw new BadCredentialsException("패스워드가 일치하지 않습니다.");
 
         return new AuthenticationToken(user.getAuthorities(), user, password);

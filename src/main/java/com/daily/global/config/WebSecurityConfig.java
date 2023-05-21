@@ -1,7 +1,8 @@
-package com.daily.global.security;
+package com.daily.global.config;
 
 import com.daily.auth.application.JwtTokenProvider;
-import com.daily.global.security.filter.LoginFilter;
+import com.daily.global.security.CustomAuthenticationProvider;
+import com.daily.global.filter.LoginFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -49,7 +50,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationProvider authenticationProvider() {
         return new CustomAuthenticationProvider(userDetailsService, passwordEncoder);
     }
-
 
 }
 
