@@ -2,9 +2,7 @@ package com.daily.domain.user.dto;
 
 import lombok.*;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 public class UserLoginRequest {
     private String email;
     private String nickname;
