@@ -1,6 +1,6 @@
 package com.daily.adaptor;
 
-import com.daily.domain.contents.domain.Contents;
+import com.daily.domain.content.domain.Content;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -11,8 +11,8 @@ import java.util.List;
 @Slf4j
 public class CommonAdaptorManager {
 
-    public List<Contents> of(String requestDate, CommonAdaptor... adaptors) {
-        List<Contents> contents = new ArrayList<>();
+    public List<Content> of(String requestDate, CommonAdaptor... adaptors) {
+        List<Content> contents = new ArrayList<>();
 
         for (CommonAdaptor adaptor : adaptors) {
             if (adaptor != null) {

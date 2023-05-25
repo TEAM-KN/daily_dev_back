@@ -1,4 +1,4 @@
-package com.daily.domain.contents.domain;
+package com.daily.domain.content.domain;
 
 import com.daily.comn.domain.BaseEntity;
 import com.daily.domain.site.domain.Site;
@@ -11,14 +11,15 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="contents")
-public class Contents extends BaseEntity {
+@Table(name="content")
+public class Content extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="contents_id")
-    private Long contentsId;
+    @Column(name="content_id")
+    private Long contentId;
 
+    @Id
     @Column(name="site_code")
     private String siteCode;
 
@@ -40,11 +41,11 @@ public class Contents extends BaseEntity {
     @Column(name="content_type")
     private String contentType;
 
-    @Column(name="company_cd")
-    private String companyCd;
+    @Column(name="company_code")
+    private String companyCode;
 
-    @Column(name="company_nm")
-    private String companyNm;
+    @Column(name="company_name")
+    private String companyName;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Site site;

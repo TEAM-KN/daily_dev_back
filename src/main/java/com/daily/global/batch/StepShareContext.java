@@ -1,6 +1,6 @@
 package com.daily.global.batch;
 
-import com.daily.domain.contents.domain.Contents;
+import com.daily.domain.content.domain.Content;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +18,7 @@ public class StepShareContext <T> {
         this.contentsData = new ConcurrentHashMap<>();
     }
 
-    public void putContentsData(String key, List<? extends Contents> data) {
+    public void putContentsData(String key, List<? extends Content> data) {
         if(contentsData == null) return;
 
         contentsData.put(key, (T) data);

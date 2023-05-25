@@ -1,9 +1,9 @@
 package com.daily.adaptor;
 
-import com.daily.domain.contents.domain.Contents;
+import com.daily.domain.content.domain.Content;
 import com.daily.comn.exception.UrlConnectionException;
-import com.daily.domain.contents.dto.ContentsDto;
-import com.daily.domain.contents.dto.ContentsType;
+import com.daily.domain.content.dto.ContentDto;
+import com.daily.domain.content.dto.ContentType;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -46,10 +46,10 @@ public class KakaoAdaptor implements CommonAdaptor {
     }
 
     @Override
-    public List<Contents> getNewContentsFromAdaptor(String requestDate) {
+    public List<Content> getNewContentsFromAdaptor(String requestDate) {
         Elements elements = this.getElements(this.getDocument());
 
-        List<Contents> contents = elements.stream()
+        List<Content> contents = elements.stream()
                 .map(element -> {
                     String link = element.select(".elementor-post__text > h3").select("a").attr("href");
                     String title = element.select(".elementor-post__text > h3").select("a").text();
@@ -62,15 +62,15 @@ public class KakaoAdaptor implements CommonAdaptor {
                         LocalDate nowDtm = LocalDate.parse(requestDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
                         if(nowDtm.minusDays(1).isEqual(regDtmParsing)) {
-                            ContentsDto content = ContentsDto.builder()
+                            ContentDto content = ContentDto.builder()
                                     .link(link)
                                     .title(title)
                                     .author(author)
                                     .regDtm(regDate.replace(".", "-"))
                                     .description(description)
-                                    .contentType(ContentsType.KAKAO.getContentType())
-                                    .companyCd(ContentsType.KAKAO.getCompanyCd())
-                                    .companyNm(ContentsType.KAKAO.getCompanyNm())
+                                    .contentType(ContentType.KAKAO.getContentType())
+                                    .companyCd(ContentType.KAKAO.getCompanyCd())
+                                    .companyNm(ContentType.KAKAO.getCompanyNm())
                                     .build();
 
                             return this.convertToContents(content);
@@ -84,7 +84,7 @@ public class KakaoAdaptor implements CommonAdaptor {
         return contents;
     }
 
-    public Contents convertToContents(ContentsDto content) {
-        return new ModelMapper().map(content, Contents.class);
+    public Content convertToContents(ContentDto content) {
+        return new ModelMapper().map(content, Content.class);
     }
 }

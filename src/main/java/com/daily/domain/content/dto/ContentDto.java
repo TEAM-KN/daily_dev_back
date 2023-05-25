@@ -1,4 +1,4 @@
-package com.daily.domain.contents.dto;
+package com.daily.domain.content.dto;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class ContentsDto {
+public class ContentDto {
     private Long contentNo;
     private String title;
     private String description;

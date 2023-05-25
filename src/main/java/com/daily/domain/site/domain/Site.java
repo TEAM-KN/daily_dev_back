@@ -1,7 +1,7 @@
 package com.daily.domain.site.domain;
 
 import com.daily.comn.domain.BaseEntity;
-import com.daily.domain.contents.domain.Contents;
+import com.daily.domain.content.domain.Content;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,6 +26,6 @@ public class Site extends BaseEntity {
     private String siteDesc;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "siteCode")
-    List<Contents> contents;
+    List<Content> contents;
 
 }

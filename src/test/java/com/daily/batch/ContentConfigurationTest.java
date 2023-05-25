@@ -4,7 +4,7 @@ import com.daily.TestConfiguration;
 import com.daily.adaptor.KakaoAdaptor;
 import com.daily.adaptor.NaverNewsAdaptor;
 import com.daily.adaptor.WoowahanAdaptor;
-import com.daily.domain.contents.repository.ContentsRepository;
+import com.daily.domain.content.repository.ContentRepository;
 import com.daily.global.batch.contents.ContentsConfiguration;
 import com.daily.global.batch.contents.ContentsJobListener;
 import org.junit.jupiter.api.Assertions;
@@ -27,7 +27,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ContextConfiguration(classes = { ContentsConfiguration.class, TestConfiguration.class})
 @DataJpaTest
 @ActiveProfiles("local")
-public class ContentsConfigurationTest {
+public class ContentConfigurationTest {
 
     @Autowired
     private JobLauncherTestUtils jobLauncherTestUtils;
@@ -42,7 +42,7 @@ public class ContentsConfigurationTest {
     private NaverNewsAdaptor naverNewsAdaptor;
 
     @Autowired
-    private ContentsRepository contentsRepository;
+    private ContentRepository contentRepository;
 
     @Test
     public void testContents() throws Exception {
@@ -56,6 +56,6 @@ public class ContentsConfigurationTest {
 
         // then
         Assertions.assertEquals(BatchStatus.COMPLETED, jobExecution);
-        Assertions.assertEquals(3, contentsRepository.findAll().size());
+        Assertions.assertEquals(3, contentRepository.findAll().size());
     }
 }

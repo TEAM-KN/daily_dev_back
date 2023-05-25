@@ -1,6 +1,6 @@
 package com.daily.domain.site.dto;
 
-import com.daily.domain.contents.domain.Contents;
+import com.daily.domain.content.domain.Content;
 import com.daily.domain.site.domain.Site;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,7 +29,7 @@ public class SiteDto {
     @Data
     public static class SiteWithContentsDto extends SiteDto {
 
-        private List<Contents> contents;
+        private List<Content> contents;
 
         public SiteWithContentsDto(Site site) {
             super(site);

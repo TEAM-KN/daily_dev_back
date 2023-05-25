@@ -1,9 +1,9 @@
 package com.daily.global.batch.mail;
 
 //import com.daily.domain.mail.application.MailService;
+import com.daily.domain.content.domain.Content;
 import com.daily.domain.user.domain.User;
 import com.daily.global.batch.StepShareContext;
-import com.daily.domain.contents.domain.Contents;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -38,7 +38,7 @@ public class SendMailConfiguration {
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory entityManagerFactory;
 //    private final MailService mailService;
-    private final StepShareContext<Contents> shareContents;
+    private final StepShareContext<Content> shareContents;
 
     @Bean(JOB_NAME)
     public Job sendMailJob() throws Exception {
@@ -54,7 +54,7 @@ public class SendMailConfiguration {
     @JobScope
     public Step getContentsStep(@Value("#{jobParameters[requestDate]}") String requestDate) throws Exception {
         return stepBuilderFactory.get(JOB_NAME + "_getContentsStep")
-                .<Contents, Contents>chunk(CHUNK_SIZE)
+                .<Content, Content>chunk(CHUNK_SIZE)
                 .reader(contentsItemReader(requestDate))
                 .writer(contentsItemWriter())
                 .build();
@@ -69,18 +69,18 @@ public class SendMailConfiguration {
                 .build();
     }
 
-    private ItemWriter<? super Contents> contentsItemWriter() {
+    private ItemWriter<? super Content> contentsItemWriter() {
         return items -> {
             log.info("new contents size : {}", items.size());
             shareContents.putContentsData("sendContents", items);
         };
     }
 
-    private ItemReader<? extends Contents> contentsItemReader(String requestDate) throws Exception {
+    private ItemReader<? extends Content> contentsItemReader(String requestDate) throws Exception {
         Map<String, Object> param = new HashMap<>();
         param.put("now", LocalDateTime.parse(requestDate + "T00:00:00"));
 
-        JpaCursorItemReader<Contents> contentsItemReader = new JpaCursorItemReaderBuilder<Contents>()
+        JpaCursorItemReader<Content> contentsItemReader = new JpaCursorItemReaderBuilder<Content>()
                 .name(JOB_NAME + "_contentsItemReader")
                 .entityManagerFactory(entityManagerFactory)
                 .queryString("select c from Contents c where c.createDate >= :now")
@@ -121,7 +121,7 @@ public class SendMailConfiguration {
     }
 
     public Map<String, Object> prepareEmailContents() {
-        List<Contents> list = (List<Contents>) shareContents.getContentsData("sendContents");
+        List<Content> list = (List<Content>) shareContents.getContentsData("sendContents");
         Map<String, Object> contents = new HashMap<>();
 
         contents.put("contents", list);

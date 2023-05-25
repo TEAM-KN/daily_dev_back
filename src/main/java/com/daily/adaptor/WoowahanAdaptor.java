@@ -1,9 +1,9 @@
 package com.daily.adaptor;
 
-import com.daily.domain.contents.dto.ContentsType;
+import com.daily.domain.content.dto.ContentType;
 import com.daily.comn.dto.DateType;
-import com.daily.domain.contents.dto.ContentsDto;
-import com.daily.domain.contents.domain.Contents;
+import com.daily.domain.content.dto.ContentDto;
+import com.daily.domain.content.domain.Content;
 import com.daily.comn.exception.UrlConnectionException;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -47,10 +47,10 @@ public class WoowahanAdaptor implements CommonAdaptor {
     }
 
     @Override
-    public List<Contents> getNewContentsFromAdaptor(String requestDate) {
+    public List<Content> getNewContentsFromAdaptor(String requestDate) {
         Elements elements = this.getElement(this.getDocument());
 
-        List<Contents> contents = elements.stream()
+        List<Content> contents = elements.stream()
                 .map(element -> {
                     String link = element.select("a").attr("href");
                     String title = element.select("a > h1").text();
@@ -69,15 +69,15 @@ public class WoowahanAdaptor implements CommonAdaptor {
                             LocalDate nowDtm = LocalDate.parse(requestDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
                             if (nowDtm.minusDays(1).isEqual(regDtmParsing)) {
-                                ContentsDto content = ContentsDto.builder()
+                                ContentDto content = ContentDto.builder()
                                         .link(link)
                                         .title(title)
                                         .author(author)
                                         .regDtm(regDtm)
                                         .description(description)
-                                        .contentType(ContentsType.WOOWAHAN.getContentType())
-                                        .companyCd(ContentsType.WOOWAHAN.getCompanyCd())
-                                        .companyNm(ContentsType.WOOWAHAN.getCompanyNm())
+                                        .contentType(ContentType.WOOWAHAN.getContentType())
+                                        .companyCd(ContentType.WOOWAHAN.getCompanyCd())
+                                        .companyNm(ContentType.WOOWAHAN.getCompanyNm())
                                         .build();
 
                                 return this.convertToContents(content);
@@ -92,8 +92,8 @@ public class WoowahanAdaptor implements CommonAdaptor {
         return contents;
     }
 
-    public Contents convertToContents(ContentsDto content) {
-        return new ModelMapper().map(content, Contents.class);
+    public Content convertToContents(ContentDto content) {
+        return new ModelMapper().map(content, Content.class);
     }
 }
 

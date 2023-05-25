@@ -1,6 +1,6 @@
 package com.daily.global.batch.contents;
 
-import com.daily.domain.contents.repository.ContentsRepository;
+import com.daily.domain.content.repository.ContentRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobExecutionListener;
@@ -8,10 +8,10 @@ import org.springframework.batch.core.JobExecutionListener;
 @Slf4j
 public class ContentsJobListener implements JobExecutionListener {
 
-    private final ContentsRepository contentsRepository;
+    private final ContentRepository contentRepository;
 
-    public ContentsJobListener(ContentsRepository contentsRepository) {
-        this.contentsRepository = contentsRepository;
+    public ContentsJobListener(ContentRepository contentRepository) {
+        this.contentRepository = contentRepository;
     }
 
     @Override

@@ -4,8 +4,8 @@ import com.daily.adaptor.CommonAdaptorManager;
 import com.daily.adaptor.KakaoAdaptor;
 import com.daily.adaptor.NaverNewsAdaptor;
 import com.daily.adaptor.WoowahanAdaptor;
-import com.daily.domain.contents.domain.Contents;
-import com.daily.domain.contents.repository.ContentsRepository;
+import com.daily.domain.content.domain.Content;
+import com.daily.domain.content.repository.ContentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
@@ -34,7 +34,7 @@ public class ContentsConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory entityManagerFactory;
-    private final ContentsRepository contentsRepository;
+    private final ContentRepository contentRepository;
     private final KakaoAdaptor kakaoAdaptor;
     private final WoowahanAdaptor woowahanAdaptor;
     private final NaverNewsAdaptor naverNewsAdaptor;
@@ -52,7 +52,7 @@ public class ContentsConfiguration {
         return jobBuilderFactory.get(JOB_NAME)
                 .incrementer(new RunIdIncrementer())
                 .start(this.contentsStep(null))
-                .listener(new ContentsJobListener(contentsRepository))
+                .listener(new ContentsJobListener(contentRepository))
                 .build();
     }
 
@@ -60,14 +60,14 @@ public class ContentsConfiguration {
     @JobScope
     public Step contentsStep(@Value("#{jobParameters[requestDate]}") String requestDate) throws Exception {
         return stepBuilderFactory.get(JOB_NAME + "_contentsStep")
-                .<Contents, Contents>chunk(CHUNK_SIZE)
+                .<Content, Content>chunk(CHUNK_SIZE)
                 .reader(new ContentsItemReader(getContents(requestDate)))
                 .writer(this.contentsWriter())
                 .build();
     }
 
-    private JpaItemWriter<Contents> contentsWriter() throws Exception {
-        JpaItemWriter<Contents> jpaItemWriter = new JpaItemWriterBuilder<Contents>()
+    private JpaItemWriter<Content> contentsWriter() throws Exception {
+        JpaItemWriter<Content> jpaItemWriter = new JpaItemWriterBuilder<Content>()
                 .entityManagerFactory(entityManagerFactory)
                 .usePersist(true)
                 .build();
@@ -77,7 +77,7 @@ public class ContentsConfiguration {
         return jpaItemWriter;
     }
 
-    private List<Contents> getContents(String requestDate) {
+    private List<Content> getContents(String requestDate) {
         return adaptorManger.of(requestDate, woowahanAdaptor, kakaoAdaptor, naverNewsAdaptor);
     }
 

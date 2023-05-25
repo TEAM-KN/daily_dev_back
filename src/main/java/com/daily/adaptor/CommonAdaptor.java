@@ -1,11 +1,11 @@
 package com.daily.adaptor;
 
-import com.daily.domain.contents.domain.Contents;
+import com.daily.domain.content.domain.Content;
 
 import java.util.List;
 
 public interface CommonAdaptor {
 
-    List<Contents> getNewContentsFromAdaptor(String requestDate);
+    List<Content> getNewContentsFromAdaptor(String requestDate);
 
 }

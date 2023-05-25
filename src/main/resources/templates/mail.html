@@ -72,10 +72,10 @@
                 font-weight: bold; line-height: 1.2; padding: 20px; text-align: center;">
         Daily Dev Log
     </div>
-    <div th:if="${#lists.isEmpty(contents)}">
+    <div th:if="${#lists.isEmpty(content)}">
         <div style="text-align: center; font-size: 16px; color: #888;">최신 기술 이슈가 없습니다.</div>
     </div>
-    <div th:each="content : ${contents}" class="content" style="background-color: #fff;  border-radius: 10px;
+    <div th:each="content : ${content}" class="content" style="background-color: #fff;  border-radius: 10px;
                 box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-top: 30px; padding: 20px;">
         <div class="company" style="color: #2980b9; font-size: 18px; font-weight: bold;" th:text="${content.companyNm}"></div>
         <div class="author" style="color: #555; font-size: 14px;" th:text="${content.author}"></div>

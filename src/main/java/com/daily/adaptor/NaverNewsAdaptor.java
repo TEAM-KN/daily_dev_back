@@ -1,10 +1,10 @@
 package com.daily.adaptor;
 
 
-import com.daily.domain.contents.domain.Contents;
-import com.daily.domain.contents.dto.ContentsType;
+import com.daily.domain.content.domain.Content;
+import com.daily.domain.content.dto.ContentType;
 import com.daily.comn.exception.UrlConnectionException;
-import com.daily.domain.contents.dto.ContentsDto;
+import com.daily.domain.content.dto.ContentDto;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -54,7 +54,7 @@ public class NaverNewsAdaptor implements CommonAdaptor {
     }
 
     @Override
-    public List<Contents> getNewContentsFromAdaptor(String requestDate) {
+    public List<Content> getNewContentsFromAdaptor(String requestDate) {
         LocalDate date = LocalDate.parse(requestDate, DateTimeFormatter.ofPattern("yyyy-MM-dd")).minusDays(1);
         Elements elements = this.getElements(this.getDocument(date));
 
@@ -77,15 +77,15 @@ public class NaverNewsAdaptor implements CommonAdaptor {
             String author = element.select("dl > dd").get(0).select("span.writing").text();
 
             if(!"".equals(header.get("link"))) {
-                ContentsDto content = ContentsDto.builder()
+                ContentDto content = ContentDto.builder()
                         .link(header.get("link"))
                         .title(header.get("title"))
                         .author(author)
                         .regDtm(requestDate)
                         .description(description)
-                        .contentType(ContentsType.NAVER_NEWS.getContentType())
-                        .companyCd(ContentsType.NAVER_NEWS.getCompanyCd())
-                        .companyNm(ContentsType.NAVER_NEWS.getCompanyNm())
+                        .contentType(ContentType.NAVER_NEWS.getContentType())
+                        .companyCd(ContentType.NAVER_NEWS.getCompanyCd())
+                        .companyNm(ContentType.NAVER_NEWS.getCompanyNm())
                         .build();
                 return this.convertToContents(content);
             }
@@ -95,7 +95,7 @@ public class NaverNewsAdaptor implements CommonAdaptor {
         .collect(Collectors.toList());
     }
 
-    public Contents convertToContents(ContentsDto content) {
-            return new ModelMapper().map(content, Contents.class);
+    public Content convertToContents(ContentDto content) {
+            return new ModelMapper().map(content, Content.class);
         }
 }
