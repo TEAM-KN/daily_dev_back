@@ -7,11 +7,12 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
+@Builder
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="content")
+@IdClass(ContentPK.class)
 public class Content extends BaseEntity {
 
     @Id

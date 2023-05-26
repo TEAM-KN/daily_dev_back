@@ -1,6 +1,7 @@
 package com.daily.domain.content.application;
 
 import com.daily.domain.content.domain.Content;
+import com.daily.domain.content.domain.ContentPK;
 import com.daily.domain.content.dto.ContentResponse;
 import com.daily.domain.content.repository.ContentRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +28,9 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
-    public ContentResponse fetchContentsId(final Long id) {
-        Optional<Content> contentsOptional = contentRepository.findById(id);
+    public ContentResponse fetchContentsId(final Long contentId) {
+        ContentPK contentPK = ContentPK.builder().contentId(contentId).build();
+        Optional<Content> contentsOptional = contentRepository.findById(contentPK);
 
         if (contentsOptional.isPresent()) {
             Content content = contentsOptional.get();

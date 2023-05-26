@@ -2,11 +2,9 @@ package com.daily.domain.content.dto;
 
 import com.daily.domain.content.domain.Content;
 import com.daily.domain.site.domain.Site;
-import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder
 public class ContentResponse {
 
     private Long contentId;
