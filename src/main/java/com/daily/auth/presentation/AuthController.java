@@ -1,8 +1,8 @@
 package com.daily.auth.presentation;
 
 import com.daily.auth.application.AuthService;
+import com.daily.comn.response.CommonResponse;
 import com.daily.domain.user.dto.UserJoinRequest;
-import com.daily.domain.user.dto.UserLoginResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.util.Collections;
 import java.util.Map;
 
@@ -26,8 +27,13 @@ public class AuthController {
         return Collections.singletonMap("name", principal.getAttribute("name"));
     }
 
+    @GetMapping("/isCheck")
+    public CommonResponse isCheck(@NotBlank(message = "이메일은 필수 입력 값 입니다.") @RequestParam String email) {
+        return authService.isCheck(email);
+    }
+
     @PostMapping("/join")
-    public UserLoginResponse join(@Valid @RequestBody UserJoinRequest joinRequest) throws Exception {
+    public CommonResponse join(@Valid @RequestBody UserJoinRequest joinRequest) {
         return authService.join(joinRequest);
     }
 

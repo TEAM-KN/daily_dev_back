@@ -49,7 +49,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
                                             FilterChain chain,
-                                            Authentication authResult) throws IOException, ServletException {
+                                            Authentication authResult) throws IOException {
         User user = (User) authResult.getPrincipal();
         String accessToken = "Bearer " + jwtTokenProvider.createAccessToken(user.getEmail());
         response.addHeader("access-token", accessToken);
