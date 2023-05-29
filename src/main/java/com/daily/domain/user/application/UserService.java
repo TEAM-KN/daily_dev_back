@@ -1,5 +1,6 @@
 package com.daily.domain.user.application;
 
+import com.daily.domain.user.dto.UserDto;
 import com.daily.domain.user.repository.UserRepository;
 import com.daily.domain.user.domain.User;
 import com.daily.domain.user.exception.NoSearchUserException;
@@ -12,13 +13,13 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    public User fetchUser(final String id) {
+    public UserDto fetchUser(final String id) {
         User user = userRepository.findById(id).orElse(null);
 
         if (user == null)
             throw new NoSearchUserException();
 
-        return user;
+        return new UserDto(user);
     }
 
 }

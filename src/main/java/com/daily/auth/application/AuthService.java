@@ -1,6 +1,7 @@
 package com.daily.auth.application;
 
 import com.daily.comn.exception.dto.ErrorCode;
+import com.daily.comn.file.FileUtils;
 import com.daily.comn.response.CommonResponse;
 import com.daily.domain.user.domain.User;
 import com.daily.domain.user.dto.UserJoinRequest;
@@ -14,12 +15,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class AuthService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final FileUtils fileUtils;
 
     public CommonResponse isCheck(final String email) {
         User user = userRepository.findById(email).orElse(null);
@@ -31,13 +35,14 @@ public class AuthService implements UserDetailsService {
         return new CommonResponse(ErrorCode.SUCCESS);
     }
 
-    public CommonResponse join(final UserJoinRequest joinRequest) {
+    public CommonResponse join(final UserJoinRequest joinRequest) throws IOException {
         User isUser = userRepository.findById(joinRequest.getEmail()).orElse(null);
 
         if (isUser != null)
             throw new DuplicateKeyException("이미 사용 중인 이메일입니다.");
 
-        userRepository.save(joinRequest.toUser());
+        String filePath = fileUtils.storeFile(joinRequest.getImageFile());
+        userRepository.save(joinRequest.toUser(filePath));
 
         return new CommonResponse(ErrorCode.SUCCESS);
     }

@@ -1,26 +1,25 @@
 package com.daily.domain.user.dto;
 
 import com.daily.domain.user.domain.User;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import javax.validation.constraints.NotBlank;
-
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 public class UserDto {
 
-    @NotBlank(message = "이메일은 Null 또는 공백일 수 없습니다.")
     private String email;
-
-
     private String password;
-
     private String nickname;
     private String imageUrl;
     private String subscribeYn;
+
+    public UserDto(User user) {
+        this.email = user.getEmail();
+        this.nickname = user.getNickname();
+        this.imageUrl = user.getImageUrl();
+        this.subscribeYn = user.getSubscribeYn();
+    }
 
     public User toUser() {
         return User.builder()

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 
@@ -33,7 +34,7 @@ public class AuthController {
     }
 
     @PostMapping("/join")
-    public CommonResponse join(@Valid @RequestBody UserJoinRequest joinRequest) {
+    public CommonResponse join(@Valid @RequestBody UserJoinRequest joinRequest) throws IOException {
         return authService.join(joinRequest);
     }
 

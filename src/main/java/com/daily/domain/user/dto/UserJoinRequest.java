@@ -2,6 +2,7 @@ package com.daily.domain.user.dto;
 
 import com.daily.domain.user.domain.User;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 
@@ -20,14 +21,16 @@ public class UserJoinRequest {
     private String nickname;
     private String imageUrl;
 
+    private MultipartFile imageFile;
 
-    public User toUser() {
+
+    public User toUser(String imageUrl) {
         return User.builder()
                 .email(getEmail())
                 .nickname(getNickname())
-                .imageUrl(getImageUrl())
                 .password(getPassword())
                 .subscribeYn("N")
+                .imageUrl(imageUrl)
                 .build();
     }
 
