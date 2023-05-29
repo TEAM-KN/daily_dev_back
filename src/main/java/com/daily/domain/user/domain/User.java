@@ -1,11 +1,16 @@
 package com.daily.domain.user.domain;
 
 import com.daily.comn.domain.BaseEntity;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Collection;
 
 @Entity
@@ -19,11 +24,11 @@ public class User extends BaseEntity implements UserDetails {
     @Id
     private String email;
 
+    private String password;
+
     private String nickname;
 
     private String imageUrl;
-
-    private String password;
 
     private String subscribeYn;
 

@@ -23,6 +23,8 @@ public class UserJoinRequest {
 
     private MultipartFile imageFile;
 
+    private String[] siteCodes;
+
 
     public User toUser(String imageUrl) {
         return User.builder()

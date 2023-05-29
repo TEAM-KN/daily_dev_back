@@ -33,15 +33,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         httpSecurity
                 .csrf()
-                .ignoringAntMatchers("/h2-console/**")
                 .disable()
                 .headers()
                 .frameOptions().sameOrigin()
                 .and()
-                .sessionManagement().
-                sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests(a -> a.antMatchers("/**", "/h2-console/**").permitAll())
+                .authorizeRequests(a -> a.antMatchers("/h2-console/**", "/auth/**").permitAll())
                 .addFilter(loginFilter)
                 .exceptionHandling(e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .oauth2Login();

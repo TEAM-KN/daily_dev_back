@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class SiteController {
     }
 
     @PostMapping("/site")
-    public CommonResponse saveSite(@RequestBody SiteParam siteParam) {
+    public CommonResponse saveSite(@RequestBody @Valid SiteParam siteParam) {
         try {
             siteService.saveSite(siteParam);
             return new CommonResponse(ErrorCode.SUCCESS);
