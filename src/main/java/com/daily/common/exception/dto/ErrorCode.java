@@ -1,4 +1,4 @@
-package com.daily.comn.exception.dto;
+package com.daily.common.exception.dto;
 
 import lombok.Getter;
 

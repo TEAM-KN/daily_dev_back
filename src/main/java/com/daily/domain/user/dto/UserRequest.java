@@ -5,12 +5,14 @@ import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.util.List;
 
 @Builder
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserJoinRequest {
+public class UserRequest {
 
     @NotBlank(message = "사용자 계정을 찾을 수 없습니다.")
     private String email;
@@ -23,7 +25,22 @@ public class UserJoinRequest {
 
     private MultipartFile imageFile;
 
-    private String[] siteCodes;
+    private List<String> siteCodes;
+
+    @Builder
+    @Getter
+    public static class UserFromSiteRequest {
+
+        @NotBlank(message = "사용자 계정을 찾을 수 없습니다.")
+        private String email;
+
+        @NotBlank(message = "사용자 계정을 찾을 수 없습니다.")
+        @Size(min = 1, message = "삭제 할 사이트를 1개 이상 선택해주세요.")
+        private List<String> siteCodes;
+
+        public UserFromSiteRequest() {}
+
+    }
 
 
     public User toUser(String imageUrl) {

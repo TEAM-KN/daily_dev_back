@@ -1,4 +1,4 @@
-package com.daily.comn.dto;
+package com.daily.common.dto;
 
 import lombok.Data;
 

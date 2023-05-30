@@ -92,7 +92,7 @@ logging:
 
 spring:
   profiles:
-    include: database, mail
+    include: database, mail, file
 
 server:
   servlet:

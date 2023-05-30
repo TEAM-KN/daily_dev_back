@@ -3,7 +3,7 @@ package com.daily.adaptor;
 
 import com.daily.domain.content.domain.Content;
 import com.daily.domain.content.dto.ContentType;
-import com.daily.comn.exception.UrlConnectionException;
+import com.daily.common.exception.UrlConnectionException;
 import com.daily.domain.content.dto.ContentDto;
 
 import lombok.extern.slf4j.Slf4j;

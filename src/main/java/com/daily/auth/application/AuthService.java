@@ -1,11 +1,13 @@
 package com.daily.auth.application;
 
-import com.daily.comn.exception.dto.ErrorCode;
-import com.daily.comn.file.FileUtils;
-import com.daily.comn.response.CommonResponse;
+import com.daily.common.exception.dto.ErrorCode;
+import com.daily.common.file.FileUtils;
+import com.daily.common.response.CommonResponse;
 import com.daily.domain.user.domain.User;
-import com.daily.domain.user.dto.UserJoinRequest;
+import com.daily.domain.user.dto.UserRequest;
 import com.daily.domain.user.repository.UserRepository;
+import com.daily.domain.userSites.domain.UserSites;
+import com.daily.domain.userSites.repository.UserSitesRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.dao.DuplicateKeyException;
@@ -16,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +27,7 @@ import java.io.IOException;
 public class AuthService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final UserSitesRepository userSitesRepository;
     private final FileUtils fileUtils;
 
     public CommonResponse isCheck(final String email) {
@@ -35,7 +40,7 @@ public class AuthService implements UserDetailsService {
         return new CommonResponse(ErrorCode.SUCCESS);
     }
 
-    public CommonResponse join(final UserJoinRequest joinRequest) throws IOException {
+    public CommonResponse join(final UserRequest joinRequest) throws IOException {
         User isUser = userRepository.findById(joinRequest.getEmail()).orElse(null);
 
         if (isUser != null)
@@ -43,6 +48,17 @@ public class AuthService implements UserDetailsService {
 
         String filePath = fileUtils.storeFile(joinRequest.getImageFile());
         userRepository.save(joinRequest.toUser(filePath));
+
+        if (joinRequest.getSiteCodes().size() > 0) {
+            List<UserSites> userSites = joinRequest.getSiteCodes().stream()
+                    .map(site -> UserSites.builder()
+                            .email(joinRequest.getEmail())
+                            .siteCode(site)
+                            .build())
+                    .collect(Collectors.toList());
+
+            userSitesRepository.saveAll(userSites);
+        }
 
         return new CommonResponse(ErrorCode.SUCCESS);
     }
