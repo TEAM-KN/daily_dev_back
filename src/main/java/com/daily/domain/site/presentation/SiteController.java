@@ -1,7 +1,7 @@
 package com.daily.domain.site.presentation;
 
-import com.daily.comn.exception.dto.ErrorCode;
-import com.daily.comn.response.CommonResponse;
+import com.daily.common.exception.dto.ErrorCode;
+import com.daily.common.response.CommonResponse;
 import com.daily.domain.site.application.SiteService;
 import com.daily.domain.site.dto.SiteDto;
 import com.daily.domain.site.dto.SiteParam;

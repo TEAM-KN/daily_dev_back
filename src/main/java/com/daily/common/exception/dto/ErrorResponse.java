@@ -1,4 +1,4 @@
-package com.daily.comn.exception.dto;
+package com.daily.common.exception.dto;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -72,7 +72,7 @@ public class ErrorResponse {
     public static ErrorResponse of(MethodArgumentTypeMismatchException e) {
         final String value = e.getValue() == null ? "" : e.getValue().toString();
         final List<ErrorResponse.FieldError> errors = ErrorResponse.FieldError.of(e.getName(), value, e.getErrorCode());
-        return new ErrorResponse(ErrorCode.INVALID_TYPE_VALUE, errors);
+        return new ErrorResponse(ErrorCode.DATA_NOT_FOUND, errors);
     }
 
     @Getter

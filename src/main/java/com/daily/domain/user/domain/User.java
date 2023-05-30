@@ -1,6 +1,6 @@
 package com.daily.domain.user.domain;
 
-import com.daily.comn.domain.BaseEntity;
+import com.daily.common.domain.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

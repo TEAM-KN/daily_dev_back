@@ -32,13 +32,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         LoginFilter loginFilter = new LoginFilter(authenticationManager(), objectMapper, jwtTokenProvider);
 
         httpSecurity
-                .csrf()
-                .disable()
-                .headers()
-                .frameOptions().sameOrigin()
+                .csrf().disable()
+                .headers().frameOptions().sameOrigin()
                 .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests(a -> a.antMatchers("/h2-console/**", "/auth/**").permitAll())
                 .addFilter(loginFilter)

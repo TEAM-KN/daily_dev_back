@@ -1,6 +1,6 @@
-package com.daily.comn.response;
+package com.daily.common.response;
 
-import com.daily.comn.exception.dto.ErrorCode;
+import com.daily.common.exception.dto.ErrorCode;
 import lombok.Data;
 
 @Data

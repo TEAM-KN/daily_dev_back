@@ -1,4 +1,4 @@
-package com.daily.comn.file;
+package com.daily.common.file;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -15,7 +15,7 @@ import java.util.Objects;
 @Component
 public class FileUtils {
 
-    @Value("${}")
+    @Value("${file.path}")
     private String uploadPath;
 
     public String storeFile(MultipartFile file) throws IOException {

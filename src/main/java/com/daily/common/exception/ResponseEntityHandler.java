@@ -1,8 +1,8 @@
-package com.daily.comn.exception;
+package com.daily.common.exception;
 
 
-import com.daily.comn.exception.dto.ErrorCode;
-import com.daily.comn.exception.dto.ErrorResponse;
+import com.daily.common.exception.dto.ErrorCode;
+import com.daily.common.exception.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
