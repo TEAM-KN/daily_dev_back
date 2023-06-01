@@ -1,7 +1,6 @@
 package com.daily.domain.content.presentation;
 
 import com.daily.domain.content.application.ContentService;
-import com.daily.common.exception.ResponseEntityHandler;
 import com.daily.domain.content.dto.ContentRequest;
 import com.daily.domain.content.dto.ContentResponse;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class ContentController extends ResponseEntityHandler {
+public class ContentController {
 
     private final ContentService contentService;
 

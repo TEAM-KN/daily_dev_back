@@ -27,8 +27,8 @@ public class UserRequest {
 
     private List<String> siteCodes;
 
-    @Builder
-    @Getter
+
+    @Data
     public static class UserFromSiteRequest {
 
         @NotBlank(message = "사용자 계정을 찾을 수 없습니다.")
@@ -41,7 +41,6 @@ public class UserRequest {
         public UserFromSiteRequest() {}
 
     }
-
 
     public User toUser(String imageUrl) {
         return User.builder()

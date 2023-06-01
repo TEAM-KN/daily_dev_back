@@ -2,15 +2,27 @@ spring:
   config:
     activate:
       on-profile: local
-
+  sql:
+    init:
+      mode: always
   datasource:
     url: jdbc:h2:mem:devdb
     driver-class-name: org.h2.Driver
     username: dlog
     password: 1234
-
-    jpa:
-      database-platform=org: hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: true
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+    defer-datasource-initialization: true
 
 ---
 
@@ -24,3 +36,10 @@ spring:
     url: jdbc:mysql://scnohdb.cjpd283ml1ot.us-east-1.rds.amazonaws.com/dev?characterEncoding=UTF-8&autoReconnect=true&useSSL=false
     username: root
     password: "!scnoh1234"
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: false
