@@ -3,25 +3,6 @@ spring:
     activate:
       on-profile: local
 
-  sql:
-    init:
-      mode: always
-
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-      settings:
-        web-allow-others: true
-
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-    show-sql: true
-    defer-datasource-initialization: true
-
   batch:
     jdbc:
       initialize-schema: always
@@ -56,13 +37,6 @@ spring:
   config:
     activate:
       on-profile: prod
-
-  jpa:
-    hibernate:
-      ddl-auto: update
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-    show-sql: false
 
   batch:
     jdbc:

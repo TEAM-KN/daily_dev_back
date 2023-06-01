@@ -1,7 +1,7 @@
 package com.daily.adaptor;
 
 import com.daily.domain.content.domain.Content;
-import com.daily.common.exception.UrlConnectionException;
+import com.daily.global.exception.UrlConnectionException;
 import com.daily.domain.content.dto.ContentDto;
 import com.daily.domain.content.dto.ContentType;
 import lombok.extern.slf4j.Slf4j;

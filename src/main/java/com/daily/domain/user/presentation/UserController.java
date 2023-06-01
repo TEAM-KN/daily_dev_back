@@ -1,6 +1,6 @@
 package com.daily.domain.user.presentation;
 
-import com.daily.common.response.CommonResponse;
+import com.daily.global.common.response.CommonResponse;
 import com.daily.domain.user.application.UserService;
 import com.daily.domain.user.dto.UserDto;
 import com.daily.domain.user.dto.UserRequest;

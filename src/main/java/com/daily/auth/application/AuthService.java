@@ -1,16 +1,16 @@
 package com.daily.auth.application;
 
-import com.daily.common.exception.dto.ErrorCode;
-import com.daily.common.file.FileUtils;
-import com.daily.common.response.CommonResponse;
 import com.daily.domain.user.domain.User;
 import com.daily.domain.user.dto.UserRequest;
 import com.daily.domain.user.repository.UserRepository;
 import com.daily.domain.userSites.domain.UserSites;
 import com.daily.domain.userSites.repository.UserSitesRepository;
+import com.daily.global.common.file.FileUtils;
+import com.daily.global.common.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -34,10 +34,10 @@ public class AuthService implements UserDetailsService {
         User user = userRepository.findById(email).orElse(null);
 
         if (user != null) {
-            return new CommonResponse(ErrorCode.DUPLICATE_USER);
+            new DuplicateKeyException("이미 사용 중인 이메일입니다.");
         }
 
-        return new CommonResponse(ErrorCode.SUCCESS);
+        return new CommonResponse(HttpStatus.OK, "성공" );
     }
 
     public CommonResponse join(final UserRequest joinRequest) throws IOException {
@@ -60,7 +60,7 @@ public class AuthService implements UserDetailsService {
             userSitesRepository.saveAll(userSites);
         }
 
-        return new CommonResponse(ErrorCode.SUCCESS);
+        return new CommonResponse(HttpStatus.OK, "성공" );
     }
 
     @Override

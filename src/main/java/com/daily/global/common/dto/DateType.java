@@ -1,4 +1,4 @@
-package com.daily.common.dto;
+package com.daily.global.common.dto;
 
 import lombok.Getter;
 

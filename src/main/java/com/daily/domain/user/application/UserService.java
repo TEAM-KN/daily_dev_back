@@ -1,16 +1,16 @@
 package com.daily.domain.user.application;
 
-import com.daily.common.exception.dto.ErrorCode;
-import com.daily.common.response.CommonResponse;
+import com.daily.domain.user.domain.User;
 import com.daily.domain.user.dto.UserDto;
 import com.daily.domain.user.dto.UserRequest;
-import com.daily.domain.user.repository.UserRepository;
-import com.daily.domain.user.domain.User;
 import com.daily.domain.user.exception.NoSearchUserException;
+import com.daily.domain.user.repository.UserRepository;
 import com.daily.domain.userSites.domain.UserSites;
 import com.daily.domain.userSites.domain.UserSitesPK;
 import com.daily.domain.userSites.repository.UserSitesRepository;
+import com.daily.global.common.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,7 +43,7 @@ public class UserService {
 
         userSitesRepository.saveAll(userSites);
 
-        return new CommonResponse(ErrorCode.SUCCESS);
+        return new CommonResponse(HttpStatus.OK, "성공" );
     }
 
     public CommonResponse deleteUserSites(final UserRequest.UserFromSiteRequest request) {
@@ -59,7 +59,7 @@ public class UserService {
         userSitesRepository.deleteAllById(pk);
 
 
-        return new CommonResponse(ErrorCode.SUCCESS);
+        return new CommonResponse(HttpStatus.OK, "성공" );
     }
 
 }

@@ -1,12 +1,12 @@
 package com.daily.domain.site.presentation;
 
-import com.daily.common.exception.dto.ErrorCode;
-import com.daily.common.response.CommonResponse;
 import com.daily.domain.site.application.SiteService;
 import com.daily.domain.site.dto.SiteDto;
 import com.daily.domain.site.dto.SiteParam;
+import com.daily.global.common.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,13 +32,8 @@ public class SiteController {
 
     @PostMapping("/site")
     public CommonResponse saveSite(@RequestBody @Valid SiteParam siteParam) {
-        try {
-            siteService.saveSite(siteParam);
-            return new CommonResponse(ErrorCode.SUCCESS);
-        } catch(Exception e) {
-            log.error("error: {}", e.getMessage());
-            return new CommonResponse(ErrorCode.INTERNAL_SERVER_ERROR);
-        }
+        siteService.saveSite(siteParam);
+        return new CommonResponse(HttpStatus.OK, "성공" );
     }
 
 }

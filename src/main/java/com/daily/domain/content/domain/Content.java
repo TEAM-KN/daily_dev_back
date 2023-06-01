@@ -1,6 +1,6 @@
 package com.daily.domain.content.domain;
 
-import com.daily.common.domain.BaseEntity;
+import com.daily.global.common.domain.BaseEntity;
 import com.daily.domain.site.domain.Site;
 import lombok.*;
 

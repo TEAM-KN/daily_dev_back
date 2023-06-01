@@ -1,7 +1,7 @@
 package com.daily.auth.presentation;
 
 import com.daily.auth.application.AuthService;
-import com.daily.common.response.CommonResponse;
+import com.daily.global.common.response.CommonResponse;
 import com.daily.domain.user.dto.UserRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
