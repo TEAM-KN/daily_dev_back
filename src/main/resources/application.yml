@@ -30,6 +30,12 @@ logging:
   level:
     com.daily: debug
 
+jasypt:
+  encryptor:
+    property:
+      prefix: ENC(
+      suffix: )
+  password : daily_dev_encrypt
 
 ---
 
@@ -67,6 +73,7 @@ logging:
 spring:
   profiles:
     include: database, mail, file
+    default: local
 
 server:
   servlet:
