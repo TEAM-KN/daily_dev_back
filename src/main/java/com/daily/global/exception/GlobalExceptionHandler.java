@@ -9,10 +9,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.io.IOException;
+import java.sql.SQLException;
 
 @RestControllerAdvice
 @Slf4j
@@ -40,6 +44,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         log.error("MethodArgumentNotValidException", ex);
         return this.makeResponseEntity(ErrorCode.INVALID_PARAMETER, ex.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> handleException(Exception ex) {
+        if (ex instanceof SQLException | ex instanceof IOException) {
+            return this.makeResponseEntity(ErrorCode.INTERVAL_SERVER_ERROR, ex.getMessage());
+        } else {
+            return this.makeResponseEntity(ErrorCode.INTERVAL_SERVER_ERROR);
+        }
     }
 
     private ResponseEntity<Object> makeResponseEntity(ErrorCode errorCode) {
