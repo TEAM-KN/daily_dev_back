@@ -9,7 +9,7 @@ spring:
     url: jdbc:h2:mem:devdb
     driver-class-name: org.h2.Driver
     username: dlog
-    password: 1234
+    password: ENC(ufWEZWxUDSfEdFYH3dub4g==)
   h2:
     console:
       enabled: true
@@ -34,8 +34,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://scnohdb.cjpd283ml1ot.us-east-1.rds.amazonaws.com/dev?characterEncoding=UTF-8&autoReconnect=true&useSSL=false
-    username: ENC(jnftJEzGuU8Ru3L4S7aUJaSlZ4iwCEWYfHqVfhRNgb3DO/8em3bvUpGqiGC4OLGL)
-    password: ENC(o3BZkRBHLVoKVylJ2atAdQUq1yghA/AIUYIKVihYr32MgRq3t6d/cCf39yqXB7XX)
+    username: root
+    password: ENC(9NiChV1fbaZx7yVNngFUfI3Ah040uHLq)
 
   jpa:
     hibernate:

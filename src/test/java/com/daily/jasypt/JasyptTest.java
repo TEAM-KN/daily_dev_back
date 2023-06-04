@@ -17,7 +17,7 @@ public class JasyptTest {
 
     @Test
     void propertyEncrypt() {
-        String message = "test1234";
+        String message = "test";
         String encryptMessage = stringEncryptor.encrypt(message);
 
         System.out.println(encryptMessage);
