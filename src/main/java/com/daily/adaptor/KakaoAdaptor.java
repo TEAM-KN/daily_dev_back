@@ -1,9 +1,8 @@
 package com.daily.adaptor;
 
 import com.daily.domain.content.domain.Content;
-import com.daily.global.exception.UrlConnectionException;
 import com.daily.domain.content.dto.ContentDto;
-import com.daily.domain.content.dto.ContentType;
+import com.daily.global.exception.UrlConnectionException;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -68,9 +67,6 @@ public class KakaoAdaptor implements CommonAdaptor {
                                     .author(author)
                                     .regDtm(regDate.replace(".", "-"))
                                     .description(description)
-                                    .contentType(ContentType.KAKAO.getContentType())
-                                    .companyCd(ContentType.KAKAO.getCompanyCd())
-                                    .companyNm(ContentType.KAKAO.getCompanyNm())
                                     .build();
 
                             return this.convertToContents(content);

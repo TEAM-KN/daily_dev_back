@@ -15,11 +15,6 @@ public class ContentResponse {
     private String link;
     private String regDtm;
     private String author;
-    private String contentType;
-
-    private String companyCode;
-
-    private String companyName;
 
     private Site site;
 
@@ -30,8 +25,5 @@ public class ContentResponse {
         this.link = content.getLink();
         this.regDtm = content.getRegDtm();
         this.author = content.getAuthor();
-        this.contentType = content.getContentType();
-        this.companyCode = content.getCompanyCode();
-        this.companyName = content.getCompanyName();
     }
 }

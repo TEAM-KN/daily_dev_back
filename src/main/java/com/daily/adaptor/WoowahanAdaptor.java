@@ -1,9 +1,8 @@
 package com.daily.adaptor;
 
-import com.daily.domain.content.dto.ContentType;
-import com.daily.global.common.dto.DateType;
-import com.daily.domain.content.dto.ContentDto;
 import com.daily.domain.content.domain.Content;
+import com.daily.domain.content.dto.ContentDto;
+import com.daily.global.common.dto.DateType;
 import com.daily.global.exception.UrlConnectionException;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -75,9 +74,6 @@ public class WoowahanAdaptor implements CommonAdaptor {
                                         .author(author)
                                         .regDtm(regDtm)
                                         .description(description)
-                                        .contentType(ContentType.WOOWAHAN.getContentType())
-                                        .companyCd(ContentType.WOOWAHAN.getCompanyCd())
-                                        .companyNm(ContentType.WOOWAHAN.getCompanyNm())
                                         .build();
 
                                 return this.convertToContents(content);

@@ -39,15 +39,6 @@ public class Content extends BaseEntity {
     @Column(name="author")
     private String author;
 
-    @Column(name="content_type")
-    private String contentType;
-
-    @Column(name="company_code")
-    private String companyCode;
-
-    @Column(name="company_name")
-    private String companyName;
-
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Site site;
 }
