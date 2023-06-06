@@ -1,5 +1,6 @@
 package com.daily.domain.site.domain;
 
+import com.daily.domain.userSites.domain.UserSites;
 import com.daily.global.common.domain.BaseEntity;
 import com.daily.domain.content.domain.Content;
 import lombok.*;
@@ -13,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "site")
 public class Site extends BaseEntity {
 
     @Id
@@ -24,6 +26,9 @@ public class Site extends BaseEntity {
 
     @Column(name= "site_desc")
     private String siteDesc;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "site")
+    List<UserSites> userSites;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "siteCode")
     List<Content> contents;

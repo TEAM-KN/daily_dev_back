@@ -16,7 +16,8 @@ public class CommonAdaptorManager {
 
         for (CommonAdaptor adaptor : adaptors) {
             if (adaptor != null) {
-                contents.addAll(adaptor.getNewContentsFromAdaptor(requestDate));
+                List<Content> newContent = adaptor.getNewContentsFromAdaptor(requestDate);
+                contents.addAll(newContent);
             }
         }
 

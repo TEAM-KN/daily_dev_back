@@ -1,6 +1,6 @@
 package com.daily.adaptor;
 
-import com.daily.adaptor.WoowahanAdaptor;
+import com.daily.domain.site.repository.SiteRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -21,8 +21,10 @@ class WoowahanAdaptorTest {
 
     @Mock
     private Environment env;
+    @Mock
+    private SiteRepository siteRepository;
 
-    private WoowahanAdaptor woowahanAdaptor = new WoowahanAdaptor(env);
+    private WoowahanAdaptor woowahanAdaptor = new WoowahanAdaptor(env, siteRepository);
 
     @DisplayName("문서를 정상적으로 가져오는지 확인")
     @Test

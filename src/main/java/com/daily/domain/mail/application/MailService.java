@@ -20,23 +20,20 @@ public class MailService {
     private final JavaMailSender sender;
     private final SpringTemplateEngine templateEngine;
 
-    public void sendEmail(String[] recipients, String subject, String templateName, Map<String, Object> items) throws MessagingException {
-
+    public void sendEmail(String recipient, String subject, String templateName, Map<String, Object> content) throws MessagingException {
         MimeMessage message = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
         Context context = new Context();
-        context.setVariables(items);
+        context.setVariables(content);
 
         String html = templateEngine.process(templateName, context);
 
-        helper.setTo(recipients);
+        helper.setTo(recipient);
         helper.setSubject(subject);
         helper.setText(html,true);
 
         sender.send(message);
-
-        log.info("Sent email to: {}", String.join(", ", recipients));
     }
 
 }

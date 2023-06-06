@@ -2,15 +2,18 @@ package com.daily.adaptor;
 
 import com.daily.domain.content.domain.Content;
 import com.daily.domain.content.dto.ContentDto;
+import com.daily.domain.content.dto.ContentType;
+import com.daily.domain.site.domain.Site;
+import com.daily.domain.site.repository.SiteRepository;
 import com.daily.global.common.dto.DateType;
 import com.daily.global.exception.UrlConnectionException;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import org.modelmapper.ModelMapper;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -20,12 +23,16 @@ import java.util.stream.Collectors;
 
 @Component
 @Slf4j
+@Transactional
 public class WoowahanAdaptor implements CommonAdaptor {
 
     private final Environment env;
+    private final SiteRepository siteRepository;
 
-    public WoowahanAdaptor(Environment env) {
+    public WoowahanAdaptor(Environment env,
+                           SiteRepository siteRepository) {
         this.env = env;
+        this.siteRepository = siteRepository;
     }
 
     public Document getDocument() {
@@ -48,8 +55,9 @@ public class WoowahanAdaptor implements CommonAdaptor {
     @Override
     public List<Content> getNewContentsFromAdaptor(String requestDate) {
         Elements elements = this.getElement(this.getDocument());
+        Site site = this.getSite();
 
-        List<Content> contents = elements.stream()
+        List<Content> contents = elements.parallelStream()
                 .map(element -> {
                     String link = element.select("a").attr("href");
                     String title = element.select("a > h1").text();
@@ -62,13 +70,14 @@ public class WoowahanAdaptor implements CommonAdaptor {
                     if (!"".equals(link)) {
                         String[] dateComponents = regDtm.split("[.]");
 
-                        if (dateComponents != null) {
+                        if (dateComponents.length > 0) {
                             regDtm = dateComponents[2] + "-" + DateType.valueOf(dateComponents[0]).getMonth() + "-" + dateComponents[1];
                             LocalDate regDtmParsing = LocalDate.parse(regDtm, DateTimeFormatter.ISO_DATE);
                             LocalDate nowDtm = LocalDate.parse(requestDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
                             if (nowDtm.minusDays(1).isEqual(regDtmParsing)) {
                                 ContentDto content = ContentDto.builder()
+                                        .siteCode(site.getSiteCode())
                                         .link(link)
                                         .title(title)
                                         .author(author)
@@ -88,8 +97,12 @@ public class WoowahanAdaptor implements CommonAdaptor {
         return contents;
     }
 
+    private Site getSite() {
+        return siteRepository.findById(ContentType.WOO.name()).orElse(null);
+    }
+
     public Content convertToContents(ContentDto content) {
-        return new ModelMapper().map(content, Content.class);
+        return content.toEntity();
     }
 }
 

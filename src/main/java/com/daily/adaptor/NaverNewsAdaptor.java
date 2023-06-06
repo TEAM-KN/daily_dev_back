@@ -3,14 +3,17 @@ package com.daily.adaptor;
 
 import com.daily.domain.content.domain.Content;
 import com.daily.domain.content.dto.ContentDto;
+import com.daily.domain.content.dto.ContentType;
+import com.daily.domain.site.domain.Site;
+import com.daily.domain.site.repository.SiteRepository;
 import com.daily.global.exception.UrlConnectionException;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import org.modelmapper.ModelMapper;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -22,12 +25,16 @@ import java.util.stream.Collectors;
 
 @Component
 @Slf4j
+@Transactional
 public class NaverNewsAdaptor implements CommonAdaptor {
 
     private Environment env;
+    private SiteRepository siteRepository;
 
-    public NaverNewsAdaptor(Environment env) {
+    public NaverNewsAdaptor(Environment env,
+                            SiteRepository siteRepository) {
         this.env = env;
+        this.siteRepository = siteRepository;
     }
 
     public Document getDocument(LocalDate requestDate) {
@@ -55,8 +62,9 @@ public class NaverNewsAdaptor implements CommonAdaptor {
     public List<Content> getNewContentsFromAdaptor(String requestDate) {
         LocalDate date = LocalDate.parse(requestDate, DateTimeFormatter.ofPattern("yyyy-MM-dd")).minusDays(1);
         Elements elements = this.getElements(this.getDocument(date));
+        Site site = this.getSite();
 
-        return elements.stream().map(element -> {
+        return elements.parallelStream().map(element -> {
 
             Map<String, String> header = new HashMap<>();
             element.select("dl > dt").forEach(dt -> {
@@ -76,6 +84,7 @@ public class NaverNewsAdaptor implements CommonAdaptor {
 
             if(!"".equals(header.get("link"))) {
                 ContentDto content = ContentDto.builder()
+                        .siteCode(site.getSiteCode())
                         .link(header.get("link"))
                         .title(header.get("title"))
                         .author(author)
@@ -90,7 +99,11 @@ public class NaverNewsAdaptor implements CommonAdaptor {
         .collect(Collectors.toList());
     }
 
+    private Site getSite() {
+        return siteRepository.findById(ContentType.NAVER.name()).orElse(null);
+    }
+
     public Content convertToContents(ContentDto content) {
-            return new ModelMapper().map(content, Content.class);
+            return content.toEntity();
         }
 }

@@ -1,6 +1,7 @@
 package com.daily.global.batch.mail;
 
 import com.daily.domain.content.domain.Content;
+import com.daily.domain.content.repository.ContentRepository;
 import com.daily.domain.mail.application.MailService;
 import com.daily.domain.user.domain.User;
 import com.daily.global.batch.StepShareContext;
@@ -25,6 +26,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Configuration
 @Slf4j
@@ -37,6 +39,7 @@ public class SendMailConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory entityManagerFactory;
+    private final ContentRepository contentRepository;
     private final MailService mailService;
     private final StepShareContext<Content> shareContents;
 
@@ -44,8 +47,8 @@ public class SendMailConfiguration {
     public Job sendMailJob() throws Exception {
         return jobBuilderFactory.get(JOB_NAME)
                 .incrementer(new RunIdIncrementer())
-                .start(getContentsStep(null))
-                .next(sendMailStep())
+//                .start(getContentsStep(null))
+                .start(sendMailStep(null))
                 .listener(new SendMailJobListener())
                 .build();
     }
@@ -61,11 +64,12 @@ public class SendMailConfiguration {
     }
 
     @Bean(JOB_NAME + "_sendMailStep")
-    public Step sendMailStep() throws Exception {
+    @JobScope
+    public Step sendMailStep(@Value("#{jobParameters[requestDate]}") String requestDate) throws Exception {
         return stepBuilderFactory.get(JOB_NAME + "_sendMailStep")
                 .<User, User>chunk(CHUNK_SIZE)
                 .reader(this.sendMailItemReader())
-                .writer(this.sendMailItemWriter())
+                .writer(this.sendMailItemWriter(requestDate))
                 .build();
     }
 
@@ -78,12 +82,13 @@ public class SendMailConfiguration {
 
     private ItemReader<? extends Content> contentsItemReader(String requestDate) throws Exception {
         Map<String, Object> param = new HashMap<>();
-        param.put("now", LocalDateTime.parse(requestDate + "T00:00:00"));
+        param.put("start", LocalDateTime.parse(requestDate + "T00:00:00"));
+        param.put("end", LocalDateTime.parse(requestDate + "T23:59:59"));
 
         JpaCursorItemReader<Content> contentsItemReader = new JpaCursorItemReaderBuilder<Content>()
                 .name(JOB_NAME + "_contentsItemReader")
                 .entityManagerFactory(entityManagerFactory)
-                .queryString("select c from Content c where c.createDate >= :now")
+                .queryString("select c from Content c where c.createDate >= :start and c.createDate <= :end")
                 .parameterValues(param)
                 .build();
 
@@ -104,28 +109,26 @@ public class SendMailConfiguration {
         return itemReaderBuilder;
     }
 
-    private ItemWriter<? super User> sendMailItemWriter() {
+    private ItemWriter<? super User> sendMailItemWriter(String requestDate) {
+        LocalDateTime start = LocalDateTime.parse(requestDate + "T00:00:00");
+        LocalDateTime end = LocalDateTime.parse(requestDate + "T23:59:59");
+
         return items -> {
-            String[] recipients = items.stream().map(User::getEmail).toArray(String[]::new);
-            Map<String,Object> contents = this.prepareEmailContents();
+            for (User user : items) {
+                List<Content> contents = user.getUserSites().stream()
+                        .map(userSites -> contentRepository.fetchContentBatchQuery(userSites.getSiteCode(), start, end))
+                        .collect(Collectors.toList());
 
-            if(items.size() >= 1 && contents != null) {
-                mailService.sendEmail(recipients, "새로운 기술 이슈가 도착했습니다.", "mail", contents);
-            } else {
-                log.warn("No recipients or contents found, skipping email sending.");
+                mailService.sendEmail(user.getEmail(), "새로운 기술 이슈가 도착했습니다.", "mail", this.convertListToMap(contents));
             }
-
-            shareContents.removeContentsData();
         };
-
     }
 
-    public Map<String, Object> prepareEmailContents() {
-        List<Content> list = (List<Content>) shareContents.getContentsData("sendContents");
-        Map<String, Object> contents = new HashMap<>();
+    public Map<String, Object> convertListToMap(List<Content> contents) {
+        Map<String, Object> map = new HashMap<>();
 
-        contents.put("contents", list);
-        return contents;
+        map.put("contents", contents);
+        return map;
     }
 
 }

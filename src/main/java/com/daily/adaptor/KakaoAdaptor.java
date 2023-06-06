@@ -2,14 +2,17 @@ package com.daily.adaptor;
 
 import com.daily.domain.content.domain.Content;
 import com.daily.domain.content.dto.ContentDto;
+import com.daily.domain.content.dto.ContentType;
+import com.daily.domain.site.domain.Site;
+import com.daily.domain.site.repository.SiteRepository;
 import com.daily.global.exception.UrlConnectionException;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import org.modelmapper.ModelMapper;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -19,12 +22,16 @@ import java.util.stream.Collectors;
 
 @Component
 @Slf4j
+@Transactional
 public class KakaoAdaptor implements CommonAdaptor {
 
     private final Environment env;
+    private final SiteRepository siteRepository;
 
-    public KakaoAdaptor(Environment env) {
+    public KakaoAdaptor(Environment env,
+                        SiteRepository siteRepository) {
         this.env = env;
+        this.siteRepository = siteRepository;
     }
 
     public Document getDocument() {
@@ -47,8 +54,9 @@ public class KakaoAdaptor implements CommonAdaptor {
     @Override
     public List<Content> getNewContentsFromAdaptor(String requestDate) {
         Elements elements = this.getElements(this.getDocument());
+        Site site = this.getSite();
 
-        List<Content> contents = elements.stream()
+        List<Content> contents = elements.parallelStream()
                 .map(element -> {
                     String link = element.select(".elementor-post__text > h3").select("a").attr("href");
                     String title = element.select(".elementor-post__text > h3").select("a").text();
@@ -62,6 +70,7 @@ public class KakaoAdaptor implements CommonAdaptor {
 
                         if(nowDtm.minusDays(1).isEqual(regDtmParsing)) {
                             ContentDto content = ContentDto.builder()
+                                    .siteCode(site.getSiteCode())
                                     .link(link)
                                     .title(title)
                                     .author(author)
@@ -80,7 +89,11 @@ public class KakaoAdaptor implements CommonAdaptor {
         return contents;
     }
 
+    private Site getSite() {
+        return siteRepository.findById(ContentType.KAKAO.name()).orElse(null);
+    }
+
     public Content convertToContents(ContentDto content) {
-        return new ModelMapper().map(content, Content.class);
+        return content.toEntity();
     }
 }

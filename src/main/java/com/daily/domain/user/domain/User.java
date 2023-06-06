@@ -1,5 +1,6 @@
 package com.daily.domain.user.domain;
 
+import com.daily.domain.userSites.domain.UserSites;
 import com.daily.global.common.domain.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,10 +9,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Builder
@@ -31,6 +31,9 @@ public class User extends BaseEntity implements UserDetails {
     private String imageUrl;
 
     private String subscribeYn;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    List<UserSites> userSites;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

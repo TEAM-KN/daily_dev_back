@@ -1,19 +1,18 @@
 package com.daily.adaptor;
 
-import com.daily.adaptor.NaverNewsAdaptor;
-import org.jsoup.nodes.Document;
+import com.daily.domain.site.repository.SiteRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.core.env.Environment;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class NaverNewsAdaptorTest {
 
     @Mock
     private Environment env;
+    @Mock
+    private SiteRepository siteRepository;
 
-    private NaverNewsAdaptor naverNewsAdaptor = new NaverNewsAdaptor(env);
+    private NaverNewsAdaptor naverNewsAdaptor = new NaverNewsAdaptor(env, siteRepository);
 
     @Test
     void getDocumentTest() {
