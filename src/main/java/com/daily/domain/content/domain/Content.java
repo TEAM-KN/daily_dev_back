@@ -46,6 +46,7 @@ public class Content extends BaseEntity {
     @Column(name="author")
     private String author;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "site_code", insertable = false, updatable = false)
     private Site site;
 }

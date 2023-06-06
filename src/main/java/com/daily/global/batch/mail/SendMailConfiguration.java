@@ -4,6 +4,7 @@ import com.daily.domain.content.domain.Content;
 import com.daily.domain.content.repository.ContentRepository;
 import com.daily.domain.mail.application.MailService;
 import com.daily.domain.user.domain.User;
+import com.daily.domain.userSites.domain.UserSites;
 import com.daily.global.batch.StepShareContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +27,6 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Configuration
 @Slf4j
@@ -115,11 +115,12 @@ public class SendMailConfiguration {
 
         return items -> {
             for (User user : items) {
-                List<Content> contents = user.getUserSites().stream()
-                        .map(userSites -> contentRepository.fetchContentBatchQuery(userSites.getSiteCode(), start, end))
-                        .collect(Collectors.toList());
+                String[] siteCodes = user.getUserSites().stream().map(UserSites::getSiteCode).toArray(String[]::new);
 
-                mailService.sendEmail(user.getEmail(), "새로운 기술 이슈가 도착했습니다.", "mail", this.convertListToMap(contents));
+                if (siteCodes.length > 0) {
+                    List<Content> contents = contentRepository.fetchContentBatchQuery(siteCodes, start, end);
+                    mailService.sendEmail(user.getEmail(), "새로운 기술 이슈가 도착했습니다.", "mail", this.convertListToMap(contents));
+                }
             }
         };
     }
