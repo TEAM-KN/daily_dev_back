@@ -22,14 +22,19 @@ import java.util.List;
 public class User extends BaseEntity implements UserDetails {
 
     @Id
+    @Column(name = "email")
     private String email;
 
+    @Column(name = "password")
     private String password;
 
+    @Column(name = "nickname")
     private String nickname;
 
+    @Column(name = "image_url")
     private String imageUrl;
 
+    @Column(name = "subscribe_yn")
     private String subscribeYn;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
