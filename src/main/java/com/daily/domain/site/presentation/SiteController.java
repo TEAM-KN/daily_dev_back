@@ -20,7 +20,7 @@ public class SiteController {
 
     private final SiteService siteService;
 
-    @GetMapping("/site/list")
+    @GetMapping("/sites")
     public List<SiteDto> fetchSites() {
         return siteService.fetchSites();
     }
