@@ -6,6 +6,7 @@ import com.daily.domain.content.dto.ContentResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @RestController
@@ -15,8 +16,13 @@ public class ContentController {
     private final ContentService contentService;
 
     @GetMapping("/contents")
-    public List<ContentResponse> fetchContents(@RequestBody ContentRequest rq) {
+    public List<ContentResponse> fetchContents() {
         return contentService.fetchContents();
+    }
+
+    @GetMapping("/contents")
+    public List<ContentResponse> fetchContentsBySiteCode(@RequestParam @NotBlank String siteCode) {
+        return contentService.fetchContents(siteCode);
     }
 
     @GetMapping("/content/{id}")

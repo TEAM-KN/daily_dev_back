@@ -17,7 +17,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/")
+    @GetMapping
     public UserDto fetchUser(@RequestParam @NotBlank(message = "이메일은 필수 값 입니다.") String email) {
         return userService.fetchUser(email);
     }

@@ -16,4 +16,5 @@ public interface ContentRepository extends JpaRepository<Content, ContentPK> {
             "   AND c.createDate >= :start " +
             "   AND c.createDate <= :end")
     List<Content> fetchContentBatchQuery(String[] siteCodes, LocalDateTime start, LocalDateTime end);
+    List<Content> findAllBySiteCodeOrderByCreateDateDesc(String siteCode);
 }
