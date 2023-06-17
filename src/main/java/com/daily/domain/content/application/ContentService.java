@@ -7,6 +7,7 @@ import java.util.List;
 public interface ContentService {
 
     List<ContentResponse> fetchContents();
+    List<ContentResponse> fetchContents(String siteCode);
     ContentResponse fetchContentsId(Long id);
     void update();
 

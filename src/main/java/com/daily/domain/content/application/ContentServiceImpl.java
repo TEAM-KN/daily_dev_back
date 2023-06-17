@@ -28,6 +28,14 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public List<ContentResponse> fetchContents(String siteCode) {
+        List<Content> contents = contentRepository.findAllBySiteCodeOrderByCreateDateDesc(siteCode);
+        return contents.stream().map(ContentResponse::new).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public ContentResponse fetchContentsId(final Long contentId) {
         ContentPK contentPK = ContentPK.builder().contentId(contentId).build();
         Optional<Content> contentsOptional = contentRepository.findById(contentPK);
