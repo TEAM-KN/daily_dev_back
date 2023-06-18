@@ -1,5 +1,6 @@
 package com.daily.global.exception;
 
+import com.daily.domain.user.exception.NoSearchUserException;
 import com.daily.global.common.response.CommonResponse;
 import com.daily.global.exception.dto.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
@@ -50,6 +51,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleException(Exception ex) {
         if (ex instanceof SQLException | ex instanceof IOException) {
             return this.makeResponseEntity(ErrorCode.INTERVAL_SERVER_ERROR, ex.getMessage());
+        } else if (ex instanceof NoSearchUserException) {
+            return this.makeResponseEntity(ErrorCode.NO_SEARCH_USER, ex.getMessage());
         } else {
             return this.makeResponseEntity(ErrorCode.INTERVAL_SERVER_ERROR);
         }
