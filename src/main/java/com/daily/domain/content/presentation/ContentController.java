@@ -20,7 +20,7 @@ public class ContentController {
         return contentService.fetchContents();
     }
 
-    @GetMapping("/contents")
+    @GetMapping("/content/site")
     public List<ContentResponse> fetchContentsBySiteCode(@RequestParam @NotBlank String siteCode) {
         return contentService.fetchContents(siteCode);
     }

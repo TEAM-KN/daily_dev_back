@@ -1,9 +1,12 @@
 package com.daily.global.exception;
 
+import com.daily.auth.exception.ExpiredTokenException;
+import com.daily.auth.exception.InvalidTokenException;
 import com.daily.domain.user.exception.NoSearchUserException;
 import com.daily.global.common.response.CommonResponse;
 import com.daily.global.exception.dto.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,6 +56,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             return this.makeResponseEntity(ErrorCode.INTERVAL_SERVER_ERROR, ex.getMessage());
         } else if (ex instanceof NoSearchUserException) {
             return this.makeResponseEntity(ErrorCode.NO_SEARCH_USER, ex.getMessage());
+        } else if (ex instanceof DuplicateKeyException) {
+            return this.makeResponseEntity(ErrorCode.CONFLICT, ex.getMessage());
+        } else if (ex instanceof InvalidTokenException | ex instanceof ExpiredTokenException) {
+            return this.makeResponseEntity(ErrorCode.UNAUTHORIZED_MEMBER, ex.getMessage());
         } else {
             return this.makeResponseEntity(ErrorCode.INTERVAL_SERVER_ERROR);
         }

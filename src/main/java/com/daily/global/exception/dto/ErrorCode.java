@@ -10,7 +10,9 @@ public enum ErrorCode {
     INVALID_PARAMETER(HttpStatus.BAD_REQUEST, "Invalid parameter included"),
     INTERVAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Server error"),
     METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "Method not allowed"),
-    NO_SEARCH_USER(HttpStatus.NOT_FOUND, "No Search User");
+    NO_SEARCH_USER(HttpStatus.NOT_FOUND, "No Search User"),
+    CONFLICT(HttpStatus.CONFLICT, "Resource Conflict"),
+    UNAUTHORIZED_MEMBER(HttpStatus.UNAUTHORIZED, "Unauthorized User");
 
     private HttpStatus httpStatus;
     private final String message;

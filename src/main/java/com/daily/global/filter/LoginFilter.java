@@ -32,7 +32,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         this.authenticationManager = authenticationManager;
         this.objectMapper = objectMapper;
         this.jwtTokenProvider = jwtTokenProvider;
-        setFilterProcessesUrl("/login");
+        setFilterProcessesUrl("/auth/login");
     }
 
     @SneakyThrows

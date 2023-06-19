@@ -1,5 +1,6 @@
 package com.daily.auth.application;
 
+import com.daily.auth.exception.InvalidTokenException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -21,8 +22,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             String token = AuthExtractor.extractAccessToken(request);
             tokenProvider.validateToken(token);
         } catch (RuntimeException e) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, e.getMessage());
-            return false;
+            throw new InvalidTokenException();
         }
 
         return true;
