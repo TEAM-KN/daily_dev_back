@@ -20,18 +20,29 @@ public class JwtTokenProvider {
 
     private final SecretKey tokenSecretKey;
     private final long accessTokenExpiration;
+    private final long refreshTokenExpiration;
 
 
     public JwtTokenProvider(@Value("${security.jwt.token.secret-key}")  final String secretKey,
-                            @Value("${security.jwt.token.access.expire-length}") final long accessTokenExpiration) {
+                            @Value("${security.jwt.token.access.expire-length}") final long accessTokenExpiration,
+                            @Value("${security.jwt.token.refresh.expire-length}") final long refreshTokenExpiration) {
         this.tokenSecretKey = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
         this.accessTokenExpiration = accessTokenExpiration;
+        this.refreshTokenExpiration = refreshTokenExpiration;
     }
 
 
     public String createAccessToken(String payload) {
+        return createToken(payload, this.accessTokenExpiration);
+    }
+
+    public String createRefreshToken(String payload) {
+        return createToken(payload, this.refreshTokenExpiration);
+    }
+
+    public String createToken(final String payload, final Long validTokenExpiration) {
         Date now = new Date();
-        Date validity = new Date(now.getTime() + accessTokenExpiration);
+        Date validity = new Date(now.getTime() + validTokenExpiration);
 
         return Jwts.builder()
                 .setSubject(payload)
@@ -39,7 +50,6 @@ public class JwtTokenProvider {
                 .setExpiration(validity)
                 .signWith(tokenSecretKey, SignatureAlgorithm.HS256)
                 .compact();
-
     }
 
     public void validateToken(String token) {

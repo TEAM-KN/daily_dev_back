@@ -1,5 +1,7 @@
 package com.daily.auth.application;
 
+import com.daily.auth.dto.AccessTokenRenewRequest;
+import com.daily.auth.dto.AccessTokenRenewResponse;
 import com.daily.domain.user.domain.User;
 import com.daily.domain.user.dto.UserRequest;
 import com.daily.domain.user.repository.UserRepository;
@@ -26,6 +28,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class AuthService implements UserDetailsService {
 
+    private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
     private final UserSitesRepository userSitesRepository;
     private final FileUtils fileUtils;
@@ -61,6 +64,14 @@ public class AuthService implements UserDetailsService {
         }
 
         return new CommonResponse(HttpStatus.OK, "성공" );
+    }
+
+    public AccessTokenRenewResponse generateAccessToken(final AccessTokenRenewRequest request) {
+        String refreshToken = request.getRefreshToken();
+        String payload = jwtTokenProvider.getPayload(refreshToken);
+
+        AccessTokenRenewResponse tokenResponse = new AccessTokenRenewResponse(jwtTokenProvider.createAccessToken(payload), jwtTokenProvider.createRefreshToken(payload));
+        return tokenResponse;
     }
 
     @Override
