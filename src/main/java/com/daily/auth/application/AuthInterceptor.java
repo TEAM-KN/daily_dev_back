@@ -18,6 +18,10 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if (isSwaggerRequest(request)) {
+            return true;
+        }
+
         try {
             String token = AuthExtractor.extractAccessToken(request);
             tokenProvider.validateToken(token);
@@ -26,5 +30,10 @@ public class AuthInterceptor implements HandlerInterceptor {
         }
 
         return true;
+    }
+
+    private boolean isSwaggerRequest(HttpServletRequest request) {
+        String uri = request.getRequestURI();
+        return uri.contains("swagger") || uri.contains("api-docs") || uri.contains("webjars");
     }
 }

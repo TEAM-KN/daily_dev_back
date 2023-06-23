@@ -16,10 +16,12 @@ public class WebConfig implements WebMvcConfigurer {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
+
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new AuthInterceptor(jwtTokenProvider))
-                .excludePathPatterns("/h2-console/**", "/auth/**");
+                .excludePathPatterns("/swagger-resources/**", "/swagger-ui/**", "/v3/api-docs", "/h2-console/**", "/auth/**");
     }
 
     @Override

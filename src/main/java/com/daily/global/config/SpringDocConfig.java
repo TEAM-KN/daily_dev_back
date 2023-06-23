@@ -18,7 +18,7 @@ import org.springframework.web.method.HandlerMethod;
 public class SpringDocConfig {
 
     private static final String APP_ID = "Daily";
-    private static final String DEFAULT_TOKEN = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzY25vaDA2MTdAZ21haWwuY29tIiwiaWF0IjoxNjg2MzI0NzExLCJleHAiOjE2ODYzMjgzMTF9.ck_3R2WLSUdgdy58wTqewbmITMbIlwBDQEYsDORArYA";
+    private static final String DEFAULT_TOKEN = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY4NzUyMzExOSwiZXhwIjoxNzE5MDgwNzE5fQ.WpMhktWWQYbjhvIWNG3rjOPWjje_hs5e9x1C28iNx4Q";
 
     @Bean
     public OpenAPI openAPI() {
