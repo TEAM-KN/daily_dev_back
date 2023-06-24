@@ -12,7 +12,8 @@ public enum ErrorCode {
     METHOD_NOT_ALLOWED(HttpStatus.METHOD_NOT_ALLOWED, "Method not allowed"),
     NO_SEARCH_USER(HttpStatus.UNAUTHORIZED, "No Search User"),
     CONFLICT(HttpStatus.CONFLICT, "Resource Conflict"),
-    UNAUTHORIZED_MEMBER(HttpStatus.UNAUTHORIZED, "Unauthorized User");
+    SESSION_EXPIRATION(HttpStatus.UNAUTHORIZED, "Unauthorized User"),
+    TOKEN_EXPIRATION(HttpStatus.UNAUTHORIZED, "Unauthorized User");
 
     private HttpStatus httpStatus;
     private final String message;

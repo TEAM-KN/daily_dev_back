@@ -58,8 +58,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             return this.makeResponseEntity(ErrorCode.NO_SEARCH_USER, ex.getMessage());
         } else if (ex instanceof DuplicateKeyException) {
             return this.makeResponseEntity(ErrorCode.CONFLICT, ex.getMessage());
-        } else if (ex instanceof InvalidTokenException | ex instanceof ExpiredTokenException) {
-            return this.makeResponseEntity(ErrorCode.UNAUTHORIZED_MEMBER, ex.getMessage());
+        } else if (ex instanceof InvalidTokenException) {
+            return this.makeResponseEntity(ErrorCode.SESSION_EXPIRATION, ex.getMessage());
+        } else if (ex instanceof ExpiredTokenException) {
+            return this.makeResponseEntity(ErrorCode.TOKEN_EXPIRATION, ex.getMessage());
         } else {
             return this.makeResponseEntity(ErrorCode.INTERVAL_SERVER_ERROR);
         }
