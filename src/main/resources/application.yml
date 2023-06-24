@@ -94,8 +94,8 @@ security:
       secret-key: U0NOT0hfREFJTFlfREVWX0xPR19QUk9KRUNU
       access:
         expire-length: 3600000 #1시간
-        refresh:
-          expire-length: 1210000000 #14일
+      refresh:
+        expire-length: 1210000000 #14일
 
 logging:
   pattern:
