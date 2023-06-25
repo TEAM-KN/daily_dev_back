@@ -24,6 +24,9 @@ daily:
   kakao: # 카카오 기술블로그
     blog:
       url: https://tech.kakao.com/blog/
+  daangn: # 당근마켓 기술블로그
+    blog:
+      url: https://about.daangn.com/blog/
 
 jasypt:
   encryptor:
