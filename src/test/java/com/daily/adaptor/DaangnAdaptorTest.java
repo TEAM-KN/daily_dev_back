@@ -37,7 +37,7 @@ public class DaangnAdaptorTest {
     @Test
     void contentTest() {
 
-        daangnAdaptor.getNewContentsFromAdaptor("test");
+        daangnAdaptor.getNewContentsFromAdaptor("2023-05-31");
 
     }
 }

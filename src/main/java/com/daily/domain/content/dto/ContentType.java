@@ -7,6 +7,7 @@ public enum ContentType {
 
     WOO,
     KAKAO,
-    NAVER;
+    NAVER,
+    DAANGN
 
 }
