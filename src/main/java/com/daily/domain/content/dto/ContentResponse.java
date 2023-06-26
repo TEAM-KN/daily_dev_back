@@ -10,13 +10,12 @@ public class ContentResponse {
     private Long contentId;
 
     private String siteCode;
+    private String siteName;
     private String title;
     private String description;
     private String link;
     private String regDtm;
     private String author;
-
-    private Site site;
 
     public ContentResponse(Content content) {
         this.contentId = content.getContentId();
@@ -25,5 +24,7 @@ public class ContentResponse {
         this.link = content.getLink();
         this.regDtm = content.getRegDtm();
         this.author = content.getAuthor();
+        this.siteCode = content.getSiteCode();
+        this.siteName = content.getSite().getSiteName();
     }
 }

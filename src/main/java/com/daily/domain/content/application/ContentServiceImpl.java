@@ -22,7 +22,7 @@ public class ContentServiceImpl implements ContentService {
     @Override
     @Transactional(readOnly = true)
     public List<ContentResponse> fetchContents() {
-        List<Content> contentList = contentRepository.findAll();
+        List<Content> contentList = contentRepository.findAllByOrderByCreateDateDesc();
 
         return contentList.stream().map(ContentResponse::new).collect(Collectors.toList());
     }
