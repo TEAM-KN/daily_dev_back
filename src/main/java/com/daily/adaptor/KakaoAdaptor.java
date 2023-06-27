@@ -54,7 +54,7 @@ public class KakaoAdaptor implements CommonAdaptor {
     @Override
     public List<Content> getNewContentsFromAdaptor(String requestDate) {
         Elements elements = this.getElements(this.getDocument());
-        Site site = this.getSite();
+        Site site = this.getSite(ContentType.KAKAO);
 
         List<Content> contents = elements.parallelStream()
                 .map(element -> {
@@ -89,11 +89,7 @@ public class KakaoAdaptor implements CommonAdaptor {
         return contents;
     }
 
-    private Site getSite() {
-        return siteRepository.findById(ContentType.KAKAO.name()).orElse(null);
-    }
-
-    public Content convertToContents(ContentDto content) {
-        return content.toEntity();
+    private Site getSite(ContentType type) {
+        return siteRepository.findById(type.name()).orElse(null);
     }
 }

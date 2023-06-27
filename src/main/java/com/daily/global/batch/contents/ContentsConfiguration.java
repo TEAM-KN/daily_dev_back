@@ -1,9 +1,6 @@
 package com.daily.global.batch.contents;
 
-import com.daily.adaptor.CommonAdaptorManager;
-import com.daily.adaptor.KakaoAdaptor;
-import com.daily.adaptor.NaverNewsAdaptor;
-import com.daily.adaptor.WoowahanAdaptor;
+import com.daily.adaptor.*;
 import com.daily.domain.content.domain.Content;
 import com.daily.domain.content.repository.ContentRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +35,7 @@ public class ContentsConfiguration {
     private final KakaoAdaptor kakaoAdaptor;
     private final WoowahanAdaptor woowahanAdaptor;
     private final NaverNewsAdaptor naverNewsAdaptor;
+    private final DaangnAdaptor daangnAdaptor;
     private final CommonAdaptorManager adaptorManger;
 
     /*
@@ -78,7 +76,7 @@ public class ContentsConfiguration {
     }
 
     private List<Content> getContents(String requestDate) {
-        return adaptorManger.of(requestDate, woowahanAdaptor, kakaoAdaptor, naverNewsAdaptor);
+        return adaptorManger.of(requestDate, woowahanAdaptor, kakaoAdaptor, naverNewsAdaptor, daangnAdaptor);
     }
 
 }
