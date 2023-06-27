@@ -9,7 +9,7 @@ import com.daily.global.exception.UrlConnectionException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -18,26 +18,23 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Component
 public class DaangnAdaptor implements CommonAdaptor {
 
-    private final Environment env;
+
+    private final String url;
     private final SiteRepository siteRepository;
 
-    private static final String URL = "https://about.daangn.com/blog/";
-
-    public DaangnAdaptor(Environment env,
-                         SiteRepository siteRepository) {
-        this.env = env;
+    public DaangnAdaptor(@Value("${daily.daangn.blog.url}") final String url,
+                         final SiteRepository siteRepository) {
+        this.url = url;
         this.siteRepository = siteRepository;
     }
 
     public Document getDocument() {
         try {
-//            String url = env.getProperty("daily.daangn.blog.url");
-            return Jsoup.connect(URL).get();
+            return Jsoup.connect(url).get();
         } catch(Exception e) {
             throw new UrlConnectionException("요청한 URL에 접근할 수 없습니다.");
         }
@@ -56,7 +53,7 @@ public class DaangnAdaptor implements CommonAdaptor {
         Elements elements = this.getElements(this.getDocument());
         Site site = this.getSite(ContentType.DAANGN);
 
-        String originUrl = URL.replace("/blog", "");
+        String originUrl = url.replace("/blog", "");
         List<Content> contents = elements.parallelStream()
                 .map(element -> {
                     String link = element.select(".c-gmxfka > a.c-hqmuMq").attr("href");

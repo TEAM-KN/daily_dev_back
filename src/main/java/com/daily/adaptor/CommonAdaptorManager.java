@@ -20,9 +20,6 @@ public class CommonAdaptorManager {
                 contents.addAll(newContent);
             }
         }
-
         return contents;
     }
-
-
 }

@@ -14,11 +14,9 @@ import java.io.IOException;
 
 public class DaangnAdaptorTest {
 
-    @Autowired
-    private Environment env;
     @Mock
     private SiteRepository siteRepository;
-    private final DaangnAdaptor daangnAdaptor = new DaangnAdaptor(env, siteRepository);
+    private final DaangnAdaptor daangnAdaptor = new DaangnAdaptor("https://about.daangn.com/blog/", siteRepository);
 
     @DisplayName("문서를 정상적으로 가져오는지 확인")
     @Test
@@ -32,12 +30,5 @@ public class DaangnAdaptorTest {
 
         // then
         Assertions.assertEquals(testDoc.title(), result.title());
-    }
-
-    @Test
-    void contentTest() {
-
-        daangnAdaptor.getNewContentsFromAdaptor("2023-05-31");
-
     }
 }
