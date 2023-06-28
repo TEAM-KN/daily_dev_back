@@ -1,26 +1,39 @@
 package com.daily.adaptor;
 
-import com.daily.adaptor.KakaoAdaptor;
 import com.daily.domain.site.repository.SiteRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.env.Environment;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.io.IOException;
 
+@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@ActiveProfiles("local")
 class KakaoAdaptorTest {
 
     @Autowired
     private Environment env;
-    @Mock
+    @Autowired
     private SiteRepository siteRepository;
-    private final KakaoAdaptor kakaoAdaptor = new KakaoAdaptor(env, siteRepository);
+    @Autowired
+    private KakaoAdaptor kakaoAdaptor;
+
+    @BeforeEach
+    void setUp() {
+        this.kakaoAdaptor = new KakaoAdaptor(env, siteRepository);
+    }
 
     @DisplayName("문서를 정상적으로 가져오는지 확인")
     @Test

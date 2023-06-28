@@ -5,26 +5,38 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.env.Environment;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.io.IOException;
 
 
 @ExtendWith(MockitoExtension.class)
+@SpringBootTest
+@ActiveProfiles("local")
 class WoowahanAdaptorTest {
 
-    @Mock
+    @Autowired
     private Environment env;
-    @Mock
+    @Autowired
     private SiteRepository siteRepository;
 
-    private WoowahanAdaptor woowahanAdaptor = new WoowahanAdaptor(env, siteRepository);
+    @Autowired
+    private WoowahanAdaptor woowahanAdaptor;
+
+    @BeforeEach
+    void setUp() {
+        this.woowahanAdaptor = new WoowahanAdaptor(env, siteRepository);
+    }
 
     @DisplayName("문서를 정상적으로 가져오는지 확인")
     @Test
@@ -79,6 +91,11 @@ class WoowahanAdaptorTest {
         Assertions.assertThrows(NullPointerException.class, () -> {
             woowahanAdaptor.getElement(mockDoc);
         });
+    }
+
+    @Test
+    void getTest() {
+        woowahanAdaptor.getNewContentsFromAdaptor("2023-06-23");
     }
 
 }
