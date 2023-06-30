@@ -6,6 +6,8 @@
 <img src="https://user-images.githubusercontent.com/51324045/227776270-bcefe171-7077-49b3-8801-83a8cbd4d2c4.gif" width="300" height="500"/>
 </div>
 
+### 체험하기
+http://daily-dev-news.com/
 
 ### 요구사항
 * 유명 기술 블로그 (카카오, 우아한형제들, 네이버 등...)를 매일 1번 씩 최신 글을 긁어온다. 
