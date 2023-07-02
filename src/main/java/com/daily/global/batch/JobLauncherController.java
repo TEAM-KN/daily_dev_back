@@ -29,6 +29,15 @@ public class JobLauncherController {
         jobLauncher.run(contentsConfiguration.contentsJob(), jobParameters);
     }
 
+
+    @Scheduled(cron = "0 0 15 * * ?")
+    public void launchJobToRemoveContent() throws Exception {
+        JobParameters jobParameters = new JobParametersBuilder()
+                .addString("requestDate", LocalDate.now().toString())
+                .toJobParameters();
+        jobLauncher.run(sendMailConfiguration.sendMailJob(), jobParameters);
+    }
+
     @Scheduled(cron = "0 0 1 * * ?")
     public void launchJobToMail() throws Exception {
         JobParameters jobParameters = new JobParametersBuilder()
@@ -36,4 +45,5 @@ public class JobLauncherController {
                 .toJobParameters();
         jobLauncher.run(sendMailConfiguration.sendMailJob(), jobParameters);
     }
+
 }
