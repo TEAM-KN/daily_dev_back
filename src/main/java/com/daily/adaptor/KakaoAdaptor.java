@@ -56,7 +56,7 @@ public class KakaoAdaptor implements CommonAdaptor {
         Elements elements = this.getElements(this.getDocument());
         Site site = this.getSite(ContentType.KAKAO);
 
-        List<Content> contents = elements.parallelStream()
+        return elements.parallelStream()
                 .map(element -> {
                     String link = element.select(".elementor-post__text > h3").select("a").attr("href");
                     String title = element.select(".elementor-post__text > h3").select("a").text();
@@ -85,8 +85,6 @@ public class KakaoAdaptor implements CommonAdaptor {
                 })
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
-
-        return contents;
     }
 
     private Site getSite(ContentType type) {

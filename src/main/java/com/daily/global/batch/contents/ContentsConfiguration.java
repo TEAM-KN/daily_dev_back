@@ -59,7 +59,7 @@ public class ContentsConfiguration {
     public Step contentsStep(@Value("#{jobParameters[requestDate]}") String requestDate) throws Exception {
         return stepBuilderFactory.get(JOB_NAME + "_contentsStep")
                 .<Content, Content>chunk(CHUNK_SIZE)
-                .reader(new ContentsItemReader(getContents(requestDate)))
+                .reader(new ContentsItemReader<>(getContents(requestDate)))
                 .writer(this.contentsWriter())
                 .build();
     }
