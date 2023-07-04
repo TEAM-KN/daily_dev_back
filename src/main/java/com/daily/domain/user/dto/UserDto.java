@@ -14,6 +14,14 @@ public class UserDto {
     private String imageUrl;
     private String subscribeYn;
 
+    public UserDto(String email, String password, String nickname, String imageUrl, String subscribeYn) {
+        this.email = email;
+        this.password = password;
+        this.nickname = nickname;
+        this.imageUrl = imageUrl;
+        this.subscribeYn = subscribeYn;
+    }
+
     public UserDto(User user) {
         this.email = user.getEmail();
         this.nickname = user.getNickname();
