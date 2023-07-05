@@ -55,7 +55,7 @@ public class WoowahanAdaptor implements CommonAdaptor {
     @Override
     public List<Content> getNewContentsFromAdaptor(String requestDate) {
         Elements elements = this.getElement(this.getDocument());
-        Site site = this.getSite(ContentType.WOO);
+        Site site = this.getSite(ContentType.WOO.name());
 
         List<Content> contents = elements.parallelStream()
                 .map(element -> {
@@ -97,8 +97,8 @@ public class WoowahanAdaptor implements CommonAdaptor {
         return contents;
     }
 
-    private Site getSite(ContentType type) {
-        return siteRepository.findById(type.name()).orElse(null);
+    private Site getSite(String type) {
+        return siteRepository.findById(type).orElse(null);
     }
 
     public Content convertToContents(ContentDto content) {

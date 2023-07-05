@@ -15,7 +15,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Component
-@Slf4j
 public class JwtTokenProvider {
 
     private final SecretKey tokenSecretKey;
@@ -32,11 +31,11 @@ public class JwtTokenProvider {
     }
 
 
-    public String createAccessToken(String payload) {
+    public String createAccessToken(final String payload) {
         return createToken(payload, this.accessTokenExpiration);
     }
 
-    public String createRefreshToken(String payload) {
+    public String createRefreshToken(final String payload) {
         return createToken(payload, this.refreshTokenExpiration);
     }
 
@@ -52,7 +51,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public void validateToken(String token) {
+    public void validateToken(final String token) {
         try {
             Jwts.parser().setSigningKey(tokenSecretKey).parseClaimsJws(token);
         } catch (ExpiredJwtException e) {
@@ -62,7 +61,7 @@ public class JwtTokenProvider {
         }
     }
 
-    public String getPayload(String token) {
+    public String getPayload(final String token) {
         return Jwts.parser().setSigningKey(tokenSecretKey).parseClaimsJws(token).getBody().getSubject();
     }
 

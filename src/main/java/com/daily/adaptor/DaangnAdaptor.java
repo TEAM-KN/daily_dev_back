@@ -51,7 +51,7 @@ public class DaangnAdaptor implements CommonAdaptor {
     @Override
     public List<Content> getNewContentsFromAdaptor(String requestDate) {
         Elements elements = this.getElements(this.getDocument());
-        Site site = this.getSite(ContentType.DAANGN);
+        Site site = this.getSite(ContentType.DAANGN.name());
 
         String originUrl = url.replace("/blog", "");
         List<Content> contents = elements.parallelStream()
@@ -94,7 +94,7 @@ public class DaangnAdaptor implements CommonAdaptor {
         return contents;
     }
 
-    private Site getSite(ContentType type) {
-        return siteRepository.findById(type.name()).orElse(null);
+    private Site getSite(String type) {
+        return siteRepository.findById(type).orElse(null);
     }
 }

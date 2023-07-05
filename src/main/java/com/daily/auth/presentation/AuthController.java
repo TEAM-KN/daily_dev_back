@@ -48,7 +48,7 @@ public class AuthController {
     }
 
     @PostMapping("/join")
-    public CommonResponse join(@Valid @RequestBody UserRequest joinRequest) throws IOException {
+    public CommonResponse join(@Valid @RequestBody UserRequest joinRequest) {
         return authService.join(joinRequest);
     }
 

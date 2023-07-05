@@ -1,9 +1,11 @@
 package com.daily.domain.user.dto;
 
 import com.daily.domain.user.domain.User;
+import com.daily.global.common.dto.YN;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -14,16 +16,14 @@ import java.util.List;
 @AllArgsConstructor
 public class UserRequest {
 
-    @NotBlank(message = "사용자 계정을 찾을 수 없습니다.")
+    @NotBlank(message = "이메일은 필수 입력 값 입니다.")
+    @Email
     private String email;
 
     @NotBlank(message = "패스워드를 입력해주세요.")
     private String password;
 
     private String nickname;
-    private String imageUrl;
-
-    private MultipartFile imageFile;
 
     private List<String> siteCodes;
 
@@ -42,13 +42,12 @@ public class UserRequest {
 
     }
 
-    public User toUser(String imageUrl) {
+    public User toUser() {
         return User.builder()
                 .email(getEmail())
                 .nickname(getNickname())
                 .password(getPassword())
-                .subscribeYn("N")
-                .imageUrl(imageUrl)
+                .subscribeYn(siteCodes.size() > 0 ? YN.Y.name() : YN.N.name())
                 .build();
     }
 

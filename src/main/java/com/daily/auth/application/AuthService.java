@@ -37,20 +37,19 @@ public class AuthService implements UserDetailsService {
         User user = userRepository.findById(email).orElse(null);
 
         if (user != null) {
-            new DuplicateKeyException("이미 사용 중인 이메일입니다.");
+            throw new DuplicateKeyException("이미 사용 중인 이메일입니다.");
         }
 
         return new CommonResponse(HttpStatus.OK, "성공" );
     }
 
-    public CommonResponse join(final UserRequest joinRequest) throws IOException {
+    public CommonResponse join(final UserRequest joinRequest) {
         User isUser = userRepository.findById(joinRequest.getEmail()).orElse(null);
 
         if (isUser != null)
             throw new DuplicateKeyException("이미 사용 중인 이메일입니다.");
 
-        String filePath = fileUtils.storeFile(joinRequest.getImageFile());
-        userRepository.save(joinRequest.toUser(filePath));
+        userRepository.save(joinRequest.toUser());
 
         if (joinRequest.getSiteCodes().size() > 0) {
             List<UserSites> userSites = joinRequest.getSiteCodes().stream()
