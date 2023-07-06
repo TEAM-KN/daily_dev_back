@@ -3,6 +3,7 @@ package com.daily.auth.presentation;
 import com.daily.auth.application.AuthService;
 import com.daily.auth.dto.AccessTokenRenewRequest;
 import com.daily.auth.dto.AccessTokenRenewResponse;
+import com.daily.auth.dto.LoginRequest;
 import com.daily.global.common.dto.Constants;
 import com.daily.global.common.response.CommonResponse;
 import com.daily.domain.user.dto.UserRequest;
@@ -27,6 +28,11 @@ import java.util.Map;
 public class AuthController {
 
     private final AuthService authService;
+
+    @PostMapping("/login")
+    public CommonResponse login(@RequestBody @Valid LoginRequest request) {
+        return new CommonResponse(HttpStatus.OK, "성공");
+    }
 
     @GetMapping("/user")
     public Map<String, Object> user(@AuthenticationPrincipal OAuth2User principal) {

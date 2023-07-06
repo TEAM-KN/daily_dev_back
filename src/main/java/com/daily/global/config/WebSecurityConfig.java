@@ -2,7 +2,7 @@ package com.daily.global.config;
 
 import com.daily.auth.application.JwtTokenProvider;
 import com.daily.global.security.CustomAuthenticationProvider;
-import com.daily.global.filter.LoginFilter;
+import com.daily.global.security.CustomAuthenticationSuccessHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -29,17 +29,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        LoginFilter loginFilter = new LoginFilter(authenticationManager(), objectMapper, jwtTokenProvider);
+//        LoginFilter loginFilter = new LoginFilter(authenticationManager(), objectMapper, jwtTokenProvider);
 
         httpSecurity
-                .csrf().disable()
-                .headers().frameOptions().sameOrigin()
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .addFilter(loginFilter)
-                .exceptionHandling(e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
-                .oauth2Login();
+                .csrf()
+                    .disable()
+                .headers()
+                    .frameOptions()
+                    .sameOrigin()
+                    .and()
+                .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .and()
+                .formLogin()
+                    .loginProcessingUrl("/auth/login")
+                    .successHandler(new CustomAuthenticationSuccessHandler(jwtTokenProvider, objectMapper))
+                    .and()
+                .exceptionHandling(e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)));
+
     }
 
     @Bean
