@@ -2,14 +2,11 @@ package com.daily.auth.presentation;
 
 import com.daily.auth.application.AuthService;
 import com.daily.auth.dto.AccessTokenRenewRequest;
-import com.daily.auth.dto.AccessTokenRenewResponse;
 import com.daily.auth.dto.LoginRequest;
 import com.daily.auth.dto.LoginResponse;
-import com.daily.global.common.dto.Constants;
 import com.daily.global.common.response.CommonResponse;
 import com.daily.domain.user.dto.UserRequest;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -44,16 +41,13 @@ public class AuthController {
     }
 
     @PostMapping("/join")
-    public CommonResponse join(@Valid @RequestBody UserRequest joinRequest) {
-        return authService.join(joinRequest);
+    public CommonResponse join(@Valid @RequestBody UserRequest request, HttpServletResponse response) {
+        return authService.join(request, response);
     }
 
     @PostMapping("/token/access")
     public CommonResponse token(@RequestBody @Valid AccessTokenRenewRequest tokenRenewRequest, HttpServletResponse response) {
-        AccessTokenRenewResponse accessTokenRenewResponse = authService.generateAccessToken(tokenRenewRequest);
-        response.setHeader(Constants.ACCESS_TOKEN.getKey(), accessTokenRenewResponse.getAccessToken());
-        response.setHeader(Constants.REFRESH_TOKEN.getKey(), accessTokenRenewResponse.getRefreshToken());
-
+        authService.generateRenewAccessToken(tokenRenewRequest, response);
         return new CommonResponse(HttpStatus.OK, "성공" );
     }
 }
