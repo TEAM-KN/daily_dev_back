@@ -3,7 +3,7 @@ package com.daily.domain.user.dto;
 import com.daily.domain.user.domain.User;
 import com.daily.global.common.dto.YN;
 import lombok.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -42,11 +42,11 @@ public class UserRequest {
 
     }
 
-    public User toUser() {
+    public User toUser(PasswordEncoder passwordEncoder) {
         return User.builder()
                 .email(getEmail())
                 .nickname(getNickname())
-                .password(getPassword())
+                .password(passwordEncoder.encode(getPassword()))
                 .subscribeYn(siteCodes.size() > 0 ? YN.Y.name() : YN.N.name())
                 .build();
     }

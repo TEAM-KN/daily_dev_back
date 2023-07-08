@@ -3,9 +3,9 @@ package com.daily.auth.application;
 
 import com.daily.auth.exception.ExpiredTokenException;
 import com.daily.auth.exception.InvalidTokenException;
+import com.daily.global.common.dto.Constants;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -32,11 +32,11 @@ public class JwtTokenProvider {
 
 
     public String createAccessToken(final String payload) {
-        return createToken(payload, this.accessTokenExpiration);
+        return Constants.BEARER.getKey() + createToken(payload, this.accessTokenExpiration);
     }
 
     public String createRefreshToken(final String payload) {
-        return createToken(payload, this.refreshTokenExpiration);
+        return Constants.BEARER.getKey() + createToken(payload, this.refreshTokenExpiration);
     }
 
     public String createToken(final String payload, final Long validTokenExpiration) {
