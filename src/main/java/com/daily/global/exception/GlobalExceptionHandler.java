@@ -2,87 +2,75 @@ package com.daily.global.exception;
 
 import com.daily.auth.exception.ExpiredTokenException;
 import com.daily.auth.exception.InvalidTokenException;
+import com.daily.auth.exception.PasswordMatchException;
 import com.daily.domain.user.exception.NoSearchUserException;
 import com.daily.global.common.response.CommonResponse;
 import com.daily.global.exception.dto.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.NoHandlerFoundException;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.io.IOException;
-import java.sql.SQLException;
 
 @RestControllerAdvice
 @Slf4j
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+public class GlobalExceptionHandler {
 
-    @Override
-    protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        log.error("NoHandlerFoundException", ex);
-        return this.makeResponseEntity(ErrorCode.HANDLER_NOT_FOUND, ex.getMessage());
-    }
-
-    @Override
-    protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        log.error("HttpRequestMethodNotSupportedException", ex);
-        return this.makeResponseEntity(ErrorCode.METHOD_NOT_ALLOWED, ex.getMessage());
-    }
-
-    @Override
-    protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        log.error("MissingServletRequestParameterException");
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<Object> handleInvalidRequestBody() {
         return this.makeResponseEntity(ErrorCode.INVALID_PARAMETER);
     }
 
-    @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        log.error("MethodArgumentNotValidException", ex);
-        return this.makeResponseEntity(ErrorCode.INVALID_PARAMETER, ex.getMessage());
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Object> handleInvalidDtoField(final MethodArgumentNotValidException e) {
+        FieldError firstFieldError = e.getFieldErrors().get(0);
+        String errorMessage = String.format("%s 필드는 %s (전달된 값: %s)", firstFieldError.getField(),
+                firstFieldError.getDefaultMessage(), firstFieldError.getRejectedValue());
+        return this.makeResponseEntity(ErrorCode.INVALID_PARAMETER, errorMessage);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleException(Exception ex) {
-        if (ex instanceof SQLException | ex instanceof IOException) {
-            return this.makeResponseEntity(ErrorCode.INTERVAL_SERVER_ERROR, ex.getMessage());
-        } else if (ex instanceof NoSearchUserException) {
-            return this.makeResponseEntity(ErrorCode.NO_SEARCH_USER, ex.getMessage());
-        } else if (ex instanceof DuplicateKeyException) {
+    public ResponseEntity<Object> handleException(final Exception ex) {
+        if (ex instanceof DuplicateKeyException) {
             return this.makeResponseEntity(ErrorCode.CONFLICT, ex.getMessage());
-        } else if (ex instanceof InvalidTokenException) {
-            return this.makeResponseEntity(ErrorCode.SESSION_EXPIRATION, ex.getMessage());
-        } else if (ex instanceof ExpiredTokenException) {
-            return this.makeResponseEntity(ErrorCode.TOKEN_EXPIRATION, ex.getMessage());
         } else {
             return this.makeResponseEntity(ErrorCode.INTERVAL_SERVER_ERROR);
         }
     }
 
-    private ResponseEntity<Object> makeResponseEntity(ErrorCode errorCode) {
+    @ExceptionHandler({
+            InvalidTokenException.class,
+            ExpiredTokenException.class
+    })
+    public ResponseEntity<Object> handleTokenException(final RuntimeException e) {
+        return this.makeResponseEntity(ErrorCode.TOKEN_EXPIRATION, e.getMessage());
+    }
+
+    @ExceptionHandler({
+            NoSearchUserException.class,
+            PasswordMatchException.class
+    })
+    public ResponseEntity<Object> handleNoSearchException(final RuntimeException e) {
+        return this.makeResponseEntity(ErrorCode.NOT_FOUND, e.getMessage());
+    }
+
+    private ResponseEntity<Object> makeResponseEntity(final ErrorCode errorCode) {
         return ResponseEntity.status(errorCode.getHttpStatus())
                 .body(this.makeResponseEntityBody(errorCode, errorCode.getMessage()));
     }
 
-    private ResponseEntity<Object> makeResponseEntity(ErrorCode errorCode, String message) {
+    private ResponseEntity<Object> makeResponseEntity(final ErrorCode errorCode, final String message) {
         return ResponseEntity.status(errorCode.getHttpStatus())
                 .body(this.makeResponseEntityBody(errorCode, message));
     }
 
-    private CommonResponse makeResponseEntityBody(ErrorCode errorCode, String message) {
+    private CommonResponse makeResponseEntityBody(final ErrorCode errorCode, final String message) {
         return CommonResponse.builder()
                 .code(errorCode.getHttpStatus().value())
-                .name(errorCode.name())
                 .message(message)
                 .build();
     }

@@ -2,12 +2,15 @@ package com.daily.auth.application;
 
 import com.daily.auth.dto.AccessTokenRenewRequest;
 import com.daily.auth.dto.AccessTokenRenewResponse;
+import com.daily.auth.dto.LoginRequest;
+import com.daily.auth.dto.LoginResponse;
+import com.daily.auth.exception.PasswordMatchException;
 import com.daily.domain.user.domain.User;
 import com.daily.domain.user.dto.UserRequest;
 import com.daily.domain.user.repository.UserRepository;
 import com.daily.domain.userSites.domain.UserSites;
 import com.daily.domain.userSites.repository.UserSitesRepository;
-import com.daily.global.common.file.FileUtils;
+import com.daily.global.common.dto.Constants;
 import com.daily.global.common.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -16,10 +19,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +35,19 @@ public class AuthService implements UserDetailsService {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
     private final UserSitesRepository userSitesRepository;
-    private final FileUtils fileUtils;
+    private final PasswordEncoder passwordEncoder;
+
+    public LoginResponse login(final LoginRequest request, final HttpServletResponse response) {
+        UserDetails user = this.loadUserByUsername(request.getEmail());
+
+        if (!this.passwordEncoder.matches(request.getPassword(), user.getPassword()))
+                throw new PasswordMatchException();
+
+        response.addHeader(Constants.ACCESS_TOKEN.getKey(), Constants.BEARER + jwtTokenProvider.createAccessToken(user.getUsername()));
+        response.addHeader(Constants.REFRESH_TOKEN.getKey(), Constants.BEARER + jwtTokenProvider.createRefreshToken(user.getUsername()));
+
+        return new LoginResponse(HttpStatus.OK.value(), "로그인 성공");
+    }
 
     public CommonResponse isCheck(final String email) {
         User user = userRepository.findById(email).orElse(null);
@@ -69,13 +85,12 @@ public class AuthService implements UserDetailsService {
         String refreshToken = request.getRefreshToken();
         String payload = jwtTokenProvider.getPayload(refreshToken);
 
-        AccessTokenRenewResponse tokenResponse = new AccessTokenRenewResponse(jwtTokenProvider.createAccessToken(payload), jwtTokenProvider.createRefreshToken(payload));
-        return tokenResponse;
+        return new AccessTokenRenewResponse(jwtTokenProvider.createAccessToken(payload), jwtTokenProvider.createRefreshToken(payload));
     }
 
     @Override
     @SneakyThrows
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
         UserDetails user = userRepository.findById(username).orElseThrow(() -> new UsernameNotFoundException("User is not found"));
         return user;
     }
