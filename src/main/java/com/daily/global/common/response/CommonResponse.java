@@ -13,12 +13,10 @@ import org.springframework.http.HttpStatus;
 public class CommonResponse {
 
     int code;
-    String name;
     String message;
 
     public CommonResponse(HttpStatus httpStatus, String message) {
         this.code = httpStatus.value();
-        this.name = httpStatus.name();
         this.message = message;
     }
 

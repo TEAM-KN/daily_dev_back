@@ -5,7 +5,7 @@ import com.daily.domain.content.dto.ContentDto;
 import com.daily.domain.content.dto.ContentType;
 import com.daily.domain.site.domain.Site;
 import com.daily.domain.site.repository.SiteRepository;
-import com.daily.global.exception.UrlConnectionException;
+import com.daily.adaptor.exception.UrlConnectionException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
