@@ -9,4 +9,8 @@ public class AccessTokenRenewRequest {
 
     @NotBlank(message = "refresh token can not be blank")
     private String refreshToken;
+
+    public AccessTokenRenewRequest(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
 }

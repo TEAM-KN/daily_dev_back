@@ -1,4 +1,4 @@
-package com.daily.domain.user.presentation;
+package com.daily.domain.user.controller;
 
 import com.daily.global.common.response.CommonResponse;
 import com.daily.domain.user.application.UserService;

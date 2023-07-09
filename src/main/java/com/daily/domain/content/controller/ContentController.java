@@ -1,7 +1,6 @@
-package com.daily.domain.content.presentation;
+package com.daily.domain.content.controller;
 
 import com.daily.domain.content.application.ContentService;
-import com.daily.domain.content.dto.ContentRequest;
 import com.daily.domain.content.dto.ContentResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

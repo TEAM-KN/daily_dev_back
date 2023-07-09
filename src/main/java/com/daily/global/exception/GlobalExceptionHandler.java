@@ -58,6 +58,13 @@ public class GlobalExceptionHandler {
         return this.makeResponseEntity(ErrorCode.NOT_FOUND, e.getMessage());
     }
 
+    @ExceptionHandler({
+            DuplicateKeyException.class
+    })
+    public ResponseEntity<Object> handleUnAuthorization(final RuntimeException e) {
+        return this.makeResponseEntity(ErrorCode.CONFLICT, e.getMessage());
+    }
+
     private ResponseEntity<Object> makeResponseEntity(final ErrorCode errorCode) {
         return ResponseEntity.status(errorCode.getHttpStatus())
                 .body(this.makeResponseEntityBody(errorCode, errorCode.getMessage()));

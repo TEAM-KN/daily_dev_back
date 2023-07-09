@@ -40,6 +40,14 @@ public class User extends BaseEntity implements UserDetails {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     List<UserSites> userSites;
 
+    public User(String email, String password, String nickname, String imageUrl, String subscribeYn) {
+        this.email = email;
+        this.password = password;
+        this.nickname = nickname;
+        this.imageUrl = imageUrl;
+        this.subscribeYn = subscribeYn;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

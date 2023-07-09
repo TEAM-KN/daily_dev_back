@@ -1,4 +1,4 @@
-package com.daily.auth.presentation;
+package com.daily.auth.controller;
 
 import com.daily.auth.application.AuthService;
 import com.daily.auth.dto.AccessTokenRenewRequest;

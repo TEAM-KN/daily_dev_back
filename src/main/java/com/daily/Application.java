@@ -8,7 +8,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableBatchProcessing
-@EnableJpaAuditing
 @EnableScheduling
 public class Application {
 
