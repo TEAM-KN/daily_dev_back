@@ -1,7 +1,7 @@
 package com.daily.fixtures;
 
 import com.daily.auth.dto.AccessTokenRenewRequest;
-import com.daily.auth.dto.AccessTokenRenewResponse;
+import com.daily.auth.dto.TokenDto;
 
 public class AuthFixtures {
 
@@ -13,7 +13,7 @@ public class AuthFixtures {
         return new AccessTokenRenewRequest(REFRESH_TOKEN);
     }
 
-    public static AccessTokenRenewResponse USER_RENEW_TOKEN_RESPONSE() {
-        return new AccessTokenRenewResponse(ACCESS_TOKEN, REFRESH_TOKEN);
+    public static TokenDto USER_RENEW_TOKEN_RESPONSE() {
+        return new TokenDto(ACCESS_TOKEN, REFRESH_TOKEN);
     }
 }
