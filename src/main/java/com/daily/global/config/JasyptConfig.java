@@ -24,6 +24,7 @@ public class JasyptConfig {
         config.setAlgorithm("PBEWithMD5AndDES");
         config.setPoolSize("1");
         encryptor.setConfig(config);
+
         return encryptor;
     }
 }
