@@ -14,17 +14,17 @@ import java.time.LocalDate;
 
 @Component
 @RequiredArgsConstructor
-@Profile("prod")
+@Profile("local")
 public class JobLauncherController {
 
     private final JobLauncher jobLauncher;
     private final ContentsConfiguration contentsConfiguration;
     private final SendMailConfiguration sendMailConfiguration;
 
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "30 13 21 * * ?")
     public void launchJobToContent() throws Exception {
         JobParameters jobParameters = new JobParametersBuilder()
-                .addString("requestDate", LocalDate.now().toString())
+                .addString("requestDate", "2023-07-12")
                 .toJobParameters();
         jobLauncher.run(contentsConfiguration.contentsJob(), jobParameters);
     }

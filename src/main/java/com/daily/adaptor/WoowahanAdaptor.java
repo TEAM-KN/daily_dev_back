@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,18 +27,17 @@ import java.util.stream.Collectors;
 @Transactional
 public class WoowahanAdaptor implements CommonAdaptor {
 
-    private final Environment env;
+    private final String url;
     private final SiteRepository siteRepository;
 
-    public WoowahanAdaptor(Environment env,
-                           SiteRepository siteRepository) {
-        this.env = env;
+    public WoowahanAdaptor(@Value("${daily.woowahan.blog.url}") final String url,
+                           final SiteRepository siteRepository) {
+        this.url = url;
         this.siteRepository = siteRepository;
     }
 
     public Document getDocument() {
         try {
-            String url = env.getProperty("daily.naver.it-news.url");
             return Jsoup.connect(Objects.requireNonNull(url)).get();
         } catch(Exception e) {
             throw new UrlConnectionException("요청한 URL에 접근할 수 없습니다.");

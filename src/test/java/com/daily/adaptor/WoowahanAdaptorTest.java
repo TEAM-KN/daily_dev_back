@@ -35,7 +35,7 @@ class WoowahanAdaptorTest {
 
     @BeforeEach
     void setUp() {
-        this.woowahanAdaptor = new WoowahanAdaptor(env, siteRepository);
+        this.woowahanAdaptor = new WoowahanAdaptor(env.getProperty("daily.woowahan.blog.url"), siteRepository);
     }
 
     @DisplayName("문서를 정상적으로 가져오는지 확인")

@@ -42,7 +42,7 @@ public class DaangnAdaptor implements CommonAdaptor {
 
     public Elements getElements(Document doc) {
         try {
-            return doc.select(".c-cRxWmX").select(".c-kBsdRb .c-gmxfka");
+            return doc.select(".c-cRxWmX").select(".c-kBsdRb .c-gbnrwH");
         } catch (Exception e) {
             throw new NullPointerException("Element is Null...");
         }
@@ -56,10 +56,10 @@ public class DaangnAdaptor implements CommonAdaptor {
         String originUrl = url.replace("/blog", "");
         List<Content> contents = elements.parallelStream()
                 .map(element -> {
-                    String link = element.select(".c-gmxfka > a.c-hqmuMq").attr("href");
-                    String imgUrl = element.select(".c-gmxfka > a").select("img").attr("src");
-                    String title = element.select(".c-gmxfka > a").select("h3").text();
-                    String description = element.select(".c-gmxfka > a").select("p").text();
+                    String link = element.select("a.c-hqmuMq").attr("href");
+                    String imgUrl = element.select(".c-hqmuMq").select("img").attr("src");
+                    String title = element.select(".c-hqmuMq").select("h3").text();
+                    String description = element.select(".c-hqmuMq").select("p").text();
                     String author = element.select(".c-beTeij").text();
 
                     String detailUrl = originUrl.replace("/blog", "") + link;
