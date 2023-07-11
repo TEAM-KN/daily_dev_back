@@ -80,8 +80,8 @@ spring:
       client:
         registration:
           github:
-            client-id: 78a76271b80584ab4494
-            client-secret: a8551c28f4da52320acbdb1de659b3d7c1b0a89e
+            client-id: ENC(Q0wAlmH+vh3zyH1PTVrQT1cEGuobrkdBvKMVrNB4l+8=)
+            client-secret: ENC(7dEyBu2odOfeJBF6N5CGa2SjM8QOQRPZNOLni2SY0PVWpoP24yaQ6KwCcoU3DEQrNeyF8GGJIQI=)
 
 security:
   jwt:
