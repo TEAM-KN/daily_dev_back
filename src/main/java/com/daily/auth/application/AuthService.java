@@ -7,6 +7,7 @@ import com.daily.auth.dto.LoginResponse;
 import com.daily.auth.exception.PasswordMatchException;
 import com.daily.domain.user.domain.User;
 import com.daily.domain.user.dto.UserRequest;
+import com.daily.domain.user.exception.NoSearchUserException;
 import com.daily.domain.user.repository.UserRepository;
 import com.daily.domain.userSites.domain.UserSites;
 import com.daily.domain.userSites.repository.UserSitesRepository;
@@ -97,7 +98,7 @@ public class AuthService implements UserDetailsService {
     @Override
     @SneakyThrows
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        UserDetails user = userRepository.findById(username).orElseThrow(() -> new UsernameNotFoundException("User is not found"));
+        UserDetails user = userRepository.findById(username).orElseThrow(NoSearchUserException::new);
         return user;
     }
 }
