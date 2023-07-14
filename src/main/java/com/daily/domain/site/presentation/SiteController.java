@@ -26,12 +26,12 @@ public class SiteController {
     }
 
     @GetMapping("/site")
-    public SiteDto fetchSite(@RequestParam @NotBlank(message = "site can not be blank") String siteCode) {
+    public SiteDto fetchSite(@RequestParam @NotBlank(message = "site can not be blank") final String siteCode) {
         return siteService.fetchSite(siteCode);
     }
 
     @PostMapping("/site")
-    public CommonResponse saveSite(@RequestBody @Valid SiteParam siteParam) {
+    public CommonResponse saveSite(@RequestBody @Valid final SiteParam siteParam) {
         siteService.saveSite(siteParam);
         return new CommonResponse(HttpStatus.OK, "성공" );
     }

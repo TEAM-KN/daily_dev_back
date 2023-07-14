@@ -20,18 +20,13 @@ public class ContentController {
     }
 
     @GetMapping("/content/site")
-    public List<ContentResponse> fetchContentsBySiteCode(@RequestParam @NotBlank String siteCode) {
+    public List<ContentResponse> fetchContentsBySiteCode(@RequestParam @NotBlank final String siteCode) {
         return contentService.fetchContents(siteCode);
     }
 
     @GetMapping("/content/{id}")
-    public ContentResponse fetchContentId(@PathVariable Long id) {
-        return contentService.fetchContentsId(id);
-    }
-
-    @GetMapping("/content/update")
-    public void update() {
-        contentService.update();
+    public ContentResponse fetchContentId(@PathVariable final Long id) {
+        return contentService.fetchContentId(id);
     }
 
 }
