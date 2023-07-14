@@ -1,5 +1,6 @@
 package com.daily.global.exception;
 
+import com.daily.auth.exception.ExistUserException;
 import com.daily.auth.exception.ExpiredTokenException;
 import com.daily.auth.exception.InvalidTokenException;
 import com.daily.auth.exception.PasswordMatchException;
@@ -34,12 +35,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleException(final Exception ex) {
-        if (ex instanceof DuplicateKeyException) {
-            return this.makeResponseEntity(ErrorCode.CONFLICT, ex.getMessage());
-        } else {
-            return this.makeResponseEntity(ErrorCode.INTERVAL_SERVER_ERROR);
-        }
+    public ResponseEntity<Object> handleException() {
+        return this.makeResponseEntity(ErrorCode.INTERVAL_SERVER_ERROR);
     }
 
     @ExceptionHandler({
@@ -59,7 +56,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({
-            DuplicateKeyException.class
+            DuplicateKeyException.class,
+            ExistUserException.class
     })
     public ResponseEntity<Object> handleUnAuthorization(final RuntimeException e) {
         return this.makeResponseEntity(ErrorCode.CONFLICT, e.getMessage());

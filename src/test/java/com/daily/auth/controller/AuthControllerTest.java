@@ -1,17 +1,18 @@
 package com.daily.auth.controller;
 
+import com.daily.auth.exception.ExistUserException;
 import com.daily.auth.exception.PasswordMatchException;
 import com.daily.common.ControllerTest;
 import com.daily.domain.user.exception.NoSearchUserException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import static com.daily.fixtures.AuthFixtures.LOGIN_REQUEST;
-import static com.daily.fixtures.AuthFixtures.LOGIN_RESPONSE;
+import static com.daily.fixtures.AuthFixtures.*;
 import static com.daily.fixtures.CommonFixtures.COMMON_RESPONSE;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -93,7 +94,7 @@ class AuthControllerTest extends ControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @DisplayName("패스워드 불일치")
+    @DisplayName("로그인 실패 - 패스워드 불일치")
     @Test
     void passwordMissMatch() throws Exception {
         // given
@@ -105,7 +106,7 @@ class AuthControllerTest extends ControllerTest {
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(LOGIN_REQUEST())))
                 .andDo(print())
-                .andDo(document("login",
+                .andDo(document("password miss match",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
@@ -120,7 +121,7 @@ class AuthControllerTest extends ControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    @DisplayName("사용자 찾을 수 없음")
+    @DisplayName("로그인 실패 - 사용자 찾을 수 없음")
     @Test
     void userNotFound() throws Exception {
         // given
@@ -132,7 +133,7 @@ class AuthControllerTest extends ControllerTest {
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(LOGIN_REQUEST())))
                 .andDo(print())
-                .andDo(document("login",
+                .andDo(document("user not found",
                         preprocessRequest(prettyPrint()),
                         preprocessResponse(prettyPrint()),
                         requestFields(
@@ -145,5 +146,63 @@ class AuthControllerTest extends ControllerTest {
                         )
                 ))
                 .andExpect(status().isNotFound());
+    }
+
+    @DisplayName("회원가입 성공")
+    @Test
+    void joinSuccess() throws Exception {
+        // given
+        given(authService.join(any(), any())).willReturn(COMMON_RESPONSE(200, "회원가입 성공"));
+
+        // when & then
+        mockMvc.perform(post("/auth/join")
+                    .accept(MediaType.APPLICATION_JSON)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(JOIN_REQUEST())))
+                .andDo(print())
+                .andDo(document("join",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("email").type(JsonFieldType.STRING).description("사용자 ID"),
+                                fieldWithPath("password").type(JsonFieldType.STRING).description("패스워드"),
+                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("사용자 별명"),
+                                fieldWithPath("siteCodes").type(JsonFieldType.ARRAY).description("구독 리스트")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메세지")
+                        )
+                ))
+                .andExpect(status().isOk());
+    }
+
+    @DisplayName("회원가입 실패 - 이미 사용 중인 이메일")
+    @Test
+    void joinEmailDuplicateFailed() throws Exception {
+        // given
+        given(authService.join(any(), any())).willThrow(new ExistUserException());
+
+        // when & then
+        mockMvc.perform(post("/auth/join")
+                    .accept(MediaType.APPLICATION_JSON)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(JOIN_REQUEST())))
+                .andDo(print())
+                .andDo(document("join",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("email").type(JsonFieldType.STRING).description("사용자 ID"),
+                                fieldWithPath("password").type(JsonFieldType.STRING).description("패스워드"),
+                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("사용자 별명"),
+                                fieldWithPath("siteCodes").type(JsonFieldType.ARRAY).description("구독 리스트")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메세지")
+                        )
+                ))
+                .andExpect(status().isConflict());
     }
 }

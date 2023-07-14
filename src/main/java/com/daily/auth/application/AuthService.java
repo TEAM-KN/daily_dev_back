@@ -4,6 +4,7 @@ import com.daily.auth.dto.AccessTokenRenewRequest;
 import com.daily.auth.dto.TokenDto;
 import com.daily.auth.dto.LoginRequest;
 import com.daily.auth.dto.LoginResponse;
+import com.daily.auth.exception.ExistUserException;
 import com.daily.auth.exception.PasswordMatchException;
 import com.daily.domain.user.domain.User;
 import com.daily.domain.user.dto.UserRequest;
@@ -63,7 +64,7 @@ public class AuthService implements UserDetailsService {
         User isUser = userRepository.findById(request.getEmail()).orElse(null);
 
         if (isUser != null)
-            throw new DuplicateKeyException("이미 사용 중인 이메일입니다.");
+            throw new ExistUserException();
 
         userRepository.save(request.toUser(passwordEncoder));
 
@@ -79,7 +80,7 @@ public class AuthService implements UserDetailsService {
         }
         this.generateToken(request.getEmail(), response);
 
-        return new CommonResponse(HttpStatus.OK, "성공" );
+        return new CommonResponse(HttpStatus.OK, "회원가입 성공");
     }
 
     public void generateRenewAccessToken(final AccessTokenRenewRequest request, final HttpServletResponse response) {
