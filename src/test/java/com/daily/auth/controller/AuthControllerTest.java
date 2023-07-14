@@ -6,7 +6,6 @@ import com.daily.common.ControllerTest;
 import com.daily.domain.user.exception.NoSearchUserException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.util.LinkedMultiValueMap;
