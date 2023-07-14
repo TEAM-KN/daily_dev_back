@@ -11,6 +11,7 @@ public class AuthExtractor {
 
     public static String extractAccessToken(HttpServletRequest request) {
         Enumeration<String> headers = request.getHeaders(AUTH_HEADER_KEY);
+
         while (headers.hasMoreElements()) {
             String value = headers.nextElement();
             if (value.toLowerCase().startsWith(AUTH_TYPE.toLowerCase())) {

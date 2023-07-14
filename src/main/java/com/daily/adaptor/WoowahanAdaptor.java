@@ -40,7 +40,7 @@ public class WoowahanAdaptor implements CommonAdaptor {
         try {
             return Jsoup.connect(Objects.requireNonNull(url)).get();
         } catch(Exception e) {
-            throw new UrlConnectionException("요청한 URL에 접근할 수 없습니다.");
+            throw new UrlConnectionException();
         }
     }
 
@@ -57,7 +57,7 @@ public class WoowahanAdaptor implements CommonAdaptor {
         Elements elements = this.getElement(this.getDocument());
         Site site = this.getSite(ContentType.WOO.name());
 
-        List<Content> contents = elements.parallelStream()
+        return elements.parallelStream()
                 .map(element -> {
                     String link = element.select("a").attr("href");
                     String title = element.select("a > h1").text();
@@ -93,8 +93,6 @@ public class WoowahanAdaptor implements CommonAdaptor {
                 })
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
-
-        return contents;
     }
 
     private Site getSite(String type) {

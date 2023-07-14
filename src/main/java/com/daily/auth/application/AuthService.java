@@ -43,7 +43,7 @@ public class AuthService implements UserDetailsService {
         UserDetails user = this.loadUserByUsername(request.getEmail());
 
         if (!this.passwordEncoder.matches(request.getPassword(), user.getPassword()))
-                throw new PasswordMatchException();
+            throw new PasswordMatchException();
 
         this.generateToken(user.getUsername(), response);
 
@@ -54,10 +54,10 @@ public class AuthService implements UserDetailsService {
         User user = userRepository.findById(email).orElse(null);
 
         if (user != null) {
-            throw new DuplicateKeyException("이미 사용 중인 이메일입니다.");
+            throw new ExistUserException();
         }
 
-        return new CommonResponse(HttpStatus.OK, "성공" );
+        return new CommonResponse(HttpStatus.OK, "성공");
     }
 
     public CommonResponse join(final UserRequest request, final HttpServletResponse response) {
@@ -78,6 +78,7 @@ public class AuthService implements UserDetailsService {
 
             userSitesRepository.saveAll(userSites);
         }
+
         this.generateToken(request.getEmail(), response);
 
         return new CommonResponse(HttpStatus.OK, "회원가입 성공");

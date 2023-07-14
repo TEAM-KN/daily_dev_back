@@ -46,7 +46,7 @@ public class NaverNewsAdaptor implements CommonAdaptor {
 
             return Jsoup.connect(url.toString()).get();
         } catch(Exception e) {
-            throw new UrlConnectionException("요청한 URL에 접근할 수 없습니다.");
+            throw new UrlConnectionException();
         }
     }
 
