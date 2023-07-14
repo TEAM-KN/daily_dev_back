@@ -36,7 +36,7 @@ public class DaangnAdaptor implements CommonAdaptor {
         try {
             return Jsoup.connect(url).get();
         } catch(Exception e) {
-            throw new UrlConnectionException("요청한 URL에 접근할 수 없습니다.");
+            throw new UrlConnectionException();
         }
     }
 
