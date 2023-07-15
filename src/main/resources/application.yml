@@ -36,6 +36,11 @@ jasypt:
     bean: jasyptStringEncryptor
   password : daily_dev_encrypt
 
+web:
+  cors:
+    allowed-origins:
+      http://localhost:5173, http://127.0.0.1:5173, http://3.239.26.220, http://daily-dev-news.com, https://daily-dev-news.com
+
 ---
 
 spring:
