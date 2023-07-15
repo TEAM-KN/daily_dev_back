@@ -55,7 +55,7 @@ public class SendMailConfiguration {
 
     @Bean(JOB_NAME + "_getContentsStep")
     @JobScope
-    public Step getContentsStep(@Value("#{jobParameters[requestDate]}") String requestDate) throws Exception {
+    public Step getContentsStep(@Value("#{jobParameters[requestDate]}") final String requestDate) throws Exception {
         return stepBuilderFactory.get(JOB_NAME + "_getContentsStep")
                 .<Content, Content>chunk(CHUNK_SIZE)
                 .reader(contentsItemReader(requestDate))
@@ -65,7 +65,7 @@ public class SendMailConfiguration {
 
     @Bean(JOB_NAME + "_sendMailStep")
     @JobScope
-    public Step sendMailStep(@Value("#{jobParameters[requestDate]}") String requestDate) throws Exception {
+    public Step sendMailStep(@Value("#{jobParameters[requestDate]}") final String requestDate) throws Exception {
         return stepBuilderFactory.get(JOB_NAME + "_sendMailStep")
                 .<User, User>chunk(CHUNK_SIZE)
                 .reader(this.sendMailItemReader())
@@ -80,7 +80,7 @@ public class SendMailConfiguration {
         };
     }
 
-    private ItemReader<? extends Content> contentsItemReader(String requestDate) throws Exception {
+    private ItemReader<? extends Content> contentsItemReader(final String requestDate) throws Exception {
         Map<String, Object> param = new HashMap<>();
         param.put("start", LocalDateTime.parse(requestDate + "T00:00:00"));
         param.put("end", LocalDateTime.parse(requestDate + "T23:59:59"));
@@ -109,7 +109,7 @@ public class SendMailConfiguration {
         return itemReaderBuilder;
     }
 
-    private ItemWriter<? super User> sendMailItemWriter(String requestDate) {
+    private ItemWriter<? super User> sendMailItemWriter(final String requestDate) {
         LocalDateTime start = LocalDateTime.parse(requestDate + "T00:00:00");
         LocalDateTime end = LocalDateTime.parse(requestDate + "T23:59:59");
 
@@ -125,7 +125,7 @@ public class SendMailConfiguration {
         };
     }
 
-    public Map<String, Object> convertListToMap(List<Content> contents) {
+    public Map<String, Object> convertListToMap(final List<Content> contents) {
         Map<String, Object> map = new HashMap<>();
 
         map.put("contents", contents);

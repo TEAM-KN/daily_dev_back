@@ -18,7 +18,7 @@ public class SiteDto {
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
 
-    public SiteDto(Site site) {
+    public SiteDto(final Site site) {
         this.siteCode = site.getSiteCode();
         this.siteName = site.getSiteName();
         this.siteDesc = site.getSiteDesc();
@@ -28,10 +28,9 @@ public class SiteDto {
 
     @Data
     public static class SiteWithContentsDto extends SiteDto {
-
         private List<Content> contents;
 
-        public SiteWithContentsDto(Site site) {
+        public SiteWithContentsDto(final Site site) {
             super(site);
             this.contents = site.getContents();
         }

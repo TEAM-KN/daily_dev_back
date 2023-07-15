@@ -1,15 +1,10 @@
 package com.daily.global.batch.contents;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.NonTransientResourceException;
-import org.springframework.batch.item.ParseException;
-import org.springframework.batch.item.UnexpectedInputException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
 public class ContentsItemReader<T> implements ItemReader {
 
     private final List<T> items;
@@ -19,8 +14,7 @@ public class ContentsItemReader<T> implements ItemReader {
     }
 
     @Override
-    public Object read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
-
+    public Object read() {
         return !this.items.isEmpty() ? this.items.remove(0) : null;
     }
 }

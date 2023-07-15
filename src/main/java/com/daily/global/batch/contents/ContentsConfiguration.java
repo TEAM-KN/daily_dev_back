@@ -56,7 +56,7 @@ public class ContentsConfiguration {
 
     @Bean(JOB_NAME + "_contentsStep")
     @JobScope
-    public Step contentsStep(@Value("#{jobParameters[requestDate]}") String requestDate) throws Exception {
+    public Step contentsStep(@Value("#{jobParameters[requestDate]}") final String requestDate) throws Exception {
         return stepBuilderFactory.get(JOB_NAME + "_contentsStep")
                 .<Content, Content>chunk(CHUNK_SIZE)
                 .reader(new ContentsItemReader<>(getContents(requestDate)))
@@ -75,7 +75,7 @@ public class ContentsConfiguration {
         return jpaItemWriter;
     }
 
-    private List<Content> getContents(String requestDate) {
+    private List<Content> getContents(final String requestDate) {
         return adaptorManger.of(requestDate, woowahanAdaptor, kakaoAdaptor, naverNewsAdaptor, daangnAdaptor);
     }
 

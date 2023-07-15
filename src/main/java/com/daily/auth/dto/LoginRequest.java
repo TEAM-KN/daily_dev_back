@@ -14,4 +14,9 @@ public class LoginRequest {
     
     @NotBlank
     private String password;
+
+    public LoginRequest(final String email, final String password) {
+        this.email = email;
+        this.password = password;
+    }
 }

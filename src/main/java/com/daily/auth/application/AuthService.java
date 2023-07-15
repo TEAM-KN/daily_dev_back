@@ -4,9 +4,11 @@ import com.daily.auth.dto.AccessTokenRenewRequest;
 import com.daily.auth.dto.TokenDto;
 import com.daily.auth.dto.LoginRequest;
 import com.daily.auth.dto.LoginResponse;
+import com.daily.auth.exception.ExistUserException;
 import com.daily.auth.exception.PasswordMatchException;
 import com.daily.domain.user.domain.User;
 import com.daily.domain.user.dto.UserRequest;
+import com.daily.domain.user.exception.NoSearchUserException;
 import com.daily.domain.user.repository.UserRepository;
 import com.daily.domain.userSites.domain.UserSites;
 import com.daily.domain.userSites.repository.UserSitesRepository;
@@ -41,7 +43,7 @@ public class AuthService implements UserDetailsService {
         UserDetails user = this.loadUserByUsername(request.getEmail());
 
         if (!this.passwordEncoder.matches(request.getPassword(), user.getPassword()))
-                throw new PasswordMatchException();
+            throw new PasswordMatchException();
 
         this.generateToken(user.getUsername(), response);
 
@@ -52,17 +54,17 @@ public class AuthService implements UserDetailsService {
         User user = userRepository.findById(email).orElse(null);
 
         if (user != null) {
-            throw new DuplicateKeyException("이미 사용 중인 이메일입니다.");
+            throw new ExistUserException();
         }
 
-        return new CommonResponse(HttpStatus.OK, "성공" );
+        return new CommonResponse(HttpStatus.OK, "성공");
     }
 
     public CommonResponse join(final UserRequest request, final HttpServletResponse response) {
         User isUser = userRepository.findById(request.getEmail()).orElse(null);
 
         if (isUser != null)
-            throw new DuplicateKeyException("이미 사용 중인 이메일입니다.");
+            throw new ExistUserException();
 
         userRepository.save(request.toUser(passwordEncoder));
 
@@ -76,9 +78,10 @@ public class AuthService implements UserDetailsService {
 
             userSitesRepository.saveAll(userSites);
         }
+
         this.generateToken(request.getEmail(), response);
 
-        return new CommonResponse(HttpStatus.OK, "성공" );
+        return new CommonResponse(HttpStatus.OK, "회원가입 성공");
     }
 
     public void generateRenewAccessToken(final AccessTokenRenewRequest request, final HttpServletResponse response) {
@@ -97,7 +100,7 @@ public class AuthService implements UserDetailsService {
     @Override
     @SneakyThrows
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        UserDetails user = userRepository.findById(username).orElseThrow(() -> new UsernameNotFoundException("User is not found"));
+        UserDetails user = userRepository.findById(username).orElseThrow(NoSearchUserException::new);
         return user;
     }
 }
