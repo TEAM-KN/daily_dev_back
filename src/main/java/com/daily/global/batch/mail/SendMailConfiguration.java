@@ -47,7 +47,6 @@ public class SendMailConfiguration {
     public Job sendMailJob() throws Exception {
         return jobBuilderFactory.get(JOB_NAME)
                 .incrementer(new RunIdIncrementer())
-//                .start(getContentsStep(null))
                 .start(sendMailStep(null))
                 .listener(new SendMailJobListener())
                 .build();

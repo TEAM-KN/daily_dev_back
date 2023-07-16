@@ -4,6 +4,7 @@ import com.daily.auth.exception.ExistUserException;
 import com.daily.auth.exception.ExpiredTokenException;
 import com.daily.auth.exception.InvalidTokenException;
 import com.daily.auth.exception.PasswordMatchException;
+import com.daily.domain.site.exception.NoSearchSiteException;
 import com.daily.domain.user.exception.NoSearchUserException;
 import com.daily.global.common.response.CommonResponse;
 import com.daily.global.exception.dto.ErrorCode;
@@ -49,6 +50,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({
             NoSearchUserException.class,
+            NoSearchSiteException.class,
             PasswordMatchException.class
     })
     public ResponseEntity<Object> handleNoSearchException(final RuntimeException e) {

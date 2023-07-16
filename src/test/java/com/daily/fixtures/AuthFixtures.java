@@ -6,8 +6,6 @@ import com.daily.auth.dto.LoginResponse;
 import com.daily.auth.dto.TokenDto;
 import com.daily.domain.user.dto.UserRequest;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class AuthFixtures {

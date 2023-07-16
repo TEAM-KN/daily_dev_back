@@ -3,6 +3,7 @@ package com.daily.domain.site.application;
 import com.daily.domain.site.domain.Site;
 import com.daily.domain.site.dto.SiteDto;
 import com.daily.domain.site.dto.SiteParam;
+import com.daily.domain.site.exception.NoSearchSiteException;
 import com.daily.domain.site.repository.SiteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class SiteService {
 
     @Transactional(readOnly = true)
     public SiteDto fetchSite(final String siteCode) {
-        Site site = siteRepository.findById(siteCode).orElseThrow(() -> new IllegalArgumentException("site not found"));
+        Site site = siteRepository.findById(siteCode).orElseThrow(NoSearchSiteException::new);
         return new SiteDto(site);
     }
 

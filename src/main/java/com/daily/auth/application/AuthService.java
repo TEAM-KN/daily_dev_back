@@ -86,6 +86,8 @@ public class AuthService implements UserDetailsService {
 
     public void generateRenewAccessToken(final AccessTokenRenewRequest request, final HttpServletResponse response) {
         String refreshToken = request.getRefreshToken();
+
+        jwtTokenProvider.validateToken(refreshToken);
         String payload = jwtTokenProvider.getPayload(refreshToken);
         this.generateToken(payload, response);
     }
