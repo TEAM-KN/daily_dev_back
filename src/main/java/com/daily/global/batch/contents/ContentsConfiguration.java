@@ -31,7 +31,6 @@ public class ContentsConfiguration {
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
     private final EntityManagerFactory entityManagerFactory;
-    private final ContentRepository contentRepository;
     private final KakaoAdaptor kakaoAdaptor;
     private final WoowahanAdaptor woowahanAdaptor;
     private final NaverNewsAdaptor naverNewsAdaptor;
@@ -50,7 +49,7 @@ public class ContentsConfiguration {
         return jobBuilderFactory.get(JOB_NAME)
                 .incrementer(new RunIdIncrementer())
                 .start(this.contentsStep(null))
-                .listener(new ContentsJobListener(contentRepository))
+                .listener(new ContentsJobListener())
                 .build();
     }
 
