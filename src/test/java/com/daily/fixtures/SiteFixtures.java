@@ -1,6 +1,7 @@
 package com.daily.fixtures;
 
 import com.daily.domain.site.domain.Site;
+import com.daily.domain.site.dto.SiteParam;
 
 public class SiteFixtures {
 
@@ -41,5 +42,9 @@ public class SiteFixtures {
                 .siteName(KAKAO_SITE_NAME)
                 .siteDesc(KAKAO_SITE_DESC)
                 .build();
+    }
+
+    public static SiteParam SITE_REQUEST() {
+        return new SiteParam(WOO_SITE_CODE, WOO_SITE_NAME, WOO_SITE_DESC);
     }
 }

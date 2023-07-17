@@ -32,8 +32,7 @@ public class SiteController {
 
     @PostMapping("/site")
     public CommonResponse saveSite(@RequestBody @Valid final SiteParam siteParam) {
-        siteService.saveSite(siteParam);
-        return new CommonResponse(HttpStatus.OK, "성공");
+        return siteService.saveSite(siteParam);
     }
 
 }

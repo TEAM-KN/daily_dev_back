@@ -5,7 +5,9 @@ import com.daily.domain.site.dto.SiteDto;
 import com.daily.domain.site.dto.SiteParam;
 import com.daily.domain.site.exception.NoSearchSiteException;
 import com.daily.domain.site.repository.SiteRepository;
+import com.daily.global.common.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +33,8 @@ public class SiteService {
         return new SiteDto(site);
     }
 
-    public Site saveSite(final SiteParam siteParam) {
-        return siteRepository.save(siteParam.toSite());
+    public CommonResponse saveSite(final SiteParam siteParam) {
+        siteRepository.save(siteParam.toSite());
+        return new CommonResponse(HttpStatus.OK, "성공");
     }
 }
