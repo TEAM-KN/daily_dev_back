@@ -1,5 +1,7 @@
 package com.daily.domain.user.application;
 
+import com.daily.domain.site.exception.NoSearchSiteException;
+import com.daily.domain.site.repository.SiteRepository;
 import com.daily.domain.user.domain.User;
 import com.daily.domain.user.dto.UserDto;
 import com.daily.domain.user.dto.UserRequest;
@@ -24,6 +26,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserSitesRepository userSitesRepository;
+    private final SiteRepository siteRepository;
 
     @Transactional(readOnly = true)
     public UserDto fetchUser(final String email) {
@@ -33,6 +36,9 @@ public class UserService {
 
     public CommonResponse saveUserSites(final UserRequest.UserFromSiteRequest request) {
         userRepository.findById(request.getEmail()).orElseThrow(NoSearchUserException::new);
+
+        if (!siteRepository.existsAllBySiteCodeIn(request.getSiteCodes()))
+            throw new NoSearchSiteException();
 
         List<UserSites> userSites = request.getSiteCodes().stream()
                 .map(siteCode -> UserSites.builder()

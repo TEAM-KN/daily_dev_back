@@ -6,6 +6,8 @@ import com.daily.auth.dto.LoginRequest;
 import com.daily.auth.dto.LoginResponse;
 import com.daily.auth.exception.ExistUserException;
 import com.daily.auth.exception.PasswordMatchException;
+import com.daily.domain.site.exception.NoSearchSiteException;
+import com.daily.domain.site.repository.SiteRepository;
 import com.daily.domain.user.domain.User;
 import com.daily.domain.user.dto.UserRequest;
 import com.daily.domain.user.exception.NoSearchUserException;
@@ -37,6 +39,7 @@ public class AuthService implements UserDetailsService {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
     private final UserSitesRepository userSitesRepository;
+    private final SiteRepository siteRepository;
     private final PasswordEncoder passwordEncoder;
 
     public LoginResponse login(final LoginRequest request, final HttpServletResponse response) {
@@ -69,6 +72,9 @@ public class AuthService implements UserDetailsService {
         userRepository.save(request.toUser(passwordEncoder));
 
         if (request.getSiteCodes().size() > 0) {
+            if (!siteRepository.existsAllBySiteCodeIn(request.getSiteCodes()))
+                throw new NoSearchSiteException();
+
             List<UserSites> userSites = request.getSiteCodes().stream()
                     .map(site -> UserSites.builder()
                             .email(request.getEmail())
