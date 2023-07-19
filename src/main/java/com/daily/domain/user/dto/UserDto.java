@@ -9,14 +9,12 @@ import lombok.NoArgsConstructor;
 public class UserDto {
 
     private String email;
-    private String password;
     private String nickname;
     private String imageUrl;
     private String subscribeYn;
 
-    public UserDto(String email, String password, String nickname, String imageUrl, String subscribeYn) {
+    public UserDto(String email, String nickname, String imageUrl, String subscribeYn) {
         this.email = email;
-        this.password = password;
         this.nickname = nickname;
         this.imageUrl = imageUrl;
         this.subscribeYn = subscribeYn;
@@ -33,7 +31,6 @@ public class UserDto {
         return User.builder()
                 .email(getEmail())
                 .nickname(getNickname())
-                .password(getPassword())
                 .imageUrl(getImageUrl())
                 .subscribeYn(getSubscribeYn())
                 .build();

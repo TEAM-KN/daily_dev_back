@@ -44,9 +44,9 @@ class SiteControllerTest extends ControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(document("sites",
-                        preprocessRequest(prettyPrint()),
-                        preprocessResponse(prettyPrint())
-                    )
+                                preprocessRequest(prettyPrint()),
+                                preprocessResponse(prettyPrint())
+                        )
                 )
                 .andExpect(status().isOk());
 

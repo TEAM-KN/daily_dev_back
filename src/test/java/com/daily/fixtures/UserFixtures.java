@@ -11,7 +11,7 @@ public class UserFixtures {
     public static final String nickname = "tester";
     public static final String imageUrl = "/person.png";
     public static final String subscribeYn = "Y";
-    public static final UserDto userResponse = new UserDto(email, password, nickname, imageUrl, subscribeYn);
+    public static final UserDto userResponse = new UserDto(email, nickname, imageUrl, subscribeYn);
 
     public static User user() {
         return new User(email, password, nickname, imageUrl, subscribeYn);
