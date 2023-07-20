@@ -1,6 +1,7 @@
 package com.daily.domain.user.controller;
 
 import com.daily.common.ControllerTest;
+import com.daily.domain.user.exception.NoSearchUserException;
 import com.daily.fixtures.UserFixtures;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,7 +31,7 @@ class UserControllerTest extends ControllerTest {
 
     @DisplayName("사용자 조회")
     @Test
-    void fetchUserTest() throws Exception {
+    void fetchUserSuccessTest() throws Exception {
         // given
         given(userService.fetchUser(any())).willReturn(userResponse);
 
@@ -52,6 +53,30 @@ class UserControllerTest extends ControllerTest {
                                 fieldWithPath("subscribeYn").type(JsonFieldType.STRING).description("구독 정보")
                         )))
                 .andExpect(status().isOk());
+    }
+
+    @DisplayName("사용자 조회 - 사용자를 찾을 수 없다. 404")
+    @Test
+    void fetchUserNoSearchTest() throws Exception {
+        // given
+        given(userService.fetchUser(any())).willThrow(new NoSearchUserException());
+
+        // when
+        MultiValueMap<String, String> queryParam = new LinkedMultiValueMap<>();
+        queryParam.add("email", "scnoh0617@gmail.com");
+
+        // then
+        mockMvc.perform(get("/user")
+                .params(queryParam))
+                .andDo(print())
+                .andDo(document("user not found",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메세지")
+                        )))
+                .andExpect(status().isNotFound());
     }
 
 }
