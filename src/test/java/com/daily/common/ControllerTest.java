@@ -6,7 +6,7 @@ import com.daily.auth.controller.AuthController;
 import com.daily.domain.content.application.ContentService;
 import com.daily.domain.content.controller.ContentController;
 import com.daily.domain.site.application.SiteService;
-import com.daily.domain.site.presentation.SiteController;
+import com.daily.domain.site.controller.SiteController;
 import com.daily.domain.user.application.UserService;
 import com.daily.domain.user.controller.UserController;
 import com.fasterxml.jackson.databind.ObjectMapper;

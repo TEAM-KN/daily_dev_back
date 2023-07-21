@@ -1,11 +1,10 @@
-package com.daily.domain.site.presentation;
+package com.daily.domain.site.controller;
 
 import com.daily.common.ControllerTest;
 import com.daily.domain.site.domain.Site;
 import com.daily.domain.site.dto.SiteDto;
 import com.daily.domain.site.exception.NoSearchSiteException;
 
-import com.daily.fixtures.CommonFixtures;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

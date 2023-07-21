@@ -1,4 +1,4 @@
-package com.daily.domain.site.presentation;
+package com.daily.domain.site.controller;
 
 import com.daily.domain.site.application.SiteService;
 import com.daily.domain.site.dto.SiteDto;
@@ -6,7 +6,6 @@ import com.daily.domain.site.dto.SiteParam;
 import com.daily.global.common.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
