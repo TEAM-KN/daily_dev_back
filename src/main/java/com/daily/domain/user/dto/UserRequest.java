@@ -34,11 +34,13 @@ public class UserRequest {
         @NotBlank(message = "사용자 계정을 찾을 수 없습니다.")
         private String email;
 
-        @NotBlank(message = "사용자 계정을 찾을 수 없습니다.")
         @Size(min = 1, message = "삭제 할 사이트를 1개 이상 선택해주세요.")
-        private List<String> siteCodes;
+        private List<@NotBlank String> siteCodes;
 
-        public UserFromSiteRequest() {}
+        public UserFromSiteRequest(String email, List<String> siteCodes) {
+            this.email = email;
+            this.siteCodes = siteCodes;
+        }
 
     }
 

@@ -49,7 +49,7 @@ public class UserService {
 
         userSitesRepository.saveAll(userSites);
 
-        return new CommonResponse(HttpStatus.OK, "성공" );
+        return new CommonResponse(HttpStatus.OK, "성공");
     }
 
     public CommonResponse deleteUserSites(final UserRequest.UserFromSiteRequest request) {
@@ -65,7 +65,7 @@ public class UserService {
         userSitesRepository.deleteAllById(pk);
 
 
-        return new CommonResponse(HttpStatus.OK, "성공" );
+        return new CommonResponse(HttpStatus.OK, "성공");
     }
 
 }

@@ -2,29 +2,24 @@ package com.daily.domain.user.controller;
 
 import com.daily.common.ControllerTest;
 import com.daily.domain.user.exception.NoSearchUserException;
-import com.daily.fixtures.UserFixtures;
+import com.daily.fixtures.CommonFixtures;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
-import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
-import org.springframework.restdocs.operation.preprocess.Preprocessors;
+import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import static com.daily.fixtures.UserFixtures.USER_REQUEST;
 import static com.daily.fixtures.UserFixtures.userResponse;
-import static org.hamcrest.core.Is.is;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class UserControllerTest extends ControllerTest {
@@ -77,6 +72,34 @@ class UserControllerTest extends ControllerTest {
                                 fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메세지")
                         )))
                 .andExpect(status().isNotFound());
+    }
+
+    @DisplayName("사용자 구독 사이트 정보 업데이트")
+    @Test
+    void saveUserSuccessTest() throws Exception{
+        // given
+        given(userService.saveUserSites(any())).willReturn(CommonFixtures.COMMON_RESPONSE(200, "성공"));
+
+        // when & then
+        mockMvc.perform(post("/user/sites")
+                    .accept(MediaType.APPLICATION_JSON)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(USER_REQUEST()))
+                )
+                .andDo(print())
+                .andDo(document("user site update",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
+                                fieldWithPath("siteCodes").type(JsonFieldType.ARRAY).description("사이트 코드")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메세지")
+                        )))
+                .andExpect(status().isOk());
+
     }
 
 }
