@@ -10,9 +10,13 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Configuration
 @Slf4j
@@ -20,10 +24,8 @@ import org.springframework.context.annotation.Configuration;
 public class ContentsRemoveConfiguration {
 
     private final static String JOB_NAME = "contentsRemoveJob";
-    private final static Integer CHUNK_SIZE = 100;
 
     private final ContentRepository contentRepository;
-
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
 
@@ -38,7 +40,7 @@ public class ContentsRemoveConfiguration {
         return jobBuilderFactory.get(JOB_NAME)
                 .incrementer(new RunIdIncrementer())
                 .start(this.contentsStep(null))
-                .listener(new ContentsJobListener(contentRepository))
+                .listener(new ContentsJobListener())
                 .build();
     }
 
@@ -46,7 +48,14 @@ public class ContentsRemoveConfiguration {
     @JobScope
     public Step contentsStep(@Value("#{jobParameters[requestDate]}") String requestDate) throws Exception {
         return stepBuilderFactory.get(JOB_NAME + "_contentsRemoveStep")
-                .<Content, Content>chunk(CHUNK_SIZE)
+                .tasklet((stepContribution, chunkContext) -> {
+                    List<Content> contents = contentRepository.fetchRemoveNaverContentBatchQuery(LocalDate.now().minusWeeks(1));
+
+                    if (contents.size() > 0) {
+                        contentRepository.deleteAll(contents);
+                    }
+                    return RepeatStatus.FINISHED;
+                })
                 .build();
     }
 

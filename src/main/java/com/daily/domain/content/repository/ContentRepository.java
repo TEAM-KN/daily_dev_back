@@ -5,6 +5,7 @@ import com.daily.domain.content.domain.ContentPK;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,6 +17,9 @@ public interface ContentRepository extends JpaRepository<Content, ContentPK> {
             "   AND c.createDate >= :start " +
             "   AND c.createDate <= :end")
     List<Content> fetchContentBatchQuery(String[] siteCodes, LocalDateTime start, LocalDateTime end);
+    @Query(value = "SELECT c FROM Content c WHERE c.createDate <= :removeDate AND c.siteCode = 'NAVER'")
+    List<Content> fetchRemoveNaverContentBatchQuery(LocalDate removeDate);
     List<Content> findAllByOrderByCreateDateDesc();
     List<Content> findAllBySiteCodeOrderByCreateDateDesc(String siteCode);
+
 }
