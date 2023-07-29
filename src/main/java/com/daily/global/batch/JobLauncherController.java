@@ -1,6 +1,7 @@
 package com.daily.global.batch;
 
 import com.daily.global.batch.contents.ContentsConfiguration;
+import com.daily.global.batch.contents.ContentsRemoveConfiguration;
 import com.daily.global.batch.mail.SendMailConfiguration;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.JobParameters;
@@ -19,6 +20,7 @@ public class JobLauncherController {
 
     private final JobLauncher jobLauncher;
     private final ContentsConfiguration contentsConfiguration;
+    private final ContentsRemoveConfiguration contentsRemoveConfiguration;
     private final SendMailConfiguration sendMailConfiguration;
 
     @Scheduled(cron = "0 0 0 * * ?")
@@ -32,10 +34,7 @@ public class JobLauncherController {
 
     @Scheduled(cron = "0 0 15 * * ?")
     public void launchJobToRemoveContent() throws Exception {
-        JobParameters jobParameters = new JobParametersBuilder()
-                .addString("requestDate", LocalDate.now().toString())
-                .toJobParameters();
-        jobLauncher.run(sendMailConfiguration.sendMailJob(), jobParameters);
+        jobLauncher.run(contentsRemoveConfiguration.contentsRemoveJob(), null);
     }
 
     @Scheduled(cron = "0 0 1 * * ?")

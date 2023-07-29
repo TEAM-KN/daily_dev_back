@@ -36,17 +36,17 @@ public class ContentsRemoveConfiguration {
      *
      * */
     @Bean(JOB_NAME)
-    public Job contentsRemoveJob() throws Exception {
+    public Job contentsRemoveJob() {
         return jobBuilderFactory.get(JOB_NAME)
                 .incrementer(new RunIdIncrementer())
-                .start(this.contentsStep(null))
+                .start(this.contentsStep())
                 .listener(new ContentsJobListener())
                 .build();
     }
 
     @Bean(JOB_NAME + "_contentsStep")
     @JobScope
-    public Step contentsStep(@Value("#{jobParameters[requestDate]}") String requestDate) throws Exception {
+    public Step contentsStep() {
         return stepBuilderFactory.get(JOB_NAME + "_contentsRemoveStep")
                 .tasklet((stepContribution, chunkContext) -> {
                     List<Content> contents = contentRepository.fetchRemoveNaverContentBatchQuery(LocalDate.now().minusWeeks(1));
