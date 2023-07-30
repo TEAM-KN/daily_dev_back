@@ -34,7 +34,10 @@ public class JobLauncherController {
 
     @Scheduled(cron = "0 0 15 * * ?")
     public void launchJobToRemoveContent() throws Exception {
-        jobLauncher.run(contentsRemoveConfiguration.contentsRemoveJob(), null);
+        JobParameters jobParameters = new JobParametersBuilder()
+                .addString("removeDate", LocalDate.now().minusWeeks(1).toString())
+                .toJobParameters();
+        jobLauncher.run(contentsRemoveConfiguration.contentsRemoveJob(), jobParameters);
     }
 
     @Scheduled(cron = "0 0 1 * * ?")

@@ -17,8 +17,8 @@ public interface ContentRepository extends JpaRepository<Content, ContentPK> {
             "   AND c.createDate >= :start " +
             "   AND c.createDate <= :end")
     List<Content> fetchContentBatchQuery(String[] siteCodes, LocalDateTime start, LocalDateTime end);
-    @Query(value = "SELECT c FROM Content c WHERE c.createDate <= :removeDate AND c.siteCode = 'NAVER'")
-    List<Content> fetchRemoveNaverContentBatchQuery(LocalDate removeDate);
+    @Query(value = "SELECT c FROM Content c WHERE c.createDate <= :removeDate AND c.siteCode = :siteCode")
+    List<Content> fetchRemoveNaverContentBatchQuery(LocalDateTime removeDate, String siteCode);
     List<Content> findAllByOrderByCreateDateDesc();
     List<Content> findAllBySiteCodeOrderByCreateDateDesc(String siteCode);
 

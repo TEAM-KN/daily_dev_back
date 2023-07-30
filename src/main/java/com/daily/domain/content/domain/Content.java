@@ -46,7 +46,7 @@ public class Content extends BaseEntity {
     @Column(name="author")
     private String author;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "site_code", insertable = false, updatable = false)
     private Site site;
 }

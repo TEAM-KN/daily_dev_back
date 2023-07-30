@@ -16,6 +16,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Configuration
@@ -39,17 +41,18 @@ public class ContentsRemoveConfiguration {
     public Job contentsRemoveJob() {
         return jobBuilderFactory.get(JOB_NAME)
                 .incrementer(new RunIdIncrementer())
-                .start(this.contentsStep())
+                .start(this.contentsStep(null))
                 .listener(new ContentsJobListener())
                 .build();
     }
 
     @Bean(JOB_NAME + "_contentsStep")
     @JobScope
-    public Step contentsStep() {
+    public Step contentsStep(@Value("#{jobParameters[removeDate]}") final String removeDate) {
         return stepBuilderFactory.get(JOB_NAME + "_contentsRemoveStep")
                 .tasklet((stepContribution, chunkContext) -> {
-                    List<Content> contents = contentRepository.fetchRemoveNaverContentBatchQuery(LocalDate.now().minusWeeks(1));
+                    LocalDateTime parseRemoveDate = LocalDate.parse(removeDate, DateTimeFormatter.ofPattern("yyyy-MM-dd")).atStartOfDay();
+                    List<Content> contents = contentRepository.fetchRemoveNaverContentBatchQuery(parseRemoveDate, "NAVER");
 
                     if (contents.size() > 0) {
                         contentRepository.deleteAll(contents);
