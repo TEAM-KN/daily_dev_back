@@ -18,7 +18,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public UserDto fetchUser(@RequestParam @NotBlank(message = "이메일은 필수 값 입니다.") String email) {
+    public UserDto fetchUser(@RequestParam @NotBlank String email) {
         return userService.fetchUser(email);
     }
 
@@ -27,9 +27,15 @@ public class UserController {
         return userService.saveUserSites(request);
     }
 
+    @DeleteMapping("/leave")
+    public CommonResponse leaveUser(@RequestParam @NotBlank String email) {
+        return userService.leaveUser(email);
+    }
+
     @DeleteMapping("/sites")
     public CommonResponse deleteSites(@RequestBody @Valid UserRequest.UserFromSiteRequest request) {
         return userService.deleteUserSites(request);
     }
+
 
 }
