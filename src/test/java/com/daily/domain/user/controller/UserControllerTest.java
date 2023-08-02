@@ -16,8 +16,7 @@ import static com.daily.fixtures.UserFixtures.userResponse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -77,7 +76,7 @@ class UserControllerTest extends ControllerTest {
 
     @DisplayName("사용자별 구독 사이트 정보를 업데이트 한다")
     @Test
-    void 사용자별_구독_사이트_정보를_업데이트_한다() throws Exception{
+    void 사용자별_구독_사이트_정보를_업데이트_한다() throws Exception {
         // given
         given(userService.saveUserSites(any())).willReturn(CommonFixtures.COMMON_RESPONSE(200, "성공"));
 
@@ -105,7 +104,7 @@ class UserControllerTest extends ControllerTest {
 
     @DisplayName("존재하지 않는 사이트 정보를 업데이트 할때 예외를 발생한다")
     @Test
-    void 존재하지_않는_사이트_정보를_업데이트_할때_예외를_발생한다() throws Exception{
+    void 존재하지_않는_사이트_정보를_업데이트_할때_예외를_발생한다() throws Exception {
         // given
         given(userService.saveUserSites(any())).willThrow(new NoSearchSiteException());
 
@@ -129,6 +128,52 @@ class UserControllerTest extends ControllerTest {
                         )))
                 .andExpect(status().isNotFound());
 
+    }
+
+    @DisplayName("회원 탈퇴")
+    @Test
+    void 회원_탈퇴() throws Exception {
+        // given
+        given(userService.leaveUser(any())).willReturn(CommonFixtures.COMMON_RESPONSE(200, "성공"));
+
+        // when
+        MultiValueMap<String, String> queryParam = new LinkedMultiValueMap<>();
+        queryParam.add("email", "scnoh0617@gmail.com");
+
+        // then
+        mockMvc.perform(delete("/user/leave").params(queryParam))
+                .andDo(print())
+                .andDo(document("user delete",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메세지")
+                        )))
+                .andExpect(status().isOk());
+    }
+
+    @DisplayName("회원 탈퇴")
+    @Test
+    void 존재하지_않는_회원을_탈퇴_할때_예외를_발생한다() throws Exception {
+        // given
+        given(userService.leaveUser(any())).willThrow(new NoSearchUserException());
+
+        // when
+        MultiValueMap<String, String> queryParam = new LinkedMultiValueMap<>();
+        queryParam.add("email", "scnoh0617@gmail.com");
+
+        // then
+        mockMvc.perform(delete("/user/leave").params(queryParam))
+                .andDo(print())
+                .andDo(document("user delete",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메세지")
+                        )))
+                .andExpect(status().isNotFound());
     }
 
 }

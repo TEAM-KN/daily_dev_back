@@ -52,6 +52,13 @@ public class UserService {
         return new CommonResponse(HttpStatus.OK, "성공");
     }
 
+    public CommonResponse leaveUser(final String email) {
+        User user = userRepository.findById(email).orElseThrow(NoSearchUserException::new);
+        userRepository.delete(user);
+
+        return new CommonResponse(HttpStatus.OK, "성공");
+    }
+
     public CommonResponse deleteUserSites(final UserRequest.UserFromSiteRequest request) {
         userRepository.findById(request.getEmail()).orElseThrow(NoSearchUserException::new);
 

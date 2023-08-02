@@ -37,7 +37,7 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "subscribe_yn")
     private String subscribeYn;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     List<UserSites> userSites;
 
     public User(String email, String password, String nickname, String imageUrl, String subscribeYn) {
