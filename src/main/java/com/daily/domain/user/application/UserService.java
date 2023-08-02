@@ -54,8 +54,6 @@ public class UserService {
 
     public CommonResponse leaveUser(final String email) {
         User user = userRepository.findById(email).orElseThrow(NoSearchUserException::new);
-
-        // user 삭제
         userRepository.delete(user);
 
         return new CommonResponse(HttpStatus.OK, "성공");
