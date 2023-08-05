@@ -1,9 +1,6 @@
 package com.daily.fixtures;
 
-import com.daily.auth.dto.AccessTokenRenewRequest;
-import com.daily.auth.dto.LoginRequest;
-import com.daily.auth.dto.LoginResponse;
-import com.daily.auth.dto.TokenDto;
+import com.daily.auth.dto.*;
 import com.daily.domain.user.dto.UserRequest;
 
 import java.util.List;
@@ -22,8 +19,8 @@ public class AuthFixtures {
         return new LoginRequest(email, password);
     }
 
-    public static LoginResponse LOGIN_RESPONSE(final int code, final String message) {
-        return new LoginResponse(code, message);
+    public static JwtTokenResponse LOGIN_RESPONSE() {
+        return new JwtTokenResponse(ACCESS_TOKEN, REFRESH_TOKEN);
     }
 
     public static UserRequest JOIN_REQUEST() {

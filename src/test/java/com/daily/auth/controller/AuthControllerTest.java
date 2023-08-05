@@ -70,7 +70,7 @@ class AuthControllerTest extends ControllerTest {
     @Test
     void loginSuccess() throws Exception {
         // given
-        given(authService.login(any(), any())).willReturn(LOGIN_RESPONSE(200, "로그인 성공"));
+        given(authService.login(any())).willReturn(LOGIN_RESPONSE());
 
         // when & then
         mockMvc.perform(post("/auth/login")
@@ -86,8 +86,8 @@ class AuthControllerTest extends ControllerTest {
                                 fieldWithPath("password").type(JsonFieldType.STRING).description("로그인 패스워드")
                         ),
                         responseFields(
-                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
-                                fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메세지")
+                                fieldWithPath("accessToken").type(JsonFieldType.STRING).description("Access Token"),
+                                fieldWithPath("refreshToken").type(JsonFieldType.STRING).description("Refresh Token")
                         )
                 ))
                 .andExpect(status().isOk());
@@ -97,7 +97,7 @@ class AuthControllerTest extends ControllerTest {
     @Test
     void passwordMissMatch() throws Exception {
         // given
-        given(authService.login(any(), any())).willThrow(new PasswordMatchException());
+        given(authService.login(any())).willThrow(new PasswordMatchException());
 
         // when & then
         mockMvc.perform(post("/auth/login")
@@ -124,7 +124,7 @@ class AuthControllerTest extends ControllerTest {
     @Test
     void userNotFound() throws Exception {
         // given
-        given(authService.login(any(), any())).willThrow(new NoSearchUserException());
+        given(authService.login(any())).willThrow(new NoSearchUserException());
 
         // when & then
         mockMvc.perform(post("/auth/login")
@@ -151,7 +151,7 @@ class AuthControllerTest extends ControllerTest {
     @Test
     void joinSuccess() throws Exception {
         // given
-        given(authService.join(any(), any())).willReturn(COMMON_RESPONSE(200, "회원가입 성공"));
+        given(authService.join(any())).willReturn(LOGIN_RESPONSE());
 
         // when & then
         mockMvc.perform(post("/auth/join")
@@ -169,8 +169,8 @@ class AuthControllerTest extends ControllerTest {
                                 fieldWithPath("siteCodes").type(JsonFieldType.ARRAY).description("구독 리스트")
                         ),
                         responseFields(
-                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
-                                fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메세지")
+                                fieldWithPath("accessToken").type(JsonFieldType.STRING).description("Access Token"),
+                                fieldWithPath("refreshToken").type(JsonFieldType.STRING).description("Refresh Token")
                         )
                 ))
                 .andExpect(status().isOk());
@@ -180,7 +180,7 @@ class AuthControllerTest extends ControllerTest {
     @Test
     void joinEmailDuplicateFailed() throws Exception {
         // given
-        given(authService.join(any(), any())).willThrow(new ExistUserException());
+        given(authService.join(any())).willThrow(new ExistUserException());
 
         // when & then
         mockMvc.perform(post("/auth/join")
