@@ -98,12 +98,12 @@ security:
         expire-length: 1210000000 #14일
 
 logging:
-#  pattern:
-#    console: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n'
-#    file: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n'
-#  file:
-#    name: /patch/log
+  pattern:
+    console: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n'
+    file: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n'
+  file:
+    name: /patch/log
   level:
-    com.daily: debug
+    com.daily: info
 
 

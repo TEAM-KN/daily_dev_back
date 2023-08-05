@@ -36,8 +36,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleException(Exception e) {
-        e.printStackTrace();
+    public ResponseEntity<Object> handleException() {
         return this.makeResponseEntity(ErrorCode.INTERVAL_SERVER_ERROR);
     }
 
