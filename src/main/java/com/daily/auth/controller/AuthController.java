@@ -2,6 +2,7 @@ package com.daily.auth.controller;
 
 import com.daily.auth.application.AuthService;
 import com.daily.auth.dto.AccessTokenRenewRequest;
+import com.daily.auth.dto.JwtTokenResponse;
 import com.daily.auth.dto.LoginRequest;
 import com.daily.auth.dto.LoginResponse;
 import com.daily.global.common.response.CommonResponse;
@@ -36,13 +37,13 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public LoginResponse login(@RequestBody @Valid LoginRequest request, HttpServletResponse response) {
-        return authService.login(request, response);
+    public JwtTokenResponse login(@RequestBody @Valid LoginRequest request) {
+        return authService.login(request);
     }
 
     @PostMapping("/join")
-    public CommonResponse join(@Valid @RequestBody UserRequest request, HttpServletResponse response) {
-        return authService.join(request, response);
+    public JwtTokenResponse join(@Valid @RequestBody UserRequest request) {
+        return authService.join(request);
     }
 
     @PostMapping("/token/access")
