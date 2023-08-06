@@ -32,7 +32,8 @@ http://daily-dev-news.com/
 
 ## Tech Skills
 ### Backend
-  ![backend_tech_skills](https://github.com/TEAM-KN/daily_dev_back/assets/51324045/e4c4be9e-aad7-4b16-804d-aaf4980825d1)
+  ![backend](https://github.com/TEAM-KN/daily_dev_back/assets/51324045/348a5f7a-c378-4fa4-811a-3ba12521274b)
+
 
     
 ### Frontend
