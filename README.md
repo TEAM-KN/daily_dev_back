@@ -28,16 +28,16 @@ http://daily-dev-news.com/
   * 테스트 코드를 통한 유지보수 효율성 증가.  
 
 ## Infrastructures
-<img width="1023" alt="아키텍처" src="https://github.com/TEAM-KN/daily_dev_back/assets/51324045/66bbd013-4ed9-4d73-b9a5-92b08cd57635">
+<img width="700" alt="아키텍처-removebg-preview" src="https://github.com/TEAM-KN/daily_dev_back/assets/51324045/5e594a8e-b7f4-47f5-ad3c-1abe64549816">
+
 
 ## Tech Skills
 ### Backend
-  ![backend](https://github.com/TEAM-KN/daily_dev_back/assets/51324045/348a5f7a-c378-4fa4-811a-3ba12521274b)
-
+  ![backend-removebg-preview](https://github.com/TEAM-KN/daily_dev_back/assets/51324045/eb5c36d3-9e98-4d9f-8ea2-5c5b1610c508)
 
     
 ### Frontend
-  ![frontend_teck_skills](https://github.com/TEAM-KN/daily_dev_back/assets/51324045/9ad25ec6-2b74-4795-944a-ac299ce5a60c)
+  ![frontend-removebg-preview](https://github.com/TEAM-KN/daily_dev_back/assets/51324045/a587fdfb-1309-4c79-adb6-2a20891ac986)
 
  
 ## Project Member
