@@ -11,8 +11,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import static com.daily.fixtures.UserFixtures.USER_REQUEST;
-import static com.daily.fixtures.UserFixtures.userResponse;
+import static com.daily.fixtures.UserFixtures.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -28,7 +27,7 @@ class UserControllerTest extends ControllerTest {
     @Test
     void 회원_정보를_조회한다() throws Exception {
         // given
-        given(userService.fetchUser(any())).willReturn(userResponse);
+        given(userService.fetchUser(any())).willReturn(userWithSiteResponse);
 
         // when
         MultiValueMap<String, String> queryParam = new LinkedMultiValueMap<>();

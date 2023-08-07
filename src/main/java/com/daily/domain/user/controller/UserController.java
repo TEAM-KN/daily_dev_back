@@ -18,7 +18,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public UserDto fetchUser(@RequestParam @NotBlank String email) {
+    public UserDto.UserWithSite fetchUser(@RequestParam @NotBlank String email) {
         return userService.fetchUser(email);
     }
 

@@ -4,7 +4,6 @@ import com.daily.domain.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, String> {
@@ -12,7 +11,8 @@ public interface UserRepository extends JpaRepository<User, String> {
 
         @Query(value = "SELECT u " +
                 "FROM User u " +
-                "LEFT JOIN FETCH UserSites us " +
-                "LEFT JOIN FETCH Site s")
-        List<User> fetchUsersWithSite();
+                "LEFT JOIN FETCH u.userSites us " +
+                "LEFT JOIN FETCH  us.site " +
+                "WHERE u.email = :email")
+        Optional<User> fetchUserWithSite(String email);
 }

@@ -16,6 +16,7 @@ public class UserFixtures {
     public static final String subscribeYn = "Y";
     public static final List<String> siteCode = List.of("NAVER", "WOO", "NAVER");
     public static final UserDto userResponse = new UserDto(email, nickname, imageUrl, subscribeYn);
+    public static final UserDto.UserWithSite userWithSiteResponse = new UserDto.UserWithSite(null);
 
     public static UserRequest.UserFromSiteRequest USER_REQUEST() {
         return new UserRequest.UserFromSiteRequest(email, siteCode);

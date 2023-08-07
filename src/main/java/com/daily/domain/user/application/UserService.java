@@ -29,9 +29,9 @@ public class UserService {
     private final SiteRepository siteRepository;
 
     @Transactional(readOnly = true)
-    public UserDto fetchUser(final String email) {
-        User user = userRepository.findById(email).orElseThrow(NoSearchUserException::new);
-        return new UserDto(user);
+    public UserDto.UserWithSite fetchUser(final String email) {
+        User user = userRepository.fetchUserWithSite(email).orElseThrow(NoSearchUserException::new);
+        return new UserDto.UserWithSite(user);
     }
 
     public CommonResponse saveUserSites(final UserRequest.UserFromSiteRequest request) {

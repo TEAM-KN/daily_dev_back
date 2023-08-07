@@ -2,6 +2,7 @@ package com.daily.domain.site.dto;
 
 import com.daily.domain.content.domain.Content;
 import com.daily.domain.site.domain.Site;
+import com.daily.domain.userSites.domain.UserSites;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,6 +25,14 @@ public class SiteDto {
         this.siteDesc = site.getSiteDesc();
         this.createDate = site.getCreateDate();
         this.updateDate = site.getUpdateDate();
+    }
+
+    public SiteDto(final UserSites userSites) {
+        this.siteCode = userSites.getSiteCode();
+        this.siteName = userSites.getSite().getSiteName();
+        this.siteDesc = userSites.getSite().getSiteDesc();
+        this.createDate = userSites.getSite().getCreateDate();
+        this.updateDate = userSites.getSite().getUpdateDate();
     }
 
     @Data
