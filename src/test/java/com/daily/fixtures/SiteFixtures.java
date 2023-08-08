@@ -1,6 +1,7 @@
 package com.daily.fixtures;
 
 import com.daily.domain.site.domain.Site;
+import com.daily.domain.site.dto.SiteDto;
 import com.daily.domain.site.dto.SiteParam;
 
 public class SiteFixtures {
@@ -9,16 +10,19 @@ public class SiteFixtures {
     public static final String WOO_SITE_CODE = "WOO";
     public static final String WOO_SITE_NAME = "우아한형제들";
     public static final String WOO_SITE_DESC = "우아한형제들";
+    public static final SiteDto WOO_SITE_DTO = new SiteDto(WOO_SITE());
 
     /* 네이버 사이트 정보 */
     public static final String NAVER_SITE_CODE = "NAVER";
     public static final String NAVER_SITE_NAME = "네이버";
     public static final String NAVER_SITE_DESC = "네이버뉴스";
+    public static final SiteDto NAVER_SITE_DTO = new SiteDto(NAVER_SITE());
 
     /* 네이버 사이트 정보 */
     public static final String KAKAO_SITE_CODE = "KAKAO";
     public static final String KAKAO_SITE_NAME = "카카오";
     public static final String KAKAO_SITE_DESC = "카카오";
+    public static final SiteDto KAKAO_SITE_DTO = new SiteDto(KAKAO_SITE());
 
     public static Site WOO_SITE() {
         return Site.builder()

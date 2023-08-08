@@ -44,7 +44,11 @@ class UserControllerTest extends ControllerTest {
                                 fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
                                 fieldWithPath("nickname").type(JsonFieldType.STRING).description("별명"),
                                 fieldWithPath("imageUrl").type(JsonFieldType.STRING).description("프로필 사진 경로"),
-                                fieldWithPath("subscribeYn").type(JsonFieldType.STRING).description("구독 정보")
+                                fieldWithPath("subscribeYn").type(JsonFieldType.STRING).description("구독 여부"),
+                                fieldWithPath("sites").type(JsonFieldType.ARRAY).description("구독 사이트 정보"),
+                                fieldWithPath("sites[].siteCode").type(JsonFieldType.STRING).description("사이트 코드"),
+                                fieldWithPath("sites[].siteName").type(JsonFieldType.STRING).description("사이트 명"),
+                                fieldWithPath("sites[].siteDesc").type(JsonFieldType.STRING).description("사이트 설명")
                         )))
                 .andExpect(status().isOk());
     }
