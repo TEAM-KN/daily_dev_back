@@ -8,7 +8,7 @@ INSERT INTO users(email, create_date, update_date, nickname, image_url, password
 INSERT INTO site (site_code, create_date, update_date, site_desc, site_name) VALUES('WOO', '2023-06-06 12:00:00.373009', '2023-06-06 12:00:00.373009', '우아한형제들 기술 블로그', '우아한형제들');
 INSERT INTO site (site_code, create_date, update_date, site_desc, site_name) VALUES('KAKAO', '2023-06-06 12:00:00.373009', '2023-06-06 12:00:00.373009', '카카오 기술 블로그', '카카오');
 INSERT INTO site (site_code, create_date, update_date, site_desc, site_name) VALUES('NAVER', '2023-06-06 12:00:00.373009', '2023-06-06 12:00:00.373009', '네이버 뉴스', '네이버');
-INSERT INTO site (site_code, create_date, update_date, site_desc, site_name) VALUES('DAANGN', '2023-06-06 12:00:00.373009', '2023-06-06 12:00:00.373009', '네이버 뉴스', '네이버');
+INSERT INTO site (site_code, create_date, update_date, site_desc, site_name) VALUES('DAANGN', '2023-06-06 12:00:00.373009', '2023-06-06 12:00:00.373009', '당근마켓 기술 블로그', '당근마켓');
 
 -- site_users  init
 INSERT INTO user_sites (email, site_code) VALUES('scnoh0617@gmail.com', 'WOO');

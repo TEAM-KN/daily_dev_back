@@ -33,8 +33,8 @@ public class UserController {
     }
 
     @DeleteMapping("/sites")
-    public CommonResponse deleteSites(@RequestBody @Valid UserRequest.UserFromSiteRequest request) {
-        return userService.deleteUserSites(request);
+    public CommonResponse deleteSites(@RequestParam @NotBlank String email) {
+        return userService.deleteUserSites(email);
     }
 
 

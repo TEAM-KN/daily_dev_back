@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserSitesRepository extends JpaRepository<UserSites, UserSitesPK> {
 
+    void deleteAllByEmail(final String email);
+
 }

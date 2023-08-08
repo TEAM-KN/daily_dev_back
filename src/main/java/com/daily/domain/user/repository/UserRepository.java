@@ -2,6 +2,7 @@ package com.daily.domain.user.repository;
 
 import com.daily.domain.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
@@ -15,4 +16,9 @@ public interface UserRepository extends JpaRepository<User, String> {
                 "LEFT JOIN FETCH  us.site " +
                 "WHERE u.email = :email")
         Optional<User> fetchUserWithSite(String email);
+
+        @Modifying
+        @Query(value = "UPDATE User u SET u.subscribeYn = :subscribeYn WHERE u.email = :email")
+        void updateUserBySubscribeYn(String email, String subscribeYn);
+
 }

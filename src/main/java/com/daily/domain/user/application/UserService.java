@@ -8,8 +8,8 @@ import com.daily.domain.user.dto.UserRequest;
 import com.daily.domain.user.exception.NoSearchUserException;
 import com.daily.domain.user.repository.UserRepository;
 import com.daily.domain.userSites.domain.UserSites;
-import com.daily.domain.userSites.domain.UserSitesPK;
 import com.daily.domain.userSites.repository.UserSitesRepository;
+import com.daily.global.common.dto.YN;
 import com.daily.global.common.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -40,6 +40,8 @@ public class UserService {
         if (!siteRepository.existsAllBySiteCodeIn(request.getSiteCodes()))
             throw new NoSearchSiteException();
 
+        userSitesRepository.deleteAllByEmail(request.getEmail());
+
         List<UserSites> userSites = request.getSiteCodes().stream()
                 .map(siteCode -> UserSites.builder()
                         .email(request.getEmail())
@@ -48,6 +50,7 @@ public class UserService {
                 .collect(Collectors.toList());
 
         userSitesRepository.saveAll(userSites);
+        userRepository.updateUserBySubscribeYn(request.getEmail(), YN.Y.name());
 
         return new CommonResponse(HttpStatus.OK, "성공");
     }
@@ -59,18 +62,11 @@ public class UserService {
         return new CommonResponse(HttpStatus.OK, "성공");
     }
 
-    public CommonResponse deleteUserSites(final UserRequest.UserFromSiteRequest request) {
-        userRepository.findById(request.getEmail()).orElseThrow(NoSearchUserException::new);
+    public CommonResponse deleteUserSites(final String email) {
+        User user = userRepository.findById(email).orElseThrow(NoSearchUserException::new);
 
-        List<UserSitesPK> pk = request.getSiteCodes().stream()
-                .map(siteCode -> UserSitesPK.builder()
-                        .email(request.getEmail())
-                        .siteCode(siteCode)
-                        .build())
-                .collect(Collectors.toList());
-
-        userSitesRepository.deleteAllById(pk);
-
+        userSitesRepository.deleteAllByEmail(email);
+        userRepository.updateUserBySubscribeYn(user.getEmail(), YN.N.name());
 
         return new CommonResponse(HttpStatus.OK, "성공");
     }
