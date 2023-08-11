@@ -1,9 +1,9 @@
 package com.daily.domain.user.controller;
 
-import com.daily.global.common.response.CommonResponse;
 import com.daily.domain.user.application.UserService;
 import com.daily.domain.user.dto.UserDto;
 import com.daily.domain.user.dto.UserRequest;
+import com.daily.global.common.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +20,11 @@ public class UserController {
     @GetMapping
     public UserDto.UserWithSite fetchUser(@RequestParam @NotBlank String email) {
         return userService.fetchUser(email);
+    }
+
+    @PostMapping
+    public CommonResponse saveUser(@RequestBody @Valid UserRequest.Update request) {
+        return userService.saveUser(request);
     }
 
     @PostMapping("/sites")

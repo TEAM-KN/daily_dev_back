@@ -27,6 +27,27 @@ public class UserRequest {
 
     private List<String> siteCodes;
 
+    @Data
+    public static class Update {
+
+        @NotBlank(message = "사용자 계정을 찾을 수 없습니다.")
+        private String email;
+
+        @NotBlank
+        private String nickname;
+
+    }
+
+    @Data
+    public static class Password {
+
+        @NotBlank(message = "사용자 계정을 찾을 수 없습니다.")
+        private String email;
+
+        @NotBlank(message = "패스워드를 입력해주세요.")
+        private String password;
+
+    }
 
     @Data
     public static class UserFromSiteRequest {
