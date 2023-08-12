@@ -34,6 +34,12 @@ public class UserService {
         return new UserDto.UserWithSite(user);
     }
 
+    public CommonResponse saveUser(final UserRequest.Update request) {
+        userRepository.findById(request.getEmail()).orElseThrow(NoSearchUserException::new);
+        userRepository.updateUserByEmailAndNickname(request.getEmail(), request.getNickname());
+        return new CommonResponse(HttpStatus.OK, "성공");
+    }
+
     public CommonResponse saveUserSites(final UserRequest.UserFromSiteRequest request) {
         userRepository.findById(request.getEmail()).orElseThrow(NoSearchUserException::new);
 
