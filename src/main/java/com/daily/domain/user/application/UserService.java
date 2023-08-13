@@ -1,5 +1,6 @@
 package com.daily.domain.user.application;
 
+import com.daily.auth.exception.PasswordMatchException;
 import com.daily.domain.site.exception.NoSearchSiteException;
 import com.daily.domain.site.repository.SiteRepository;
 import com.daily.domain.user.domain.User;
@@ -13,6 +14,7 @@ import com.daily.global.common.dto.YN;
 import com.daily.global.common.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +29,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserSitesRepository userSitesRepository;
     private final SiteRepository siteRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional(readOnly = true)
     public UserDto.UserWithSite fetchUser(final String email) {
@@ -34,9 +37,25 @@ public class UserService {
         return new UserDto.UserWithSite(user);
     }
 
+    public CommonResponse checkUser(final UserRequest.Password request) {
+        User user = userRepository.findById(request.getEmail()).orElseThrow(NoSearchUserException::new);
+
+        if (!this.passwordEncoder.matches(request.getPassword(), user.getPassword()))
+            throw new PasswordMatchException();
+
+        return new CommonResponse(HttpStatus.OK, "성공");
+    }
+
     public CommonResponse saveUser(final UserRequest.Update request) {
         userRepository.findById(request.getEmail()).orElseThrow(NoSearchUserException::new);
         userRepository.updateUserByEmailAndNickname(request.getEmail(), request.getNickname());
+        return new CommonResponse(HttpStatus.OK, "성공");
+    }
+
+    public CommonResponse savePassword(final UserRequest.Password request) {
+        userRepository.findById(request.getEmail()).orElseThrow(NoSearchUserException::new);
+        userRepository.updateUSerByPassword(passwordEncoder.encode(request.getPassword()));
+
         return new CommonResponse(HttpStatus.OK, "성공");
     }
 

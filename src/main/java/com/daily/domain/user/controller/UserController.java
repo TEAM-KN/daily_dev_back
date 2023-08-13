@@ -27,6 +27,16 @@ public class UserController {
         return userService.saveUser(request);
     }
 
+    @PostMapping("/check")
+    public CommonResponse checkUser(@RequestBody @Valid UserRequest.Password request) {
+        return userService.checkUser(request);
+    }
+
+    @PostMapping("/password")
+    public CommonResponse savePassword(@RequestBody @Valid UserRequest.Password request) {
+        return userService.savePassword(request);
+    }
+
     @PostMapping("/sites")
     public CommonResponse saveSites(@RequestBody @Valid UserRequest.UserFromSiteRequest request) {
         return userService.saveUserSites(request);
