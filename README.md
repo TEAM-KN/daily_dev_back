@@ -36,11 +36,12 @@ http://daily-dev-news.com/
 
 ## Tech Skills
 ### Backend
-  ![backend-removebg-preview](https://github.com/TEAM-KN/daily_dev_back/assets/51324045/eb5c36d3-9e98-4d9f-8ea2-5c5b1610c508)
+  ![back-tech](https://github.com/TEAM-KN/daily_dev_back/assets/51324045/bdb6b91f-dc10-4c92-9ed1-1c959a9609fc)
 
     
 ### Frontend
-  ![frontend-removebg-preview](https://github.com/TEAM-KN/daily_dev_back/assets/51324045/a587fdfb-1309-4c79-adb6-2a20891ac986)
+  ![front-tech](https://github.com/TEAM-KN/daily_dev_back/assets/51324045/97e48483-d471-447f-92bf-143581f8bcd0)
+
 
  
 ## Project Member
