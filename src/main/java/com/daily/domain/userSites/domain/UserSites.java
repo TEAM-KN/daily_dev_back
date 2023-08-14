@@ -2,7 +2,10 @@ package com.daily.domain.userSites.domain;
 
 import com.daily.domain.site.domain.Site;
 import com.daily.domain.user.domain.User;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 

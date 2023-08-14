@@ -40,7 +40,7 @@ public class User extends BaseEntity implements UserDetails {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     List<UserSites> userSites;
 
-    public User(String email, String password, String nickname, String imageUrl, String subscribeYn) {
+    public User(final String email, final String password, final String nickname, final String imageUrl, final String subscribeYn) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
