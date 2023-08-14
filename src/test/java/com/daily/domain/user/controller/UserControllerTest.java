@@ -77,6 +77,62 @@ class UserControllerTest extends ControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @DisplayName("사용자 패스워드를 검증 한다")
+    @Test
+    void 사용자_패스워드를_검증_한다() throws Exception {
+        // given
+        given(userService.checkUser(any())).willReturn(CommonFixtures.COMMON_RESPONSE(200, "성공"));
+
+        // when & then
+        mockMvc.perform(post("/user/check")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(USER_CHECK_REQUEST()))
+                )
+                .andDo(print())
+                .andDo(document("user check",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
+                                fieldWithPath("password").type(JsonFieldType.STRING).description("패스워드")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메세지")
+                        )))
+                .andExpect(status().isOk());
+    }
+
+    @DisplayName("사용자의 패스워드를 업데이트 한다.")
+    @Test
+    void 사용자의_패스워드를_업데이트_한다() throws Exception {
+        // given
+        given(userService.savePassword(any())).willReturn(CommonFixtures.COMMON_RESPONSE(200, "성공"));
+
+        // when & then
+        mockMvc.perform(post("/user/password")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(USER_PASSWORD_UPDATE_REQUEST()))
+                )
+                .andDo(print())
+                .andDo(document("user update password",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("email").type(JsonFieldType.STRING).description("이메일"),
+                                fieldWithPath("password").type(JsonFieldType.STRING).description("패스워드")
+                        ),
+                        responseFields(
+                                fieldWithPath("code").type(JsonFieldType.NUMBER).description("응답 코드"),
+                                fieldWithPath("message").type(JsonFieldType.STRING).description("응답 메세지")
+                        )))
+                .andExpect(status().isOk());
+
+    }
+
+
     @DisplayName("사용자별 구독 사이트 정보를 업데이트 한다")
     @Test
     void 사용자별_구독_사이트_정보를_업데이트_한다() throws Exception {
