@@ -27,7 +27,7 @@ daily:
   daangn: # 당근마켓 기술블로그
     blog:
       url: https://about.daangn.com/blog/
-  gmarket: https://dev.gmarket.com/
+  gmarket: https://dev.gmarket.com
   line: https://engineering.linecorp.com/ko/blog
 
 jasypt:

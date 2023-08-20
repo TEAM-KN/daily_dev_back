@@ -23,4 +23,12 @@ public enum DateType {
         this.month = month;
     }
 
+    public static String parseMonth(final String month) {
+        if (month.length() == 1 && month.matches("[0-9]") && Integer.parseInt(month) >= 0 && Integer.parseInt(month) <= 9) {
+            return "0" + month;
+        }
+
+        return month;
+    }
+
 }
