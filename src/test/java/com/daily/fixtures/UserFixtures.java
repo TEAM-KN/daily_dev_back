@@ -27,6 +27,14 @@ public class UserFixtures {
         return new UserRequest.UserFromSiteRequest(email, siteCode);
     }
 
+    public static UserRequest.Password USER_CHECK_REQUEST() {
+        return new UserRequest.Password(email, password);
+    }
+
+    public static UserRequest.Password USER_PASSWORD_UPDATE_REQUEST() {
+        return new UserRequest.Password(email, password);
+    }
+
     public static User USER() {
         return new User(email, password, nickname, imageUrl, subscribeYn);
     }

@@ -47,6 +47,11 @@ public class UserRequest {
         @NotBlank(message = "패스워드를 입력해주세요.")
         private String password;
 
+        public Password(final String email, final String password) {
+            this.email = email;
+            this.password = password;
+        }
+
     }
 
     @Data
