@@ -8,6 +8,8 @@ public enum ContentType {
     WOO,
     KAKAO,
     NAVER,
-    DAANGN
+    DAANGN,
+    GMARKET,
+    LINE
 
 }

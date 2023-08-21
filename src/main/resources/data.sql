@@ -9,6 +9,8 @@ INSERT INTO site (site_code, create_date, update_date, site_desc, site_name) VAL
 INSERT INTO site (site_code, create_date, update_date, site_desc, site_name) VALUES('KAKAO', '2023-06-06 12:00:00.373009', '2023-06-06 12:00:00.373009', '카카오 기술 블로그', '카카오');
 INSERT INTO site (site_code, create_date, update_date, site_desc, site_name) VALUES('NAVER', '2023-06-06 12:00:00.373009', '2023-06-06 12:00:00.373009', '네이버 뉴스', '네이버');
 INSERT INTO site (site_code, create_date, update_date, site_desc, site_name) VALUES('DAANGN', '2023-06-06 12:00:00.373009', '2023-06-06 12:00:00.373009', '당근마켓 기술 블로그', '당근마켓');
+INSERT INTO site (site_code, create_date, update_date, site_desc, site_name) VALUES('LINE', '2023-06-06 12:00:00.373009', '2023-06-06 12:00:00.373009', '라인 기술 블로그', 'LINE');
+INSERT INTO site (site_code, create_date, update_date, site_desc, site_name) VALUES('GMARKET', '2023-06-06 12:00:00.373009', '2023-06-06 12:00:00.373009', '지마켓 기술 블로그', '지마켓');
 
 -- site_users  init
 INSERT INTO user_sites (email, site_code) VALUES('scnoh0617@gmail.com', 'WOO');
