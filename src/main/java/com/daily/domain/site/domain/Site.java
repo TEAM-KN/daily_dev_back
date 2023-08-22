@@ -27,6 +27,9 @@ public class Site extends BaseEntity {
     @Column(name= "site_desc")
     private String siteDesc;
 
+    @Column(name = "batch_yn")
+    private String batchYn;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "site")
     List<UserSites> userSites;
 

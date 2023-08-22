@@ -8,4 +8,6 @@ import java.util.List;
 public interface SiteRepository extends JpaRepository<Site, String> {
 
     boolean existsAllBySiteCodeIn(List<String> siteCodes);
+
+    List<Site> findAllByBatchYn(String yn);
 }
