@@ -9,9 +9,14 @@
   <em>원하는 회사를 구독하여 매일 아침 10시에 DD 뉴스를 메일로 받아보세요 😊</em>
 </p>
 
-<div align="center" style="display: flex">
-  <img src="https://user-images.githubusercontent.com/51324045/227776120-a20614dc-a7ee-42ee-af2a-ffae34c6784b.gif" width="300" height="500"/>  
-  <img src="https://user-images.githubusercontent.com/51324045/227776270-bcefe171-7077-49b3-8801-83a8cbd4d2c4.gif" width="300" height="500"/>
+<div align="center" style="display: flex">    
+  
+  <img src="https://github.com/TEAM-KN/daily_dev_back/assets/51324045/e738a83c-d14e-47ff-8ee0-e6ec8ec86769" width="250" height="400"/>  
+  <img src="https://github.com/TEAM-KN/daily_dev_back/assets/51324045/36a2d7f6-6c12-4a76-87f0-8089c583aa17" width="250" height="400"/>    
+</div>
+<div align="center" style="display: flex"> 
+  <img src="https://github.com/TEAM-KN/daily_dev_back/assets/51324045/06b2ffe7-8405-4b1d-a2a9-50dea2fa92b6" width="250" height="400"/>  
+  <img src="https://github.com/TEAM-KN/daily_dev_back/assets/51324045/31e7fec2-8342-4c9c-98b9-e94e7b20ab0c" width="250" height="400"/>
 </div>
 
 ## Service 
