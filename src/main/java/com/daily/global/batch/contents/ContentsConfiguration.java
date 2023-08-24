@@ -2,8 +2,6 @@ package com.daily.global.batch.contents;
 
 import com.daily.adaptor.*;
 import com.daily.domain.content.domain.Content;
-import com.daily.domain.content.repository.ContentRepository;
-import com.daily.domain.site.repository.SiteRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;

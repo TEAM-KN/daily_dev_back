@@ -4,7 +4,6 @@ import com.daily.auth.application.AuthService;
 import com.daily.auth.dto.AccessTokenRenewRequest;
 import com.daily.auth.dto.JwtTokenResponse;
 import com.daily.auth.dto.LoginRequest;
-import com.daily.auth.dto.LoginResponse;
 import com.daily.global.common.response.CommonResponse;
 import com.daily.domain.user.dto.UserRequest;
 import lombok.RequiredArgsConstructor;
