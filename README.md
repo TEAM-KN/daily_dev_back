@@ -49,7 +49,9 @@ http://daily-dev-news.com/
 
 
  
-## Project Member
+## Info
 |Backend|Frontend|
 |------|------|
 |[노승철](https://github.com/stc9606)|[김영애](https://github.com/kkomyoung)|
+
+**2023-06 - 2023-08**
