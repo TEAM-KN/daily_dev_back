@@ -1,7 +1,6 @@
 package com.daily.domain.content.dto;
 
 import com.daily.domain.content.domain.Content;
-import com.daily.domain.site.domain.Site;
 import lombok.Data;
 
 @Data
