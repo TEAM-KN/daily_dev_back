@@ -24,7 +24,7 @@ public class ContentController {
 
     @GetMapping("/content/site")
     public List<ContentResponse> fetchContentsBySiteCode(@RequestParam @NotBlank final String siteCode) {
-        return contentService.fetchContents(siteCode);
+        return contentService.fetchContentsBySiteCode(siteCode);
     }
 
     @GetMapping("/content/{id}")

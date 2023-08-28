@@ -7,7 +7,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import static com.daily.fixtures.ContentFixtures.contentList;
+import static com.daily.fixtures.ContentFixtures.contentDtoList;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -24,7 +24,7 @@ class ContentControllerTest extends ControllerTest {
     @Test
     void 사이트의_컨텐츠_정보를_조회한다() throws Exception {
         // given
-        given(contentService.fetchContents(any())).willReturn(contentList);
+        given(contentService.fetchContentsBySiteCode(any())).willReturn(contentDtoList);
 
         // when
         MultiValueMap<String, String> queryParam = new LinkedMultiValueMap<>();
