@@ -2,6 +2,8 @@ package com.daily.fixtures;
 
 import com.daily.domain.content.dto.ContentResponse;
 
+import java.util.List;
+
 public class ContentFixtures {
 
     public static final Long contentId = 1L;
@@ -11,6 +13,8 @@ public class ContentFixtures {
     public static final String link = "TEST.TEST.COM";
     public static final String regDtm = "9999-99-99";
     public static final String author = "ADMIN";
+
+    public static final List<ContentResponse> contentList = List.of(NAVER_CONTENT_RESPONSE());
 
     public static ContentResponse NAVER_CONTENT_RESPONSE() {
         return ContentResponse.builder()
