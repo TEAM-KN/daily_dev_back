@@ -47,7 +47,7 @@ public class UserService {
     }
 
     public CommonResponse saveUser(final UserRequest.Update request) {
-        User user = userRepository.findById(request.getEmail()).orElseThrow(NoSearchUserException::new);
+//        userRepository.findById(request.getEmail()).orElseThrow(NoSearchUserException::new);
         userRepository.updateUserByNickname(request.getEmail(), request.getNickname());
         return new CommonResponse(HttpStatus.OK, "성공");
     }

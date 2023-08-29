@@ -17,7 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
-@ExtendWith(MockitoExtension.class)
 class ContentServiceTest extends ServiceTest {
 
     @InjectMocks
@@ -26,10 +25,8 @@ class ContentServiceTest extends ServiceTest {
     @DisplayName("사이트의 컨텐츠 정보를 정상적으로 조회")
     @Test
     void fetchContentsBySiteCodeTest() {
-        // given
+        // given & when
         final String siteCode = "NAVER";
-
-        // when
         given(contentRepository.findAllBySiteCodeOrderByCreateDateDesc(any(String.class))).willReturn(contentEntityList);
 
         // then
