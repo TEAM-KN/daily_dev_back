@@ -2,20 +2,20 @@ package com.daily.domain.user.service;
 
 import com.daily.common.ServiceTest;
 import com.daily.domain.user.application.UserService;
-import com.daily.domain.user.domain.User;
 import com.daily.domain.user.dto.UserDto;
 import com.daily.domain.user.dto.UserRequest;
+import com.daily.domain.userSites.domain.UserSites;
 import com.daily.global.common.response.CommonResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.swing.text.html.Option;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.daily.fixtures.UserFixtures.*;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -78,5 +78,26 @@ public class UserServiceTest extends ServiceTest {
 
         verify(passwordEncoder, times(1)).encode(any(String.class));
     }
+
+    @DisplayName("회원의 구독 정보를 정상적으로 변경 한다.")
+    @Test
+    void saveUserSites() {
+        // given
+        UserRequest.UserFromSiteRequest userFromSiteRequest = USER_REQUEST();
+
+        // when
+        given(userRepository.findById(any(String.class))).willReturn(Optional.of(USER()));
+        given(siteRepository.existsAllBySiteCodeIn(any(List.class))).willReturn(Boolean.TRUE);
+
+        // then
+        CommonResponse response = new CommonResponse(HttpStatus.OK, "성공");
+        assertThat(userService.saveUserSites(userFromSiteRequest)).usingRecursiveComparison().isEqualTo(response);
+
+        verify(userSitesRepository, times(1)).deleteAllByEmail(any(String.class));
+        verify(userSitesRepository, times(1)).saveAll(any(List.class));
+        verify(userRepository, times(1)).updateUserBySubscribeYn(any(String.class), any(String.class));
+
+    }
+
 
 }
