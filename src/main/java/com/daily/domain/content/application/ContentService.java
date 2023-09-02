@@ -28,7 +28,7 @@ public class ContentService {
     }
 
     @Transactional(readOnly = true)
-    public List<ContentResponse> fetchContents(final String siteCode) {
+    public List<ContentResponse> fetchContentsBySiteCode(final String siteCode) {
         List<Content> contents = contentRepository.findAllBySiteCodeOrderByCreateDateDesc(siteCode);
         return contents.stream().map(ContentResponse::new).collect(Collectors.toList());
     }

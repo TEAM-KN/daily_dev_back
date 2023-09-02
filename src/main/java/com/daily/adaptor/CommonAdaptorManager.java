@@ -44,17 +44,16 @@ public class CommonAdaptorManager {
     private CommonAdaptor getAdaptorForSite(final String siteCode) {
         if (WOO.name().equals(siteCode))
             return woowahanAdaptor;
-        if (KAKAO.name().equals(siteCode))
+        else if (KAKAO.name().equals(siteCode))
             return kakaoAdaptor;
-        if (NAVER.name().equals(siteCode))
+        else if (NAVER.name().equals(siteCode))
             return naverNewsAdaptor;
-        if (DAANGN.name().equals(siteCode))
+        else if (DAANGN.name().equals(siteCode))
             return daangnAdaptor;
-        if (LINE.name().equals(siteCode))
+        else if (LINE.name().equals(siteCode))
             return lineAdaptor;
-        if (GMARKET.name().equals(siteCode))
+        else if (GMARKET.name().equals(siteCode))
             return gmarketAdaptor;
-
         return null;
     }
 }

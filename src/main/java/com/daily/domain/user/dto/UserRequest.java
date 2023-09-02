@@ -36,6 +36,11 @@ public class UserRequest {
         @NotBlank
         private String nickname;
 
+        public Update(final String email, final String nickname) {
+            this.email = email;
+            this.nickname = nickname;
+        }
+
     }
 
     @Data
