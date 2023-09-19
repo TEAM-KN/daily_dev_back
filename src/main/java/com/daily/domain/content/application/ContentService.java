@@ -22,7 +22,7 @@ public class ContentService {
 
     @Transactional(readOnly = true)
     public List<ContentResponse> fetchContents() {
-        List<Content> contentList = contentRepository.findAllByOrderByCreateDateDesc();
+        List<Content> contentList = contentRepository.findAllByOrderByRegDtmDesc();
 
         return contentList.stream().map(ContentResponse::new).collect(Collectors.toList());
     }
