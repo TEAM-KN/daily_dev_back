@@ -6,6 +6,7 @@ import com.daily.domain.content.dto.ContentType;
 import com.daily.domain.site.domain.Site;
 import com.daily.domain.site.repository.SiteRepository;
 import com.daily.adaptor.exception.UrlConnectionException;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -20,6 +22,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
+@Slf4j
 public class DaangnAdaptor implements CommonAdaptor {
 
 
@@ -42,6 +45,7 @@ public class DaangnAdaptor implements CommonAdaptor {
 
     public Elements getElements(Document doc) {
         try {
+            doc.outputSettings().charset("UTF-8");
             return doc.select(".c-cRxWmX").select(".c-kBsdRb .c-gbnrwH");
         } catch (Exception e) {
             throw new NullPointerException("Element is Null...");
@@ -65,7 +69,7 @@ public class DaangnAdaptor implements CommonAdaptor {
                     String detailUrl = originUrl.replace("/blog", "") + link;
                     if (!"".equals(link)) {
                         try {
-                            Document detailDoc = Jsoup.connect(detailUrl).get();
+                            Document detailDoc = Jsoup.connect(URLDecoder.decode(detailUrl, "UTF-8")).get();
                             String header = detailDoc.select(".c-yyRm").select(".c-hzPNMB").select(".c-fBvbZg").text();
                             String regDate = header.substring(header.indexOf("|") + 1).trim();
 
@@ -84,7 +88,7 @@ public class DaangnAdaptor implements CommonAdaptor {
                                 return this.convertToContents(content);
                             }
                         } catch (IOException e) {
-                            throw new RuntimeException(e);
+                            log.error("exception content URL: {}", detailUrl);
                         }
                     }
                     return null;
