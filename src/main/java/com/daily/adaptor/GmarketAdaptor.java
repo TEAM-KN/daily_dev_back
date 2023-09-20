@@ -8,6 +8,7 @@ import com.daily.domain.site.domain.Site;
 import com.daily.domain.site.repository.SiteRepository;
 import com.daily.global.common.dto.DateType;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -23,6 +24,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
+@Slf4j
 public class GmarketAdaptor implements CommonAdaptor {
 
     private final String url;
@@ -83,7 +85,7 @@ public class GmarketAdaptor implements CommonAdaptor {
                                 return this.convertToContents(content);
                             }
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            log.error("Exception content: {}", link);
                         }
 
                     }

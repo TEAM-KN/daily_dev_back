@@ -65,7 +65,6 @@ public class NaverNewsAdaptor implements CommonAdaptor {
         Site site = this.getSite();
 
         return elements.parallelStream().map(element -> {
-
             Map<String, String> header = new HashMap<>();
             element.select("dl > dt").forEach(dt -> {
                 if ("photo".equals(dt.className())) {
@@ -76,9 +75,6 @@ public class NaverNewsAdaptor implements CommonAdaptor {
                 }
             });
 
-//            String imageLink = element.select("dl > dt.photo").get(0).select("a").select("img").attr("src");
-//            String link = element.select("dl > dt").get(1).select("a").attr("href");
-//            String title = element.select("dl > dt").get(1).select("a").text();
             String description = element.select("dl > dd").get(0).select("span.lede").text();
             String author = element.select("dl > dd").get(0).select("span.writing").text();
 
