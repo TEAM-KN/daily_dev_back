@@ -2,7 +2,6 @@ package com.daily.domain.content.dto;
 
 import com.daily.domain.content.domain.Content;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 
 @Getter

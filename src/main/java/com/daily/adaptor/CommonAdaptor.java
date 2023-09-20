@@ -2,7 +2,6 @@ package com.daily.adaptor;
 
 import com.daily.domain.content.domain.Content;
 import com.daily.domain.content.dto.ContentDto;
-import com.daily.domain.site.repository.SiteRepository;
 
 import java.util.List;
 

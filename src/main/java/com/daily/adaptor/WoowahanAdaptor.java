@@ -1,18 +1,17 @@
 package com.daily.adaptor;
 
+import com.daily.adaptor.exception.UrlConnectionException;
 import com.daily.domain.content.domain.Content;
 import com.daily.domain.content.dto.ContentDto;
 import com.daily.domain.content.dto.ContentType;
 import com.daily.domain.site.domain.Site;
 import com.daily.domain.site.repository.SiteRepository;
 import com.daily.global.common.dto.DateType;
-import com.daily.adaptor.exception.UrlConnectionException;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
