@@ -20,20 +20,17 @@ public class ContentService {
 
     private final ContentRepository contentRepository;
 
-    @Transactional(readOnly = true)
     public List<ContentResponse> fetchContents() {
         List<Content> contentList = contentRepository.findAllByOrderByRegDtmDesc();
 
         return contentList.stream().map(ContentResponse::new).collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
     public List<ContentResponse> fetchContentsBySiteCode(final String siteCode) {
         List<Content> contents = contentRepository.findAllBySiteCodeOrderByCreateDateDesc(siteCode);
         return contents.stream().map(ContentResponse::new).collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
     public ContentResponse fetchContentId(final Long contentId) {
         ContentPK contentPK = ContentPK.builder().contentId(contentId).build();
         Optional<Content> contentsOptional = contentRepository.findById(contentPK);

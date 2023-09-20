@@ -21,13 +21,11 @@ public class SiteService {
 
     private final SiteRepository siteRepository;
 
-    @Transactional(readOnly = true)
     public List<SiteDto> fetchSites() {
         List<Site> sites = siteRepository.findAll();
         return sites.stream().map(SiteDto::new).collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
     public SiteDto fetchSite(final String siteCode) {
         Site site = siteRepository.findById(siteCode).orElseThrow(NoSearchSiteException::new);
         return new SiteDto(site);

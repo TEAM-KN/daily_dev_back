@@ -31,7 +31,6 @@ public class UserService {
     private final SiteRepository siteRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Transactional(readOnly = true)
     public UserDto.UserWithSite fetchUser(final String email) {
         User user = userRepository.fetchUserWithSite(email).orElseThrow(NoSearchUserException::new);
         return new UserDto.UserWithSite(user);
