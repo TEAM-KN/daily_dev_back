@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://github.com/TEAM-KN/daily_dev_back/assets/51324045/90e640de-94c1-4df0-b51c-ddd28d555d0d" alt="dd_logo" width="100">
 </p>
-<h1 align="center">Daily Dev News</h1>
+<h1 align="center">데일리데브</h1>
 
 <p align="center">
   <em>DD 뉴스는 유명 회사의 기술 블로그와 네이버 뉴스를 구독자에게 메일로 전달하는 서비스입니다.</em><br>
