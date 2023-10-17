@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>데일리 개발 뉴스</title>
+    <title>데일리 데브</title>
     <style>
         * {
             box-sizing: border-box;
@@ -70,10 +70,10 @@
 <div class="container" style="margin: 0 auto; max-width: 800px; padding: 30px;">
     <div class="header" style="background-color: #2c3e50; border-radius: 10px; color: #fff; font-size: 30px;
                 font-weight: bold; line-height: 1.2; padding: 20px; text-align: center;">
-        Daily Dev News
+        데일리 데브
     </div>
     <div th:if="${#lists.isEmpty(contents)}">
-        <div style="text-align: center; font-size: 16px; color: #888;">최신 기술 이슈가 없습니다.</div>
+        <div style="text-align: center; font-size: 16px; color: #888;">오늘은 아쉽지만 줄게 없습니다.</div>
     </div>
     <div th:each="content : ${contents}" class="content" style="background-color: #fff;  border-radius: 10px;
                 box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-top: 30px; padding: 20px;">
