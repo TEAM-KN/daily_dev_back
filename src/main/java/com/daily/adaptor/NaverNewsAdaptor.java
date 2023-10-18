@@ -12,6 +12,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Component
@@ -59,12 +61,13 @@ public class NaverNewsAdaptor implements CommonAdaptor {
     }
 
     @Override
-    public List<Content> getNewContentsFromAdaptor(String requestDate) {
+    @Async
+    public CompletableFuture<List<Content>> getNewContentsFromAdaptor(String requestDate) {
         LocalDate date = LocalDate.parse(requestDate, DateTimeFormatter.ofPattern("yyyy-MM-dd")).minusDays(1);
         Elements elements = this.getElements(this.getDocument(date));
         Site site = this.getSite();
 
-        return elements.parallelStream().map(element -> {
+        return CompletableFuture.completedFuture(elements.parallelStream().map(element -> {
             Map<String, String> header = new HashMap<>();
             element.select("dl > dt").forEach(dt -> {
                 if ("photo".equals(dt.className())) {
@@ -92,7 +95,7 @@ public class NaverNewsAdaptor implements CommonAdaptor {
             return null;
         })
         .filter(Objects::nonNull)
-        .collect(Collectors.toList());
+        .collect(Collectors.toList()));
     }
 
     private Site getSite() {

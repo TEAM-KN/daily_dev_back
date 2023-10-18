@@ -11,6 +11,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.core.env.Environment;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Component
@@ -52,11 +54,12 @@ public class KakaoAdaptor implements CommonAdaptor {
     }
 
     @Override
-    public List<Content> getNewContentsFromAdaptor(String requestDate) {
+    @Async
+    public CompletableFuture<List<Content>> getNewContentsFromAdaptor(String requestDate) {
         Elements elements = this.getElements(this.getDocument());
         Site site = this.getSite(ContentType.KAKAO);
 
-        return elements.parallelStream()
+        return CompletableFuture.completedFuture(elements.parallelStream()
                 .map(element -> {
                     String link = element.select(".elementor-post__text > h3").select("a").attr("href");
                     String title = element.select(".elementor-post__text > h3").select("a").text();
@@ -84,7 +87,7 @@ public class KakaoAdaptor implements CommonAdaptor {
                     return null;
                 })
                 .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
     }
 
     private Site getSite(ContentType type) {

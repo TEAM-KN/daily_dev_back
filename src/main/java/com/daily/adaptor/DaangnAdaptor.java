@@ -11,6 +11,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -19,6 +20,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Component
@@ -53,7 +55,8 @@ public class DaangnAdaptor implements CommonAdaptor {
     }
 
     @Override
-    public List<Content> getNewContentsFromAdaptor(String requestDate) {
+    @Async
+    public CompletableFuture<List<Content>> getNewContentsFromAdaptor(String requestDate) {
         Elements elements = this.getElements(this.getDocument());
         Site site = this.getSite(ContentType.DAANGN.name());
 
@@ -95,7 +98,7 @@ public class DaangnAdaptor implements CommonAdaptor {
                 })
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
-        return contents;
+        return CompletableFuture.completedFuture(contents);
     }
 
     private Site getSite(String type) {

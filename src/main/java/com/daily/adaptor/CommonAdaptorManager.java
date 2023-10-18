@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 import static com.daily.domain.content.dto.ContentType.*;
 
@@ -27,18 +29,25 @@ public class CommonAdaptorManager {
     private final GmarketAdaptor gmarketAdaptor;
 
     public List<Content> of(String requestDate) {
-        List<Content> contents = new ArrayList<>();
+        List<CompletableFuture<List<Content>>> futures = new ArrayList<>();
         List<Site> sites = siteRepository.findAllByBatchYn(YN.Y.name());
 
         for (Site site : sites) {
             CommonAdaptor adaptor = this.getAdaptorForSite(site.getSiteCode());
             if (adaptor != null) {
-                List<Content> newContents = adaptor.getNewContentsFromAdaptor(requestDate);
-                contents.addAll(newContents);
+                CompletableFuture<List<Content>> newContentsFuture = adaptor.getNewContentsFromAdaptor(requestDate);
+                futures.add(newContentsFuture);
             }
         }
 
-        return contents;
+        CompletableFuture<Void> allOf = CompletableFuture.allOf();
+
+        return allOf.thenApply(v ->
+                futures.stream()
+                        .map(CompletableFuture::join)
+                        .flatMap(List::stream)
+                        .collect(Collectors.toList())
+                ).join();
     }
 
     private CommonAdaptor getAdaptorForSite(final String siteCode) {
