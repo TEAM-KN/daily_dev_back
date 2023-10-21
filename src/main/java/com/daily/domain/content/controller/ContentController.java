@@ -1,5 +1,6 @@
 package com.daily.domain.content.controller;
 
+import com.daily.adaptor.GmarketAdaptor;
 import com.daily.domain.content.application.ContentService;
 import com.daily.domain.content.dto.ContentResponse;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.List;
 public class ContentController {
 
     private final ContentService contentService;
+    private final GmarketAdaptor adaptor;
 
     @GetMapping("/contents")
     public List<ContentResponse> fetchContents() {
